@@ -42,6 +42,7 @@ fun main() {
     val connection = DriverManager.getConnection(url, user, password)
     val configuration = DefaultConfiguration()
         .set(connection)
+        // TODO set up thread pool etc?
         .set(POSTGRES)
 
     // fix table names, it should be singular instead of plural
