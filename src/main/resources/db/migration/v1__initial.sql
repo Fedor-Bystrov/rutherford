@@ -1,0 +1,22 @@
+-- TODO create schema
+-- users
+--------
+-- id -> uuid
+-- created_date
+-- updated_date
+-- last_login (date)
+-- application_name -> string
+-- email
+-- email_confirmed -> bool
+-- password_hash -> TEXT
+--
+
+-- user_refresh_tokens
+----------------------
+-- id -> uuid
+-- created_date
+-- updated_date
+-- expiration_date (nullable)
+-- state
+-- token_hash -> text
+-- user_id
