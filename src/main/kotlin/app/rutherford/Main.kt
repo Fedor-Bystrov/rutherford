@@ -42,8 +42,8 @@ fun main() {
     // fix table names, it should be singular instead of plural
     val now = Instant.now()
 
-//    UsersDao(configuration)
-//        .insert(Users(randomUUID(), now, now, now, "aa", "test1@test.com", false, ""))
+//    AuthUserDao(configuration)
+//        .insert(AuthUser(randomUUID(), now, now, now, "aa", "test1@test.com", false, ""))
 
 
 //    val app = Javalin
