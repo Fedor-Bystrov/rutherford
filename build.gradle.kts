@@ -17,8 +17,12 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:2.0.5")
     implementation("org.flywaydb:flyway-core:9.10.0")
     implementation("org.postgresql:postgresql:42.5.1")
+    implementation("org.hibernate.orm:hibernate-core:6.1.6.Final")
+    implementation("org.hibernate.orm:hibernate-hikaricp:6.1.5.Final")
+    implementation("org.hibernate.validator:hibernate-validator:8.0.0.Final")
 
     testImplementation(kotlin("test"))
+    testImplementation("org.hibernate.orm:hibernate-testing:6.1.5.Final)") // TODO do I need this?
 }
 
 tasks.test {
