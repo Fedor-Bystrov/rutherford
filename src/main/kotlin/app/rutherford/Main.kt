@@ -1,7 +1,11 @@
 package app.rutherford
 
 import org.flywaydb.core.Flyway
+import org.jooq.SQLDialect.DEFAULT
+import org.jooq.SQLDialect.POSTGRES
 import org.jooq.codegen.GenerationTool
+import org.jooq.impl.DSL
+import org.jooq.impl.DefaultConfiguration
 import org.jooq.meta.jaxb.Configuration
 import org.jooq.meta.jaxb.Database
 import org.jooq.meta.jaxb.ForcedType
@@ -9,6 +13,7 @@ import org.jooq.meta.jaxb.Generate
 import org.jooq.meta.jaxb.Generator
 import org.jooq.meta.jaxb.Jdbc
 import org.jooq.meta.jaxb.Target
+import java.sql.DriverManager
 
 
 // TODO
@@ -25,8 +30,18 @@ import org.jooq.meta.jaxb.Target
 // TODO use HikariCP
 
 fun main() {
-    runMigrations()
+    val url = "jdbc:postgresql://localhost:5432/rutherford"
+    val user = "rutherford_app"
+    val password = "123"
+
+    runMigrations(url, user, password)
     jooqGenerate()
+
+    val connection = DriverManager.getConnection(url, user, password)
+    val configuration = DefaultConfiguration()
+        .set(connection)
+        .set(POSTGRES)
+
 
 //    val app = Javalin
 //        .create { config -> config.showJavalinBanner = false; }
@@ -34,11 +49,7 @@ fun main() {
 //        .start(7070) // TODO add graceful shutdown?
 }
 
-private fun runMigrations() {
-    val url = "jdbc:postgresql://localhost:5432/rutherford"
-    val user = "rutherford_app"
-    val password = "123"
-
+private fun runMigrations(url: String, user: String, password: String) {
     Flyway.configure()
         .dataSource(url, user, password)
         .validateMigrationNaming(true)
