@@ -65,6 +65,9 @@ private fun jooqGenerate() {
                         .withIncludes(".*")
                         .withExcludes("public.flyway_schema_history")
                         .withInputSchema("public")
+                        .withSchemaVersionProvider(
+                            "SELECT :schema_name || '_' || MAX(\"version\") " + "FROM \"flyway_schema_history\""
+                        )
                         .withForcedTypes(
                             ForcedType()
                                 .withUserType("java.time.Instant")
