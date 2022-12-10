@@ -37,7 +37,7 @@ class User( // TODO use builder
     @field:Id
     @field:GeneratedValue
     @field:UuidGenerator(style = RANDOM)
-    var id: UUID?, // TODO can't use val
+    var id: UUID?,
 
     @field:Column(name = "created_at", nullable = false)
     var createdAt: Instant,
