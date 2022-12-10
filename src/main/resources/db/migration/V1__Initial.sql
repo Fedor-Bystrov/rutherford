@@ -17,7 +17,7 @@ CREATE TABLE user_refresh_tokens (
     updated_at TIMESTAMP NOT NULL DEFAULT now(),
     expiration TIMESTAMP,
     state VARCHAR(32) NOT NULL,
-    token_hash TEXT NOT NULL
+    token_hash TEXT NOT NULL,
     user_id UUID REFERENCES users (id)
 );
 

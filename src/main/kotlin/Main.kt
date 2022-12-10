@@ -29,6 +29,7 @@ private fun runMigrations() {
 
     Flyway.configure()
         .dataSource(url, user, password)
+        .validateMigrationNaming(true)
         .load()
         .migrate()
 }
