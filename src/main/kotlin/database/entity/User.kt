@@ -10,13 +10,34 @@ import org.hibernate.annotations.UuidGenerator.Style.RANDOM
 import java.time.Instant
 import java.util.*
 
+// TODO builder example
+// class FoodOrder private constructor(
+//  val bread: String?,
+//  val condiments: String?,
+//  val meat: String?,
+//  val fish: String?) {
+//
+//    data class Builder(
+//      var bread: String? = null,
+//      var condiments: String? = null,
+//      var meat: String? = null,
+//      var fish: String? = null) {
+//
+//        fun bread(bread: String) = apply { this.bread = bread }
+//        fun condiments(condiments: String) = apply { this.condiments = condiments }
+//        fun meat(meat: String) = apply { this.meat = meat }
+//        fun fish(fish: String) = apply { this.fish = fish }
+//        fun build() = FoodOrder(bread, condiments, meat, fish)
+//    }
+//}
+
 @Entity
 @Table(name = "users")
-class User(
+class User( // TODO use builder
     @field:Id
     @field:GeneratedValue
     @field:UuidGenerator(style = RANDOM)
-    val id: UUID?,
+    val id: UUID?, // TODO can't use val
 
     @field:Column(name = "created_at", nullable = false)
     val createdAt: Instant,

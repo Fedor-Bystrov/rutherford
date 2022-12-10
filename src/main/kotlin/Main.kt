@@ -12,6 +12,9 @@ import org.flywaydb.core.Flyway
 //  5. TODO App should support 2FA, email confirmation (with resending email confirmation) etc
 //      5.1 Check .net identity and create TODO for functionality that I need to implement
 
+
+// TODO use HikariCP
+
 fun main() {
     runMigrations()
 

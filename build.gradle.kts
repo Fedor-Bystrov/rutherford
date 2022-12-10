@@ -22,7 +22,7 @@ dependencies {
     implementation("org.hibernate.validator:hibernate-validator:8.0.0.Final")
 
     testImplementation(kotlin("test"))
-    testImplementation("org.hibernate.orm:hibernate-testing:6.1.5.Final)") // TODO do I need this?
+    testImplementation("org.hibernate.orm:hibernate-testing:6.1.5.Final") // TODO do I need this?
 }
 
 tasks.test {
