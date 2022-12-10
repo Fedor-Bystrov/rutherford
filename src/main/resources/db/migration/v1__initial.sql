@@ -9,9 +9,7 @@ CREATE TABLE users (
     password_hash TEXT NOT NULL
 );
 
--- TODO email should be unque ignoring case
-
-CREATE UNIQUE INDEX users_email_application_name_unique_idx ON users (email, application_name);
+CREATE UNIQUE INDEX users_email_application_name_unique_idx ON users (LOWER(email), application_name);
 
 CREATE TABLE user_refresh_tokens (
     id UUID PRIMARY KEY,
