@@ -15,6 +15,8 @@ repositories {
 dependencies {
     implementation("io.javalin:javalin:5.2.0")
     implementation("org.slf4j:slf4j-simple:2.0.5")
+    implementation("org.flywaydb:flyway-core:9.10.0")
+    implementation("org.postgresql:postgresql:42.5.1")
 
     testImplementation(kotlin("test"))
 }
