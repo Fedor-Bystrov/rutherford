@@ -19,7 +19,7 @@ fun main() {
     val app = Javalin
         .create { config -> config.showJavalinBanner = false; }
         .get("/") { ctx -> ctx.result("Hello World") }
-        .start(7070)
+        .start(7070) // TODO add graceful shutdown?
 }
 
 private fun runMigrations() {
