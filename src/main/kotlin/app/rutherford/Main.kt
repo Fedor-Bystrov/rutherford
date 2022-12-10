@@ -2,10 +2,8 @@ package app.rutherford
 
 import app.rutherford.database.schema.tables.daos.UsersDao
 import app.rutherford.database.schema.tables.pojos.Users
-import app.rutherford.database.schema.tables.records.UsersRecord
 import org.flywaydb.core.Flyway
 import org.jooq.SQLDialect.POSTGRES
-import org.jooq.User
 import org.jooq.codegen.GenerationTool
 import org.jooq.impl.DefaultConfiguration
 import org.jooq.meta.jaxb.Configuration
@@ -17,7 +15,6 @@ import org.jooq.meta.jaxb.Jdbc
 import org.jooq.meta.jaxb.Target
 import java.sql.DriverManager
 import java.time.Instant
-import java.util.*
 import java.util.UUID.randomUUID
 
 
@@ -100,7 +97,7 @@ private fun jooqGenerate() {
                 .withTarget(
                     Target()
                         .withPackageName("app.rutherford.database.schema")
-                        .withDirectory("src/main/kotlin")
+                        .withDirectory("src/main/java")
                 )
                 .withGenerate(
                     Generate()
