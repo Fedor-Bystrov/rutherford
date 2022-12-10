@@ -37,7 +37,7 @@ open class User( // TODO use builder
     @field:Id
     @field:GeneratedValue
     @field:UuidGenerator(style = RANDOM)
-    var id: UUID?,
+    var id: UUID? = null,
 
     @field:Column(name = "created_at", nullable = false)
     var createdAt: Instant,
@@ -46,7 +46,7 @@ open class User( // TODO use builder
     var updatedAt: Instant,
 
     @field:Column(name = "last_login")
-    var lastLogin: Instant?,
+    var lastLogin: Instant? = null,
 
     @field:Column(name = "application_name", nullable = false, length = 64)
     var applicationName: String, // TODO use enum?
@@ -55,7 +55,7 @@ open class User( // TODO use builder
     var email: String,
 
     @field:Column(name = "email_confirmed", nullable = false)
-    var emailConfirmed: Boolean,
+    var emailConfirmed: Boolean = false,
 
     @field:Column(name = "password_hash", nullable = false)
     var passwordHash: String, // TODO or base64?

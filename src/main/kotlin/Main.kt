@@ -1,5 +1,9 @@
-import io.javalin.Javalin
+import database.entity.User
 import org.flywaydb.core.Flyway
+import org.hibernate.boot.MetadataSources
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder
+import org.hibernate.cfg.Environment
+import java.time.Instant.now
 
 
 // TODO
@@ -18,10 +22,40 @@ import org.flywaydb.core.Flyway
 fun main() {
     runMigrations()
 
-    val app = Javalin
-        .create { config -> config.showJavalinBanner = false; }
-        .get("/") { ctx -> ctx.result("Hello World") }
-        .start(7070) // TODO add graceful shutdown?
+    val registry = StandardServiceRegistryBuilder()
+        .applySetting(Environment.DRIVER, "org.postgresql.Driver")
+        .applySetting(Environment.URL, "jdbc:postgresql://localhost:5432/rutherford")
+        .applySetting(Environment.USER, "rutherford_app")
+        .applySetting(Environment.PASS, "123")
+        .applySetting(Environment.DIALECT, "org.hibernate.dialect.PostgreSQLDialect")
+        .build()
+
+    val sessionFactory = MetadataSources(registry)
+        .addAnnotatedClass(User::class.java)
+        .buildMetadata()
+        .buildSessionFactory()
+
+    val session = sessionFactory.openSession()
+    val tx = session.beginTransaction()
+
+    val now = now()
+    session.persist(
+        User(
+            createdAt = now,
+            updatedAt = now,
+            applicationName = "Test",
+            email = "test@test.com",
+            passwordHash = "hash"
+        )
+    )
+    tx.commit();
+    session.close()
+
+
+//    val app = Javalin
+//        .create { config -> config.showJavalinBanner = false; }
+//        .get("/") { ctx -> ctx.result("Hello World") }
+//        .start(7070) // TODO add graceful shutdown?
 }
 
 private fun runMigrations() {
