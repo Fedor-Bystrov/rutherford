@@ -1,10 +1,8 @@
 package app.rutherford
 
 import org.flywaydb.core.Flyway
-import org.jooq.SQLDialect.DEFAULT
 import org.jooq.SQLDialect.POSTGRES
 import org.jooq.codegen.GenerationTool
-import org.jooq.impl.DSL
 import org.jooq.impl.DefaultConfiguration
 import org.jooq.meta.jaxb.Configuration
 import org.jooq.meta.jaxb.Database
