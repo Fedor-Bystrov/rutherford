@@ -1,7 +1,5 @@
 package app.rutherford
 
-import app.rutherford.database.schema.tables.daos.UsersDao
-import app.rutherford.database.schema.tables.pojos.Users
 import org.flywaydb.core.Flyway
 import org.jooq.SQLDialect.POSTGRES
 import org.jooq.codegen.GenerationTool
@@ -15,7 +13,6 @@ import org.jooq.meta.jaxb.Jdbc
 import org.jooq.meta.jaxb.Target
 import java.sql.DriverManager
 import java.time.Instant
-import java.util.UUID.randomUUID
 
 
 // TODO
@@ -45,8 +42,8 @@ fun main() {
     // fix table names, it should be singular instead of plural
     val now = Instant.now()
 
-    UsersDao(configuration)
-        .insert(Users(randomUUID(), now, now, now, "aa", "test@test.com", false, ""))
+//    UsersDao(configuration)
+//        .insert(Users(randomUUID(), now, now, now, "aa", "test1@test.com", false, ""))
 
 
 //    val app = Javalin

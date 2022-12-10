@@ -4,8 +4,8 @@
 package app.rutherford.database.schema;
 
 
-import app.rutherford.database.schema.tables.UserRefreshTokens;
-import app.rutherford.database.schema.tables.Users;
+import app.rutherford.database.schema.tables.AuthUser;
+import app.rutherford.database.schema.tables.AuthUserRefreshToken;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,14 +39,14 @@ public class Public extends SchemaImpl {
     public static final Public PUBLIC = new Public();
 
     /**
-     * The table <code>public.user_refresh_tokens</code>.
+     * The table <code>public.auth_user</code>.
      */
-    public final UserRefreshTokens USER_REFRESH_TOKENS = UserRefreshTokens.USER_REFRESH_TOKENS;
+    public final AuthUser AUTH_USER = AuthUser.AUTH_USER;
 
     /**
-     * The table <code>public.users</code>.
+     * The table <code>public.auth_user_refresh_token</code>.
      */
-    public final Users USERS = Users.USERS;
+    public final AuthUserRefreshToken AUTH_USER_REFRESH_TOKEN = AuthUserRefreshToken.AUTH_USER_REFRESH_TOKEN;
 
     /**
      * No further instances allowed
@@ -64,8 +64,8 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
-            UserRefreshTokens.USER_REFRESH_TOKENS,
-            Users.USERS
+            AuthUser.AUTH_USER,
+            AuthUserRefreshToken.AUTH_USER_REFRESH_TOKEN
         );
     }
 }

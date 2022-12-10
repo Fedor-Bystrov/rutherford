@@ -4,10 +4,10 @@
 package app.rutherford.database.schema;
 
 
-import app.rutherford.database.schema.tables.UserRefreshTokens;
-import app.rutherford.database.schema.tables.Users;
-import app.rutherford.database.schema.tables.records.UserRefreshTokensRecord;
-import app.rutherford.database.schema.tables.records.UsersRecord;
+import app.rutherford.database.schema.tables.AuthUser;
+import app.rutherford.database.schema.tables.AuthUserRefreshToken;
+import app.rutherford.database.schema.tables.records.AuthUserRecord;
+import app.rutherford.database.schema.tables.records.AuthUserRefreshTokenRecord;
 
 import javax.annotation.processing.Generated;
 
@@ -37,12 +37,12 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<UserRefreshTokensRecord> USER_REFRESH_TOKENS_PKEY = Internal.createUniqueKey(UserRefreshTokens.USER_REFRESH_TOKENS, DSL.name("user_refresh_tokens_pkey"), new TableField[] { UserRefreshTokens.USER_REFRESH_TOKENS.ID }, true);
-    public static final UniqueKey<UsersRecord> USERS_PKEY = Internal.createUniqueKey(Users.USERS, DSL.name("users_pkey"), new TableField[] { Users.USERS.ID }, true);
+    public static final UniqueKey<AuthUserRecord> AUTH_USER_PKEY = Internal.createUniqueKey(AuthUser.AUTH_USER, DSL.name("auth_user_pkey"), new TableField[] { AuthUser.AUTH_USER.ID }, true);
+    public static final UniqueKey<AuthUserRefreshTokenRecord> AUTH_USER_REFRESH_TOKEN_PKEY = Internal.createUniqueKey(AuthUserRefreshToken.AUTH_USER_REFRESH_TOKEN, DSL.name("auth_user_refresh_token_pkey"), new TableField[] { AuthUserRefreshToken.AUTH_USER_REFRESH_TOKEN.ID }, true);
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final ForeignKey<UserRefreshTokensRecord, UsersRecord> USER_REFRESH_TOKENS__USER_REFRESH_TOKENS_USER_ID_FKEY = Internal.createForeignKey(UserRefreshTokens.USER_REFRESH_TOKENS, DSL.name("user_refresh_tokens_user_id_fkey"), new TableField[] { UserRefreshTokens.USER_REFRESH_TOKENS.USER_ID }, Keys.USERS_PKEY, new TableField[] { Users.USERS.ID }, true);
+    public static final ForeignKey<AuthUserRefreshTokenRecord, AuthUserRecord> AUTH_USER_REFRESH_TOKEN__AUTH_USER_REFRESH_TOKEN_USER_ID_FKEY = Internal.createForeignKey(AuthUserRefreshToken.AUTH_USER_REFRESH_TOKEN, DSL.name("auth_user_refresh_token_user_id_fkey"), new TableField[] { AuthUserRefreshToken.AUTH_USER_REFRESH_TOKEN.USER_ID }, Keys.AUTH_USER_PKEY, new TableField[] { AuthUser.AUTH_USER.ID }, true);
 }

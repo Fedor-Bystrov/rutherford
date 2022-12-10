@@ -4,8 +4,8 @@
 package app.rutherford.database.schema;
 
 
-import app.rutherford.database.schema.tables.UserRefreshTokens;
-import app.rutherford.database.schema.tables.Users;
+import app.rutherford.database.schema.tables.AuthUser;
+import app.rutherford.database.schema.tables.AuthUserRefreshToken;
 
 import javax.annotation.processing.Generated;
 
@@ -25,12 +25,12 @@ import javax.annotation.processing.Generated;
 public class Tables {
 
     /**
-     * The table <code>public.user_refresh_tokens</code>.
+     * The table <code>public.auth_user</code>.
      */
-    public static final UserRefreshTokens USER_REFRESH_TOKENS = UserRefreshTokens.USER_REFRESH_TOKENS;
+    public static final AuthUser AUTH_USER = AuthUser.AUTH_USER;
 
     /**
-     * The table <code>public.users</code>.
+     * The table <code>public.auth_user_refresh_token</code>.
      */
-    public static final Users USERS = Users.USERS;
+    public static final AuthUserRefreshToken AUTH_USER_REFRESH_TOKEN = AuthUserRefreshToken.AUTH_USER_REFRESH_TOKEN;
 }

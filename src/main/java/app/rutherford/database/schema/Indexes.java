@@ -4,7 +4,7 @@
 package app.rutherford.database.schema;
 
 
-import app.rutherford.database.schema.tables.UserRefreshTokens;
+import app.rutherford.database.schema.tables.AuthUserRefreshToken;
 
 import javax.annotation.processing.Generated;
 
@@ -32,5 +32,5 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
-    public static final Index USER_REFRESH_TOKENS_TOKEN_HASH_IDX = Internal.createIndex(DSL.name("user_refresh_tokens_token_hash_idx"), UserRefreshTokens.USER_REFRESH_TOKENS, new OrderField[] { UserRefreshTokens.USER_REFRESH_TOKENS.TOKEN_HASH }, false);
+    public static final Index USER_REFRESH_TOKENS_TOKEN_HASH_IDX = Internal.createIndex(DSL.name("user_refresh_tokens_token_hash_idx"), AuthUserRefreshToken.AUTH_USER_REFRESH_TOKEN, new OrderField[] { AuthUserRefreshToken.AUTH_USER_REFRESH_TOKEN.TOKEN_HASH }, false);
 }
