@@ -37,26 +37,26 @@ class User( // TODO use builder
     @field:Id
     @field:GeneratedValue
     @field:UuidGenerator(style = RANDOM)
-    val id: UUID?, // TODO can't use val
+    var id: UUID?, // TODO can't use val
 
     @field:Column(name = "created_at", nullable = false)
-    val createdAt: Instant,
+    var createdAt: Instant,
 
     @field:Column(name = "updated_at", nullable = false)
-    val updatedAt: Instant,
+    var updatedAt: Instant,
 
     @field:Column(name = "last_login")
-    val lastLogin: Instant?,
+    var lastLogin: Instant?,
 
     @field:Column(name = "application_name", nullable = false, length = 64)
-    val applicationName: String, // TODO use enum?
+    var applicationName: String, // TODO use enum?
 
     @field:Column(name = "email", nullable = false, length = 320)
-    val email: String,
+    var email: String,
 
     @field:Column(name = "email_confirmed", nullable = false)
-    val emailConfirmed: Boolean,
+    var emailConfirmed: Boolean,
 
     @field:Column(name = "password_hash", nullable = false)
-    val passwordHash: String, // TODO or base64?
+    var passwordHash: String, // TODO or base64?
 )
