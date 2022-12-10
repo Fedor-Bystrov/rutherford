@@ -86,8 +86,8 @@ private fun jooqGenerate() {
                 )
                 .withTarget(
                     Target()
-                        .withPackageName("app.rutherford.schema.jooq")
-                        .withDirectory("build/generated-jooq")
+                        .withPackageName("app.rutherford.database.schema")
+                        .withDirectory("src/main/kotlin")
                 )
                 .withGenerate(
                     Generate()
