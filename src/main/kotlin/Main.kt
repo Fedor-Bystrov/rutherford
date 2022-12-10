@@ -16,7 +16,8 @@ import org.flywaydb.core.Flyway
 fun main() {
     runMigrations();
 
-    val app = Javalin.create(/*config*/)
+    val app = Javalin
+        .create { config -> config.showJavalinBanner = false; }
         .get("/") { ctx -> ctx.result("Hello World") }
         .start(7070)
 }
