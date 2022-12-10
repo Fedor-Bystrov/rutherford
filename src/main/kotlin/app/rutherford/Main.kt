@@ -1,7 +1,10 @@
+package app.rutherford
+
 import org.flywaydb.core.Flyway
 import org.jooq.codegen.GenerationTool
 import org.jooq.meta.jaxb.Configuration
 import org.jooq.meta.jaxb.Database
+import org.jooq.meta.jaxb.ForcedType
 import org.jooq.meta.jaxb.Generate
 import org.jooq.meta.jaxb.Generator
 import org.jooq.meta.jaxb.Jdbc
@@ -45,6 +48,7 @@ private fun runMigrations() {
 
 private fun jooqGenerate() {
     // https://www.jooq.org/doc/latest/manual/code-generation/codegen-configuration/
+    // https://www.jooq.org/doc/latest/manual/code-generation/codegen-advanced/codegen-config-database/codegen-database-version-providers/
     val configuration = Configuration()
         .withJdbc(
             Jdbc()
@@ -61,7 +65,12 @@ private fun jooqGenerate() {
                         .withIncludes(".*")
                         .withExcludes("public.flyway_schema_history")
                         .withInputSchema("public")
-//                        .withForcedTypes()
+                        .withForcedTypes(
+                            ForcedType()
+                                .withUserType("java.time.Instant")
+                                .withConverter("app.rutherford.database.converter.InstantConverter")
+                                .withTypes("Timestamp")
+                        )
                 )
                 .withTarget(
                     Target()
