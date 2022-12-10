@@ -19,7 +19,7 @@ import java.util.UUID.randomUUID
 
 
 // TODO
-//  1. Add hibernate support
+//  1. Rename tables to singular!
 //  2. Crate sign-up flow
 //      2.1 with jwt
 //      2.2 write tests (unit + e2e with test-containers)
@@ -27,9 +27,6 @@ import java.util.UUID.randomUUID
 //  4. Create log-out flow
 //  5. TODO App should support 2FA, email confirmation (with resending email confirmation) etc
 //      5.1 Check .net identity and create TODO for functionality that I need to implement
-
-
-// TODO use HikariCP
 
 fun main() {
     val url = "jdbc:postgresql://localhost:5432/rutherford"
