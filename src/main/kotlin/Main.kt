@@ -4,8 +4,8 @@ import io.javalin.Javalin
 // TODO
 //  1. Set up mysql database in docker
 //  2. Add flyway support
-//  3. Add hibernate support
-//  4. Create auth model similar to django / .net (but with jwt in mind)
+//  3. Create auth model similar to django / .net (but with jwt in mind)
+//  4. Add hibernate support
 //  5. Crate sign-up flow
 //      5.1 with jwt
 //      5.2 write tests (unit + e2e with test-containers)
