@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "app.rutherford"
-version = "1.0-SNAPSHOT"
+version = "0.1"
 
 repositories {
     mavenCentral()
@@ -17,6 +17,9 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:2.0.5")
     implementation("org.flywaydb:flyway-core:9.10.0")
     implementation("org.postgresql:postgresql:42.5.1")
+    implementation("org.jooq:jooq:3.17.6")
+    implementation("org.jooq:jooq-codegen:3.17.6")
+    implementation("org.jooq:jooq-meta:3.17.6")
 
     testImplementation(kotlin("test"))
 }
@@ -30,5 +33,5 @@ tasks.withType<KotlinCompile> {
 }
 
 application {
-    mainClass.set("MainKt")
+    mainClass.set("app.rutherford.MainKt")
 }
