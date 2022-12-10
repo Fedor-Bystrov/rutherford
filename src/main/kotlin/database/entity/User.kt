@@ -33,7 +33,7 @@ import java.util.*
 
 @Entity
 @Table(name = "users")
-class User( // TODO use builder
+open class User( // TODO use builder
     @field:Id
     @field:GeneratedValue
     @field:UuidGenerator(style = RANDOM)
