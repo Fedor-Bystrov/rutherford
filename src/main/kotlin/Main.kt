@@ -1,4 +1,11 @@
 import org.flywaydb.core.Flyway
+import org.jooq.codegen.GenerationTool
+import org.jooq.meta.jaxb.Configuration
+import org.jooq.meta.jaxb.Database
+import org.jooq.meta.jaxb.Generate
+import org.jooq.meta.jaxb.Generator
+import org.jooq.meta.jaxb.Jdbc
+import org.jooq.meta.jaxb.Target
 
 
 // TODO
@@ -16,7 +23,7 @@ import org.flywaydb.core.Flyway
 
 fun main() {
     runMigrations()
-
+    jooqGenerate()
 
 //    val app = Javalin
 //        .create { config -> config.showJavalinBanner = false; }
@@ -34,4 +41,44 @@ private fun runMigrations() {
         .validateMigrationNaming(true)
         .load()
         .migrate()
+}
+
+private fun jooqGenerate() {
+    // https://www.jooq.org/doc/latest/manual/code-generation/codegen-configuration/
+    val configuration = Configuration()
+        .withJdbc(
+            Jdbc()
+                .withDriver("org.postgresql.Driver")
+                .withUrl("jdbc:postgresql://localhost:5432/rutherford")
+                .withUser("rutherford_app")
+                .withPassword("123")
+        )
+        .withGenerator(
+            Generator()
+                .withDatabase(
+                    Database()
+                        .withName("org.jooq.meta.postgres.PostgresDatabase")
+                        .withIncludes(".*")
+                        .withExcludes("public.flyway_schema_history")
+                        .withInputSchema("public")
+//                        .withForcedTypes()
+                )
+                .withTarget(
+                    Target()
+                        .withPackageName("app.rutherford.schema.jooq")
+                        .withDirectory("build/generated-jooq")
+                )
+                .withGenerate(
+                    Generate()
+                        .withDaos(true)
+                        .withDeprecated(false)
+                        .withFluentSetters(true)
+                        .withImmutablePojos(false)
+                        .withRecords(true)
+                        .withRelations(true)
+                        .withJavaTimeTypes(false)
+                )
+        )
+
+    GenerationTool.generate(configuration);
 }
