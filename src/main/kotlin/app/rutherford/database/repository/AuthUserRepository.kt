@@ -23,14 +23,14 @@ class AuthUserRepository(private val dslContext: DSLContext) {
     }
 
     private fun from(pojo: JAuthUser): AuthUser = authUser()
-        .id(pojo.id!!)
-        .createdAt(pojo.createdAt!!)
-        .updatedAt(pojo.updatedAt!!)
+        .id(pojo.id)
+        .createdAt(pojo.createdAt)
+        .updatedAt(pojo.updatedAt)
         .lastLogin(pojo.lastLogin)
-        .applicationName(pojo.applicationName!!)
-        .email(pojo.email!!)
-        .emailConfirmed(pojo.emailConfirmed!!)
-        .passwordHash(pojo.passwordHash!!)
+        .applicationName(pojo.applicationName)
+        .email(pojo.email)
+        .emailConfirmed(pojo.emailConfirmed)
+        .passwordHash(pojo.passwordHash)
         .build()
 
     private fun to(entity: AuthUser): JAuthUser = JAuthUser(

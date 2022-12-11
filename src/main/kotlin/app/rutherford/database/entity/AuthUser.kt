@@ -29,13 +29,13 @@ class AuthUser private constructor(builder: Builder) {
     }
 
     class Builder private constructor(
-        var id: UUID = randomUUID(),
+        var id: UUID? = null,
         var createdAt: Instant? = null,
         var updatedAt: Instant? = null,
         var lastLogin: Instant? = null,
         var applicationName: String? = null,
         var email: String? = null,
-        var emailConfirmed: Boolean = false,
+        var emailConfirmed: Boolean? = false,
         var passwordHash: String? = null
     ) {
         companion object {
@@ -48,14 +48,14 @@ class AuthUser private constructor(builder: Builder) {
             }
         }
 
-        fun id(id: UUID) = apply { this.id = id }
-        fun createdAt(createdAt: Instant) = apply { this.createdAt = createdAt }
-        fun updatedAt(updatedAt: Instant) = apply { this.updatedAt = updatedAt }
+        fun id(id: UUID?) = apply { this.id = id }
+        fun createdAt(createdAt: Instant?) = apply { this.createdAt = createdAt }
+        fun updatedAt(updatedAt: Instant?) = apply { this.updatedAt = updatedAt }
         fun lastLogin(lastLogin: Instant?) = apply { this.lastLogin = lastLogin }
-        fun applicationName(applicationName: String) = apply { this.applicationName = applicationName }
-        fun email(email: String) = apply { this.email = email }
-        fun emailConfirmed(emailConfirmed: Boolean) = apply { this.emailConfirmed = emailConfirmed }
-        fun passwordHash(passwordHash: String) = apply { this.passwordHash = passwordHash }
+        fun applicationName(applicationName: String?) = apply { this.applicationName = applicationName }
+        fun email(email: String?) = apply { this.email = email }
+        fun emailConfirmed(emailConfirmed: Boolean?) = apply { this.emailConfirmed = emailConfirmed }
+        fun passwordHash(passwordHash: String?) = apply { this.passwordHash = passwordHash }
         fun build(): AuthUser = AuthUser(this)
     }
 
