@@ -13,9 +13,9 @@ import io.javalin.json.JavalinJackson
 class ApplicationModule {
     private val databaseConfig: DatabaseConfig
     private val database: DatabaseModule
-//    private val repository: RepositoryModule
+    private val repository: RepositoryModule
     private val javalin: Javalin
-//    private val resources: ResourceModule
+    private val resources: ResourceModule
 
     init {
         // TODO extract to env files (add .env support)
@@ -30,7 +30,7 @@ class ApplicationModule {
         )
         database = DatabaseModule(databaseConfig)
 
-//        repository = RepositoryModule(database.dslContext)
+        repository = RepositoryModule(database.dslContext)
 
         javalin = Javalin.create { config ->
             val jsonMapper = JavalinJackson(
@@ -43,13 +43,13 @@ class ApplicationModule {
             config.jsonMapper(jsonMapper)
         }
 
-//        resources = ResourceModule(javalin, repository)
+        resources = ResourceModule(javalin, repository)
     }
 
     fun start() {
         migrate(databaseConfig)
         generateSchema(databaseConfig)
-//        resources.bindRoutes()
+        resources.bindRoutes()
         javalin.start(7070) // TODO read port from env
     }
 
