@@ -1,19 +1,6 @@
 package app.rutherford
 
-import app.rutherford.configuration.FlywayMigrator.migrate
-import app.rutherford.configuration.JooqGenerator.generateSchema
-import app.rutherford.database.schema.tables.daos.AuthUserDao
-import app.rutherford.database.schema.tables.pojos.AuthUser
-import com.zaxxer.hikari.HikariConfig
-import com.zaxxer.hikari.HikariDataSource
-import org.jooq.SQLDialect.POSTGRES
-import org.jooq.impl.DSL
-import org.jooq.impl.DefaultConfiguration
-import java.lang.RuntimeException
-import java.time.Instant
-import java.util.UUID.randomUUID
-import java.util.concurrent.TimeUnit.MINUTES
-import java.util.concurrent.TimeUnit.SECONDS
+import app.rutherford.module.ApplicationModule
 
 
 // TODO auth functionality
@@ -36,51 +23,17 @@ fun main() {
     System.setProperty("org.jooq.no-logo", "true")
     System.setProperty("org.jooq.no-tips", "true")
 
-    // TODO extract to env files (add .env support)
-    val url = "jdbc:postgresql://localhost:5432/rutherford"
-    val user = "rutherford_app"
-    val password = "123"
+    val application = ApplicationModule()
+    application.start()
+    Runtime
+        .getRuntime()
+        .addShutdownHook(Thread(application::stop))
 
-    migrate(url, user, password)
-    generateSchema(url, user, password)
-
-    val hikariConfig = HikariConfig()
-    hikariConfig.driverClassName = "org.postgresql.Driver"
-    hikariConfig.jdbcUrl = url
-    hikariConfig.username = user
-    hikariConfig.password = password
-    hikariConfig.minimumIdle = 1
-    hikariConfig.maximumPoolSize = 30
-    hikariConfig.connectionTimeout = SECONDS.toMillis(1)
-    hikariConfig.idleTimeout = MINUTES.toMillis(1)
-    hikariConfig.maxLifetime = MINUTES.toMillis(5)
-    hikariConfig.leakDetectionThreshold = MINUTES.toMillis(1)
-    hikariConfig.transactionIsolation = "TRANSACTION_READ_COMMITTED"
-    hikariConfig.validationTimeout = SECONDS.toMillis(1)
-    hikariConfig.isAutoCommit = false
-
-    val dataSource = HikariDataSource(hikariConfig)
-
-//    val connection = DriverManager.getConnection(url, user, password)
-    val configuration = DefaultConfiguration()
-//        .set(connection)
-        .set(dataSource)
-        .set(POSTGRES)
-
-    val dslContext = DSL.using(configuration)
-
-    dslContext.transaction { tx ->
-        val now = Instant.now()
-        AuthUserDao(tx)
-            .insert(AuthUser(randomUUID(), now, now, now, "aa", "test4@test.com", false, ""))
-    }
-    // TODO won't commit because autocommit is off
-
-
-//    val app = Javalin
-//        .create { config -> config.showJavalinBanner = false; }
-//        .get("/") { ctx -> ctx.result("Hello World") }
-//        .start(7070) // TODO add graceful shutdown?
+//    dslContext.transaction { tx ->
+//        val now = Instant.now()
+//        AuthUserDao(tx)
+//            .insert(AuthUser(randomUUID(), now, now, now, "aa", "test4@test.com", false, ""))
+//    }
 }
 
 //https://javalin.io/tutorials/javalin-java-10-google-guice
