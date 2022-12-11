@@ -21,7 +21,8 @@ import java.time.Instant
 //  1. Add hikaricp
 //  2. Copy project structure similar to penn
 //  3. Add graceful shutdown
-//  3. Add logback.xml (similar to penn)
+//  4. Add logback.xml (similar to penn)
+//  5. Set up test containers for e2e tests
 
 fun main() {
     System.setProperty("org.jooq.no-logo", "true")
