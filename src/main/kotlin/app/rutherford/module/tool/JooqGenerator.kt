@@ -9,10 +9,16 @@ import org.jooq.meta.jaxb.Generate
 import org.jooq.meta.jaxb.Generator
 import org.jooq.meta.jaxb.Jdbc
 import org.jooq.meta.jaxb.Logging.WARN
+import org.jooq.meta.jaxb.MatcherRule
+import org.jooq.meta.jaxb.MatcherTransformType.PASCAL
+import org.jooq.meta.jaxb.Matchers
+import org.jooq.meta.jaxb.MatchersTableType
+import org.jooq.meta.jaxb.Strategy
 import org.jooq.meta.jaxb.Target
 
 // https://www.jooq.org/doc/latest/manual/code-generation/codegen-configuration/
 // https://www.jooq.org/doc/latest/manual/code-generation/codegen-advanced/codegen-config-database/codegen-database-version-providers/
+// https://www.jooq.org/doc/latest/manual/code-generation/codegen-matcherstrategy/
 object JooqGenerator {
     private val FORCED_TYPES: List<ForcedType> = listOf(
         ForcedType()
@@ -33,6 +39,7 @@ object JooqGenerator {
             )
             .withGenerator(
                 Generator()
+                    .withName("org.jooq.codegen.KotlinGenerator")
                     .withDatabase(
                         Database()
                             .withName("org.jooq.meta.postgres.PostgresDatabase")
@@ -46,18 +53,36 @@ object JooqGenerator {
                     )
                     .withTarget(
                         Target()
-                            .withPackageName("app.rutherford.database.schema")
-                            .withDirectory("src/main/java")
+                            .withPackageName("app.rutherford.database.jooq")
+                            .withDirectory("src/main/kotlin")
+                    )
+                    .withStrategy(
+                        Strategy()
+                            .withMatchers(
+                                Matchers().withTables(
+                                    MatchersTableType()
+                                        .withExpression("")
+                                        .withPojoClass(
+                                            MatcherRule()
+                                                .withTransform(PASCAL)
+                                                .withExpression("J_$0")
+                                        )
+                                )
+                            )
                     )
                     .withGenerate(
                         Generate()
                             .withDaos(true)
-                            .withDeprecated(false)
                             .withFluentSetters(true)
-                            .withImmutablePojos(false)
                             .withRecords(true)
                             .withRelations(true)
+                            .withKotlinSetterJvmNameAnnotationsOnIsPrefix(true)
+                            .withPojos(true)
+                            .withPojosAsKotlinDataClasses(true)
+                            .withDeprecated(false)
+                            .withImmutablePojos(false)
                             .withJavaTimeTypes(false)
+
                     )
             )
 
