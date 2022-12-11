@@ -10,6 +10,7 @@ import org.jooq.meta.jaxb.ForcedType
 import org.jooq.meta.jaxb.Generate
 import org.jooq.meta.jaxb.Generator
 import org.jooq.meta.jaxb.Jdbc
+import org.jooq.meta.jaxb.Logging.WARN
 import org.jooq.meta.jaxb.Target
 import java.sql.DriverManager
 import java.time.Instant
@@ -25,6 +26,9 @@ import java.time.Instant
 //      4.1 Check .net identity and create TODO for functionality that I need to implement
 
 fun main() {
+    System.setProperty("org.jooq.no-logo", "true")
+    System.setProperty("org.jooq.no-tips", "true")
+
     val url = "jdbc:postgresql://localhost:5432/rutherford"
     val user = "rutherford_app"
     val password = "123"
@@ -63,6 +67,7 @@ private fun jooqGenerate() {
     // https://www.jooq.org/doc/latest/manual/code-generation/codegen-configuration/
     // https://www.jooq.org/doc/latest/manual/code-generation/codegen-advanced/codegen-config-database/codegen-database-version-providers/
     val configuration = Configuration()
+        .withLogging(WARN)
         .withJdbc(
             Jdbc()
                 .withDriver("org.postgresql.Driver")
