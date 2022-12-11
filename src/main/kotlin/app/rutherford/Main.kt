@@ -7,7 +7,9 @@ import app.rutherford.database.schema.tables.pojos.AuthUser
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.jooq.SQLDialect.POSTGRES
+import org.jooq.impl.DSL
 import org.jooq.impl.DefaultConfiguration
+import java.lang.RuntimeException
 import java.time.Instant
 import java.util.UUID.randomUUID
 import java.util.concurrent.TimeUnit.MINUTES
@@ -65,12 +67,14 @@ fun main() {
         .set(dataSource)
         .set(POSTGRES)
 
-    // fix table names, it should be singular instead of plural
-    val now = Instant.now()
+    val dslContext = DSL.using(configuration)
 
+    dslContext.transaction { tx ->
+        val now = Instant.now()
+        AuthUserDao(tx)
+            .insert(AuthUser(randomUUID(), now, now, now, "aa", "test4@test.com", false, ""))
+    }
     // TODO won't commit because autocommit is off
-    AuthUserDao(configuration)
-        .insert(AuthUser(randomUUID(), now, now, now, "aa", "test2@test.com", false, ""))
 
 
 //    val app = Javalin
