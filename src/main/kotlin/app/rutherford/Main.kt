@@ -11,12 +11,10 @@ import app.rutherford.module.ApplicationModule
 //  4. TODO App should support 2FA, email confirmation (with resending email confirmation) etc
 //      4.1 Check .net identity and create TODO for functionality that I need to implement
 
-// TODO Set up
-//  1. Add hikaricp
-//  2. Copy project structure similar to penn
-//  3. Add graceful shutdown
-//  4. Add logback.xml (similar to penn)
-//  5. Set up test containers for e2e tests
+// TODO Set up !!
+//  1. Return json with all AuthUsers in test resource (read it from database)
+//  2. Add logback.xml (similar to penn)
+//  3. Set up test containers for e2e tests
 
 fun main() {
     System.setProperty("org.jooq.no-logo", "true")
