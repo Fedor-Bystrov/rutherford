@@ -51,7 +51,7 @@ class AuthUser private constructor(builder: Builder) {
         fun id(id: UUID) = apply { this.id = id }
         fun createdAt(createdAt: Instant) = apply { this.createdAt = createdAt }
         fun updatedAt(updatedAt: Instant) = apply { this.updatedAt = updatedAt }
-        fun lastLogin(lastLogin: Instant) = apply { this.lastLogin = lastLogin }
+        fun lastLogin(lastLogin: Instant?) = apply { this.lastLogin = lastLogin }
         fun applicationName(applicationName: String) = apply { this.applicationName = applicationName }
         fun email(email: String) = apply { this.email = email }
         fun emailConfirmed(emailConfirmed: Boolean) = apply { this.emailConfirmed = emailConfirmed }
