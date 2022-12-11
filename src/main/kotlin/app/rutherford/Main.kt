@@ -1,17 +1,9 @@
 package app.rutherford
 
-import org.flywaydb.core.Flyway
+import app.rutherford.configuration.FlywayMigrator.migrate
+import app.rutherford.configuration.JooqGenerator.generateSchema
 import org.jooq.SQLDialect.POSTGRES
-import org.jooq.codegen.GenerationTool
 import org.jooq.impl.DefaultConfiguration
-import org.jooq.meta.jaxb.Configuration
-import org.jooq.meta.jaxb.Database
-import org.jooq.meta.jaxb.ForcedType
-import org.jooq.meta.jaxb.Generate
-import org.jooq.meta.jaxb.Generator
-import org.jooq.meta.jaxb.Jdbc
-import org.jooq.meta.jaxb.Logging.WARN
-import org.jooq.meta.jaxb.Target
 import java.sql.DriverManager
 import java.time.Instant
 
@@ -33,8 +25,8 @@ fun main() {
     val user = "rutherford_app"
     val password = "123"
 
-    runMigrations(url, user, password)
-    jooqGenerate()
+    migrate(url, user, password)
+    generateSchema(url, user, password)
 
     val connection = DriverManager.getConnection(url, user, password)
     val configuration = DefaultConfiguration()
@@ -53,62 +45,4 @@ fun main() {
 //        .create { config -> config.showJavalinBanner = false; }
 //        .get("/") { ctx -> ctx.result("Hello World") }
 //        .start(7070) // TODO add graceful shutdown?
-}
-
-private fun runMigrations(url: String, user: String, password: String) {
-    Flyway.configure()
-        .dataSource(url, user, password)
-        .validateMigrationNaming(true)
-        .load()
-        .migrate()
-}
-
-private fun jooqGenerate() {
-    // https://www.jooq.org/doc/latest/manual/code-generation/codegen-configuration/
-    // https://www.jooq.org/doc/latest/manual/code-generation/codegen-advanced/codegen-config-database/codegen-database-version-providers/
-    val configuration = Configuration()
-        .withLogging(WARN)
-        .withJdbc(
-            Jdbc()
-                .withDriver("org.postgresql.Driver")
-                .withUrl("jdbc:postgresql://localhost:5432/rutherford")
-                .withUser("rutherford_app")
-                .withPassword("123")
-        )
-        .withGenerator(
-            Generator()
-                .withDatabase(
-                    Database()
-                        .withName("org.jooq.meta.postgres.PostgresDatabase")
-                        .withIncludes(".*")
-                        .withExcludes("public.flyway_schema_history")
-                        .withInputSchema("public")
-                        .withSchemaVersionProvider(
-                            "SELECT :schema_name || '_' || MAX(\"version\") " + "FROM \"flyway_schema_history\""
-                        )
-                        .withForcedTypes(
-                            ForcedType()
-                                .withUserType("java.time.Instant")
-                                .withConverter("app.rutherford.database.converter.InstantConverter")
-                                .withTypes("Timestamp")
-                        )
-                )
-                .withTarget(
-                    Target()
-                        .withPackageName("app.rutherford.database.schema")
-                        .withDirectory("src/main/java")
-                )
-                .withGenerate(
-                    Generate()
-                        .withDaos(true)
-                        .withDeprecated(false)
-                        .withFluentSetters(true)
-                        .withImmutablePojos(false)
-                        .withRecords(true)
-                        .withRelations(true)
-                        .withJavaTimeTypes(false)
-                )
-        )
-
-    GenerationTool.generate(configuration);
 }

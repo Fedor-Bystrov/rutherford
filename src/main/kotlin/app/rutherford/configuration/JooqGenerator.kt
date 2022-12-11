@@ -21,7 +21,7 @@ object JooqGenerator {
             .withTypes("Timestamp")
     )
 
-    private fun generateSchema(url: String, user: String, password: String) {
+    fun generateSchema(url: String, user: String, password: String) {
         val configuration = Configuration()
             .withLogging(WARN)
             .withJdbc(
