@@ -4,7 +4,7 @@ import app.rutherford.configuration.DatabaseConfig
 
 class ApplicationModule {
     private val databaseConfig: DatabaseConfig
-    private val databaseModule: DatabaseModule
+    private val database: DatabaseModule
 
     init {
         // TODO extract to env files (add .env support)
@@ -17,6 +17,6 @@ class ApplicationModule {
             username = user,
             password = password
         )
-        databaseModule = DatabaseModule(databaseConfig)
+        database = DatabaseModule(databaseConfig)
     }
 }
