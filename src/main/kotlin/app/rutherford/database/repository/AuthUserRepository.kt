@@ -10,10 +10,16 @@ import org.jooq.DSLContext
 class AuthUserRepository(private val dslContext: DSLContext) {
 
     fun findAll(): List<AuthUser> {
-        return AuthUserDao().findAll().map { fromPojo(it) }
+        return from(AuthUserDao(dslContext.configuration()).findAll())
     }
 
-    private fun fromPojo(pojo: JAuthUser): AuthUser = authUser()
+    // TODO extract below methods to parent (GenericJooqRepository) class
+
+    private fun from(pojos: List<JAuthUser>): List<AuthUser>  {
+        return pojos.map { from(it) }
+    }
+
+    private fun from(pojo: JAuthUser): AuthUser = authUser()
         .id(pojo.id!!)
         .createdAt(pojo.createdAt!!)
         .updatedAt(pojo.updatedAt!!)
@@ -24,7 +30,7 @@ class AuthUserRepository(private val dslContext: DSLContext) {
         .passwordHash(pojo.passwordHash!!)
         .build()
 
-    private fun toPojo(entity: AuthUser): JAuthUser = JAuthUser(
+    private fun to(entity: AuthUser): JAuthUser = JAuthUser(
         id = entity.id,
         createdAt = entity.createdAt,
         updatedAt = entity.updatedAt,
