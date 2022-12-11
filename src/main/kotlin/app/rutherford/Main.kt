@@ -8,7 +8,7 @@ import java.sql.DriverManager
 import java.time.Instant
 
 
-// TODO
+// TODO auth functionality
 //  1. Crate sign-up flow
 //      2.1 with jwt
 //      2.2 write tests (unit + e2e with test-containers)
@@ -17,10 +17,17 @@ import java.time.Instant
 //  4. TODO App should support 2FA, email confirmation (with resending email confirmation) etc
 //      4.1 Check .net identity and create TODO for functionality that I need to implement
 
+// TODO Set up
+//  1. Add hikaricp
+//  2. Copy project structure similar to penn
+//  3. Add graceful shutdown
+//  3. Add logback.xml (similar to penn)
+
 fun main() {
     System.setProperty("org.jooq.no-logo", "true")
     System.setProperty("org.jooq.no-tips", "true")
 
+    // TODO extract to env files (add .env support)
     val url = "jdbc:postgresql://localhost:5432/rutherford"
     val user = "rutherford_app"
     val password = "123"
@@ -31,7 +38,6 @@ fun main() {
     val connection = DriverManager.getConnection(url, user, password)
     val configuration = DefaultConfiguration()
         .set(connection)
-        // TODO set up thread pool etc?
         .set(POSTGRES)
 
     // fix table names, it should be singular instead of plural
@@ -46,3 +52,33 @@ fun main() {
 //        .get("/") { ctx -> ctx.result("Hello World") }
 //        .start(7070) // TODO add graceful shutdown?
 }
+
+//https://javalin.io/tutorials/javalin-java-10-google-guice
+// package io.kidbank.user;
+//
+//import io.alzuma.Routing;
+//import io.javalin.Javalin;
+//
+//import javax.inject.Inject;
+//import javax.inject.Singleton;
+//
+//import static io.javalin.apibuilder.ApiBuilder.get;
+//import static io.javalin.apibuilder.ApiBuilder.path;
+//
+//@Singleton
+//class UserRouting extends Routing<UserController> {
+//    private Javalin javalin;
+//    @Inject
+//    public UserRouting(Javalin javalin) {
+//        this.javalin = javalin;
+//    }
+//
+//    @Override
+//    public void bindRoutes() {
+//        javalin.routes(() -> {
+//            path("api/kidbank/users", () -> {
+//                get(ctx -> getController().index(ctx));
+//            });
+//        });
+//    }
+//}
