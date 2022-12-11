@@ -53,7 +53,7 @@ object JooqGenerator {
                     )
                     .withTarget(
                         Target()
-                            .withPackageName("app.rutherford.database.jooq")
+                            .withPackageName("app.rutherford.database.jooq.generated")
                             .withDirectory("src/main/kotlin")
                     )
                     .withStrategy(
@@ -67,6 +67,7 @@ object JooqGenerator {
                                                 .withTransform(PASCAL)
                                                 .withExpression("J_$0")
                                         )
+                                        .withPojoImplements("app.rutherford.database.jooq.JooqPojo")
                                 )
                             )
                     )
