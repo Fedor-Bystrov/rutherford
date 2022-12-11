@@ -1,6 +1,8 @@
 package app.rutherford.configuration.module
 
 import app.rutherford.configuration.DatabaseConfig
+import app.rutherford.configuration.tool.FlywayMigrator.migrate
+import app.rutherford.configuration.tool.JooqGenerator.generateSchema
 
 class ApplicationModule {
     private val databaseConfig: DatabaseConfig
@@ -18,5 +20,10 @@ class ApplicationModule {
             password = password
         )
         database = DatabaseModule(databaseConfig)
+    }
+
+    fun start() {
+        migrate(databaseConfig)
+        generateSchema(databaseConfig)
     }
 }
