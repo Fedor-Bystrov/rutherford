@@ -29,7 +29,7 @@ object JooqGenerator {
                 Jdbc()
                     .withDriver("org.postgresql.Driver")
                     .withUrl(databaseConfig.jdbcUrl)
-                    .withUser(databaseConfig.user)
+                    .withUser(databaseConfig.username)
                     .withPassword(databaseConfig.password)
             )
             .withGenerator(

@@ -8,7 +8,7 @@ object FlywayMigrator {
         Flyway.configure()
             .dataSource(
                 databaseConfig.jdbcUrl,
-                databaseConfig.user,
+                databaseConfig.username,
                 databaseConfig.password
             )
             .validateMigrationNaming(true)

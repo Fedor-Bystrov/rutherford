@@ -27,7 +27,7 @@ class DatabaseModule(private val dbConfig: DatabaseConfig) {
         val hikariConfig = HikariConfig()
         hikariConfig.driverClassName = "org.postgresql.Driver"
         hikariConfig.jdbcUrl = dbConfig.jdbcUrl
-        hikariConfig.username = dbConfig.user
+        hikariConfig.username = dbConfig.username
         hikariConfig.password = dbConfig.password
         hikariConfig.minimumIdle = 1
         hikariConfig.maximumPoolSize = 30
