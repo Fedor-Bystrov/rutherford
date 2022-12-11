@@ -2,10 +2,15 @@ package app.rutherford
 
 import app.rutherford.configuration.FlywayMigrator.migrate
 import app.rutherford.configuration.JooqGenerator.generateSchema
+import app.rutherford.database.schema.tables.daos.AuthUserDao
+import app.rutherford.database.schema.tables.pojos.AuthUser
+import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
 import org.jooq.SQLDialect.POSTGRES
 import org.jooq.impl.DefaultConfiguration
 import java.sql.DriverManager
 import java.time.Instant
+import java.util.UUID.randomUUID
 
 
 // TODO auth functionality
@@ -36,16 +41,34 @@ fun main() {
     migrate(url, user, password)
     generateSchema(url, user, password)
 
-    val connection = DriverManager.getConnection(url, user, password)
+    val hikariConfig =  HikariConfig()
+    hikariConfig.driverClassName = ""
+    hikariConfig.jdbcUrl = ""
+    hikariConfig.username = ""
+    hikariConfig.password = ""
+    hikariConfig.minimumIdle = -1
+    hikariConfig.maximumPoolSize = -1
+    hikariConfig.connectionTimeout = -1L
+    hikariConfig.idleTimeout = -1L
+    hikariConfig.maxLifetime = -1L
+    hikariConfig.leakDetectionThreshold = -1L
+    hikariConfig.transactionIsolation = ""
+    hikariConfig.validationTimeout = -1L
+    hikariConfig.isAutoCommit = false
+
+    val dataSource = HikariDataSource(hikariConfig);
+
+//    val connection = DriverManager.getConnection(url, user, password)
     val configuration = DefaultConfiguration()
-        .set(connection)
+//        .set(connection)
+        .set(dataSource)
         .set(POSTGRES)
 
     // fix table names, it should be singular instead of plural
     val now = Instant.now()
 
-//    AuthUserDao(configuration)
-//        .insert(AuthUser(randomUUID(), now, now, now, "aa", "test1@test.com", false, ""))
+    AuthUserDao(configuration)
+        .insert(AuthUser(randomUUID(), now, now, now, "aa", "test2@test.com", false, ""))
 
 
 //    val app = Javalin

@@ -17,6 +17,7 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:2.0.5")
     implementation("org.flywaydb:flyway-core:9.10.0")
     implementation("org.postgresql:postgresql:42.5.1")
+    implementation("com.zaxxer:HikariCP:5.0.1")
     implementation("org.jooq:jooq:3.17.6")
     implementation("org.jooq:jooq-codegen:3.17.6")
     implementation("org.jooq:jooq-meta:3.17.6")
