@@ -1,4 +1,4 @@
-package app.rutherford.module
+package app.rutherford.configuration.module
 
 import app.rutherford.configuration.DatabaseConfig
 import com.zaxxer.hikari.HikariConfig

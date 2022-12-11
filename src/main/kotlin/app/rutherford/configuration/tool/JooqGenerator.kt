@@ -1,5 +1,6 @@
-package app.rutherford.configuration
+package app.rutherford.configuration.tool
 
+import app.rutherford.configuration.DatabaseConfig
 import org.jooq.codegen.GenerationTool
 import org.jooq.meta.jaxb.Configuration
 import org.jooq.meta.jaxb.Database
@@ -21,15 +22,15 @@ object JooqGenerator {
             .withTypes("Timestamp")
     )
 
-    fun generateSchema(url: String, user: String, password: String) {
+    fun generateSchema(databaseConfig: DatabaseConfig) {
         val configuration = Configuration()
             .withLogging(WARN)
             .withJdbc(
                 Jdbc()
                     .withDriver("org.postgresql.Driver")
-                    .withUrl(url)
-                    .withUser(user)
-                    .withPassword(password)
+                    .withUrl(databaseConfig.jdbcUrl)
+                    .withUser(databaseConfig.user)
+                    .withPassword(databaseConfig.password)
             )
             .withGenerator(
                 Generator()
