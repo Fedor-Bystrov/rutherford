@@ -9,6 +9,9 @@ import org.jooq.DSLContext
 
 class AuthUserRepository(private val dslContext: DSLContext) {
 
+    // TODO for reads use dslContext and create dao once
+    // TODO for write create dao on each method call inside transaction
+
     fun findAll(): List<AuthUser> {
         return from(AuthUserDao(dslContext.configuration()).findAll())
     }

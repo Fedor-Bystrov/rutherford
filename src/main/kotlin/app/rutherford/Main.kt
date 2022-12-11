@@ -12,8 +12,9 @@ import app.rutherford.module.ApplicationModule
 //      4.1 Check .net identity and create TODO for functionality that I need to implement
 
 // TODO Set up !!
-//  0. Fix everything after jooq Kotlin migration
-//  1. Return json with all AuthUsers in test resource (read it from database)
+//  1. Add CreateUserAuthToken resource
+//      1.1 it should accept json and create entity in the database
+//      1.2 create transaction method similar to Exposed framework
 //  2. Add logback.xml (similar to penn)
 //  3. Set up test containers for e2e tests
 
