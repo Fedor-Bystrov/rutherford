@@ -8,6 +8,7 @@ import io.javalin.Javalin
 class ApplicationModule {
     private val databaseConfig: DatabaseConfig
     private val database: DatabaseModule
+    private val repository: RepositoryModule
     private val javalin: Javalin
     private val resources: ResourceModule
 
@@ -24,9 +25,11 @@ class ApplicationModule {
         )
         database = DatabaseModule(databaseConfig)
 
+        repository = RepositoryModule(database.dslContext)
+
         javalin = Javalin.create { config -> config.showJavalinBanner = false }
 
-        resources = ResourceModule(javalin)
+        resources = ResourceModule(javalin, repository)
     }
 
     fun start() {
