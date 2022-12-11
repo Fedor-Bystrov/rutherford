@@ -8,9 +8,10 @@ import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.jooq.SQLDialect.POSTGRES
 import org.jooq.impl.DefaultConfiguration
-import java.sql.DriverManager
 import java.time.Instant
 import java.util.UUID.randomUUID
+import java.util.concurrent.TimeUnit.MINUTES
+import java.util.concurrent.TimeUnit.SECONDS
 
 
 // TODO auth functionality
@@ -41,22 +42,22 @@ fun main() {
     migrate(url, user, password)
     generateSchema(url, user, password)
 
-    val hikariConfig =  HikariConfig()
-    hikariConfig.driverClassName = ""
-    hikariConfig.jdbcUrl = ""
-    hikariConfig.username = ""
-    hikariConfig.password = ""
-    hikariConfig.minimumIdle = -1
-    hikariConfig.maximumPoolSize = -1
-    hikariConfig.connectionTimeout = -1L
-    hikariConfig.idleTimeout = -1L
-    hikariConfig.maxLifetime = -1L
-    hikariConfig.leakDetectionThreshold = -1L
-    hikariConfig.transactionIsolation = ""
-    hikariConfig.validationTimeout = -1L
+    val hikariConfig = HikariConfig()
+    hikariConfig.driverClassName = "org.postgresql.Driver"
+    hikariConfig.jdbcUrl = url
+    hikariConfig.username = user
+    hikariConfig.password = password
+    hikariConfig.minimumIdle = 1
+    hikariConfig.maximumPoolSize = 30
+    hikariConfig.connectionTimeout = SECONDS.toMillis(1)
+    hikariConfig.idleTimeout = MINUTES.toMillis(1)
+    hikariConfig.maxLifetime = MINUTES.toMillis(5)
+    hikariConfig.leakDetectionThreshold = MINUTES.toMillis(1)
+    hikariConfig.transactionIsolation = "TRANSACTION_READ_COMMITTED"
+    hikariConfig.validationTimeout = SECONDS.toMillis(1)
     hikariConfig.isAutoCommit = false
 
-    val dataSource = HikariDataSource(hikariConfig);
+    val dataSource = HikariDataSource(hikariConfig)
 
 //    val connection = DriverManager.getConnection(url, user, password)
     val configuration = DefaultConfiguration()
@@ -67,6 +68,7 @@ fun main() {
     // fix table names, it should be singular instead of plural
     val now = Instant.now()
 
+    // TODO won't commit because autocommit is off
     AuthUserDao(configuration)
         .insert(AuthUser(randomUUID(), now, now, now, "aa", "test2@test.com", false, ""))
 
