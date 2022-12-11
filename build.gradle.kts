@@ -14,6 +14,8 @@ repositories {
 
 dependencies {
     implementation("io.javalin:javalin:5.2.0")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.1")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.1")
     implementation("org.slf4j:slf4j-simple:2.0.5")
     implementation("org.flywaydb:flyway-core:9.10.0")
     implementation("org.postgresql:postgresql:42.5.1")
