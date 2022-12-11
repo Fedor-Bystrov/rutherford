@@ -9,6 +9,7 @@ class ApplicationModule {
     private val databaseConfig: DatabaseConfig
     private val database: DatabaseModule
     private val javalin: Javalin
+    private val resources: ResourceModule
 
     init {
         // TODO extract to env files (add .env support)
@@ -23,14 +24,15 @@ class ApplicationModule {
         )
         database = DatabaseModule(databaseConfig)
 
-        javalin = Javalin
-            .create { config -> config.showJavalinBanner = false; }
-            .get("/") { ctx -> ctx.result("Hello World") }
+        javalin = Javalin.create { config -> config.showJavalinBanner = false }
+
+        resources = ResourceModule(javalin)
     }
 
     fun start() {
         migrate(databaseConfig)
         generateSchema(databaseConfig)
+        resources.bindRoutes()
         javalin.start(7070) // TODO read port from env
     }
 
