@@ -1,5 +1,7 @@
 package app.rutherford.database.entity
 
+import app.rutherford.util.Checks.validateNotBlank
+import app.rutherford.util.Checks.validateNotNull
 import java.time.Instant
 import java.time.Instant.now
 import java.util.*
@@ -10,21 +12,20 @@ class AuthUser private constructor(builder: Builder) {
     val createdAt: Instant
     val updatedAt: Instant
     val lastLogin: Instant?
-    val applicationName: String
+    val applicationName: String  // TODO use ENUM
     val email: String
     val emailConfirmed: Boolean
     val passwordHash: String
 
     init {
-        id = checkNotNull(builder.id) { "id is null" }
-        createdAt = checkNotNull(builder.createdAt) { "createdAt is null" }
-        updatedAt = checkNotNull(builder.updatedAt) { "updatedAt is null" }
+        id = validateNotNull("id", builder.id)
+        createdAt = validateNotNull("createdAt", builder.createdAt)
+        updatedAt = validateNotNull("updatedAt", builder.updatedAt)
         lastLogin = builder.lastLogin
-        applicationName = checkNotNull(builder.applicationName) { "applicationName is null" }
-        email = checkNotNull(builder.email) { "email is null" }
-        emailConfirmed = checkNotNull(builder.emailConfirmed) { "emailConfirmed is null" }
-        passwordHash = checkNotNull(builder.passwordHash) { "passwordHash is null" }
-        // TODO check strings are not empty !
+        applicationName = validateNotBlank("applicationName", builder.applicationName)
+        email = validateNotBlank("email", builder.email)
+        emailConfirmed = validateNotNull("emailConfirmed", builder.emailConfirmed)
+        passwordHash = validateNotBlank("passwordHash", builder.passwordHash)
     }
 
     class Builder private constructor(
