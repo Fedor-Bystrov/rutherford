@@ -1,8 +1,8 @@
-package app.rutherford.configuration.module
+package app.rutherford.module
 
-import app.rutherford.configuration.DatabaseConfig
-import app.rutherford.configuration.tool.FlywayMigrator.migrate
-import app.rutherford.configuration.tool.JooqGenerator.generateSchema
+import app.rutherford.module.configuration.DatabaseConfig
+import app.rutherford.module.tool.FlywayMigrator.migrate
+import app.rutherford.module.tool.JooqGenerator.generateSchema
 
 class ApplicationModule {
     private val databaseConfig: DatabaseConfig

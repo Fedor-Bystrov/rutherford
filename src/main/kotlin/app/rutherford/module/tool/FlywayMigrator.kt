@@ -1,6 +1,6 @@
-package app.rutherford.configuration.tool
+package app.rutherford.module.tool
 
-import app.rutherford.configuration.DatabaseConfig
+import app.rutherford.module.configuration.DatabaseConfig
 import org.flywaydb.core.Flyway
 
 object FlywayMigrator {

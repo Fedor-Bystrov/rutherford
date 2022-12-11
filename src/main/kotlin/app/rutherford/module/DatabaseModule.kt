@@ -1,6 +1,6 @@
-package app.rutherford.configuration.module
+package app.rutherford.module
 
-import app.rutherford.configuration.DatabaseConfig
+import app.rutherford.module.configuration.DatabaseConfig
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.jooq.DSLContext
