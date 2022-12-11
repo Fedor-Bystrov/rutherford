@@ -14,7 +14,6 @@ import org.jooq.meta.jaxb.Target
 // https://www.jooq.org/doc/latest/manual/code-generation/codegen-configuration/
 // https://www.jooq.org/doc/latest/manual/code-generation/codegen-advanced/codegen-config-database/codegen-database-version-providers/
 object JooqGenerator {
-
     private val FORCED_TYPES: List<ForcedType> = listOf(
         ForcedType()
             .withUserType("java.time.Instant")
@@ -62,6 +61,6 @@ object JooqGenerator {
                     )
             )
 
-        GenerationTool.generate(configuration);
+        GenerationTool.generate(configuration)
     }
 }

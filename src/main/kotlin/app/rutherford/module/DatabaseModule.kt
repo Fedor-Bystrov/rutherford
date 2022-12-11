@@ -11,7 +11,6 @@ import java.util.concurrent.TimeUnit.MINUTES
 import java.util.concurrent.TimeUnit.SECONDS
 
 class DatabaseModule(private val dbConfig: DatabaseConfig) {
-
     val dslContext: DSLContext
 
     init {

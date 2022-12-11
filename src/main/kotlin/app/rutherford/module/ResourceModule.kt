@@ -5,7 +5,6 @@ import app.rutherford.resource.TestResource
 import io.javalin.Javalin
 
 class ResourceModule(javalin: Javalin) {
-
     private val resources: List<Resource>
 
     init {
