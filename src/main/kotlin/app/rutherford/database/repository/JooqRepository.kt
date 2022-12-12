@@ -9,20 +9,22 @@ import org.jooq.Table
 import org.jooq.TableField
 import java.util.*
 
+// TODO write tests on repositories
+
 abstract class JooqRepository<R : Record, E : Entity>(
     private val defaultContext: DSLContext,
     private val fetchTable: Table<R>,
     private val idField: TableField<R, UUID?>
 ) {
 
-    protected fun findAll(ids: Collection<UUID>): List<E> {
+    protected fun findAll(ids: Collection<UUID>): Collection<E> {
         return if (ids.isEmpty())
             emptyList()
         else if (ids.size == 1) {
             val entity = findById(ids.first())
             if (entity == null) listOf() else listOf(entity)
         } else
-            TODO("Implement batch id search")
+            findByIds(ids)
     }
 
     protected fun findById(id: UUID): E? {
@@ -33,10 +35,26 @@ abstract class JooqRepository<R : Record, E : Entity>(
         )
     }
 
+    protected fun findByIds(id: Collection<UUID>): Collection<E> {
+        return findAll(
+            defaultContext.dsl().selectFrom(fetchTable),
+            byIds(id),
+            this::fromRecord
+        )
+    }
+
     protected fun findByIdWhere(id: UUID, condition: Condition): E? {
         return findOne(
             defaultContext.dsl().selectFrom(fetchTable),
             byId(id).and(condition),
+            this::fromRecord
+        )
+    }
+
+    protected fun findByIdsWhere(id: Collection<UUID>, condition: Condition): Collection<E> {
+        return findAll(
+            defaultContext.dsl().selectFrom(fetchTable),
+            byIds(id).and(condition),
             this::fromRecord
         )
     }
@@ -61,9 +79,20 @@ abstract class JooqRepository<R : Record, E : Entity>(
         return entities.getOrNull(0)
     }
 
-    private fun byId(id: UUID): Condition {
-        return idField.eq(id)
+    private fun findAll(
+        query: SelectWhereStep<R>,
+        condition: Condition,
+        mapper: (R) -> E
+    ): Collection<E> {
+        return query
+            .where(condition)
+            .fetch()
+            .map(mapper)
     }
+
+    private fun byId(id: UUID): Condition = idField.eq(id)
+
+    private fun byIds(ids: Collection<UUID>): Condition = idField.`in`(ids)
 
     protected abstract fun fromRecord(record: R): E
     protected abstract fun toRecord(entity: E): R
