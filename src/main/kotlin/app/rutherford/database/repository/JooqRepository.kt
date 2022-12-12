@@ -14,6 +14,17 @@ abstract class JooqRepository<R : Record, E : Entity>(
     private val fetchTable: Table<R>,
     private val idField: TableField<R, UUID?>
 ) {
+
+    protected fun findAll(ids: Collection<UUID>): List<E> {
+        return if (ids.isEmpty())
+            emptyList()
+        else if (ids.size == 1) {
+            val entity = findById(ids.first())
+            if (entity == null) listOf() else listOf(entity)
+        } else
+            TODO("Implement batch id search")
+    }
+
     protected fun findById(id: UUID): E? {
         return findOne(
             defaultContext.dsl().selectFrom(fetchTable),
