@@ -8,6 +8,7 @@ object TransactionManager { // TODO correct? thread-safe?
     lateinit var dslContext: DSLContext
 }
 
+@DslMarker
 annotation class TransactionDsl
 
 @TransactionDsl
