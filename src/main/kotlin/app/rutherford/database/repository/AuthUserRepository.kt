@@ -5,6 +5,7 @@ import app.rutherford.database.entity.AuthUser.Builder.Companion.authUser
 import app.rutherford.database.jooq.generated.tables.daos.AuthUserDao
 import app.rutherford.database.jooq.generated.tables.pojos.JAuthUser
 import app.rutherford.database.jooq.generated.tables.records.AuthUserRecord
+import org.jooq.Configuration
 import org.jooq.DSLContext
 
 class AuthUserRepository(private val dslContext: DSLContext) {
@@ -12,13 +13,19 @@ class AuthUserRepository(private val dslContext: DSLContext) {
     // TODO for reads use dslContext and create dao once
     // TODO for write create dao on each method call inside transaction
 
-    fun findAll(): List<AuthUser> {
-        return from(AuthUserDao(dslContext.configuration()).findAll())
+    // TODO use records instead of dao?
+
+    fun findAll(configuration: Configuration? = null): List<AuthUser> = from(
+        AuthUserDao(configuration ?: dslContext.configuration()).findAll()
+    )
+
+    fun insert(configuration: Configuration, authUser: AuthUser) {
+        AuthUserDao(configuration).insert(to(authUser))
     }
 
     // TODO extract below methods to parent (GenericJooqRepository) class
 
-    private fun from(pojos: List<JAuthUser>): List<AuthUser>  {
+    private fun from(pojos: List<JAuthUser>): List<AuthUser> {
         return pojos.map { from(it) }
     }
 
