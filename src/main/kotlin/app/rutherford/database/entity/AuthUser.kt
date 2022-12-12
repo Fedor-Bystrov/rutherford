@@ -7,7 +7,7 @@ import java.time.Instant.now
 import java.util.*
 import java.util.UUID.randomUUID
 
-class AuthUser private constructor(builder: Builder) {
+class AuthUser private constructor(builder: Builder) : Entity {
     val id: UUID
     val createdAt: Instant
     val updatedAt: Instant
