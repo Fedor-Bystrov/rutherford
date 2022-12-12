@@ -4,12 +4,14 @@ import org.jooq.Configuration
 import org.jooq.DSLContext
 
 
-object TransactionManager { // TODO correct? thread-safe?
-    // TODO make TransactionManager a class
-    // TODO put dslContext into companion object
+object TransactionManager {
     lateinit var dslContext: DSLContext
+        private set
 
-    // TODO make dslContext private, add newTransaction method and call it to get tx config
+    fun of(dslContext: DSLContext): TransactionManager {
+        this.dslContext = dslContext
+        return this
+    }
 }
 
 @DslMarker

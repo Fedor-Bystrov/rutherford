@@ -12,9 +12,11 @@ import io.javalin.Javalin
 import io.javalin.json.JavalinJackson
 
 class ApplicationModule {
+    private val applicationPort: Int
     private val databaseConfig: DatabaseConfig
     private val database: DatabaseModule
     private val repository: RepositoryModule
+    private val transactionManager: TransactionManager
     private val javalin: Javalin
     private val resources: ResourceModule
 
@@ -23,6 +25,7 @@ class ApplicationModule {
         val url = "jdbc:postgresql://localhost:5432/rutherford"
         val user = "rutherford_app"
         val password = "123"
+        applicationPort = 7070
 
         databaseConfig = DatabaseConfig(
             jdbcUrl = url,
@@ -30,8 +33,8 @@ class ApplicationModule {
             password = password
         )
         database = DatabaseModule(databaseConfig)
-
         repository = RepositoryModule(database.dslContext)
+        transactionManager = TransactionManager.of(database.dslContext)
 
         javalin = Javalin.create { config ->
             val jsonMapper = JavalinJackson(
@@ -44,8 +47,6 @@ class ApplicationModule {
             config.jsonMapper(jsonMapper)
         }
 
-        TransactionManager.dslContext = database.dslContext
-
         resources = ResourceModule(javalin, repository)
     }
 
@@ -53,7 +54,7 @@ class ApplicationModule {
         migrate(databaseConfig)
         generateSchema(databaseConfig)
         resources.bindRoutes()
-        javalin.start(7070) // TODO read port from env
+        javalin.start(applicationPort)
     }
 
     fun stop() {
