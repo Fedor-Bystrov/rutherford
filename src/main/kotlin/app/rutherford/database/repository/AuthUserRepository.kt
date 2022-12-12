@@ -6,14 +6,14 @@ import app.rutherford.database.jooq.generated.tables.daos.AuthUserDao
 import app.rutherford.database.jooq.generated.tables.pojos.JAuthUser
 import app.rutherford.database.jooq.generated.tables.records.AuthUserRecord
 import app.rutherford.database.jooq.generated.tables.references.AUTH_USER
-import org.jooq.Condition
 import org.jooq.Configuration
 import org.jooq.DSLContext
-import org.jooq.SelectWhereStep
-import org.jooq.impl.DSL.selectFrom
 import java.util.*
 
-class AuthUserRepository(private val defaultContext: DSLContext) {
+class AuthUserRepository(defaultContext: DSLContext) : JooqRepository<AuthUserRecord, AuthUser>(
+    defaultContext,
+    AUTH_USER
+) {
     private val authUserDao: AuthUserDao = AuthUserDao(defaultContext.configuration())
 
     // TODO use records instead of dao?
@@ -25,72 +25,8 @@ class AuthUserRepository(private val defaultContext: DSLContext) {
     }
 
     fun find(id: UUID): AuthUser? {
-        val result = defaultContext.dsl()
-            .selectFrom(AUTH_USER)
-            .where(byId(id))
-            .fetch()
-            .map { fromRecord(it) }
-
-        if (result.size > 1) {
-            throw RuntimeException("")
-        }
-
-        return if (result.isNotEmpty()) result[0] else null
+        return findById(id)
     }
-
-//    protected fun findOne(
-//        configuration: Configuration,
-//        id: UUID,
-//        condition: Condition,
-//    ): AuthUser? {
-//        return findOneWhere(
-//            configuration,
-//            byId(id).and(condition),
-//        )
-//        { fromRecord(it) }
-//    }
-
-//    protected fun fromResult(result: Result<AuthUserRecord>): Collection<AuthUser> {
-//        return result { fromRecord(it) }
-//    }
-
-    protected fun byId(id: UUID): Condition {
-        return AUTH_USER.ID.eq(id)
-    }
-
-//    protected fun findOneWhere(
-//        configuration: Configuration,
-//        condition: Condition,
-//        transform: (Result<AuthUserRecord>) -> Collection<AuthUser>
-//    ): AuthUser? {
-//        return findOne(
-//            configuration
-//                .dsl()
-//                .selectFrom(AUTH_USER),
-//            condition,
-//            transform
-//        )
-//    }
-
-//    protected fun findOne(
-//        query: SelectWhereStep<AuthUserRecord>,
-//        condition: Condition,
-//        transform: (Result<AuthUserRecord>) -> Collection<AuthUser>
-//    ): AuthUser? {
-//        val models = query
-//            .where(condition)
-//            .fetchAny(transform)
-//
-//        if (models != null && models.size > 1) {
-//            throw RuntimeException(
-//                "Expected 1 record but got ${models.size}. " +
-//                        "Check your condition $condition"
-//            )
-//        }
-//
-//        return models?.first()
-//    }
-
 
     // TODO extract below methods to parent (GenericJooqRepository) class
 
@@ -120,7 +56,7 @@ class AuthUserRepository(private val defaultContext: DSLContext) {
         passwordHash = entity.passwordHash,
     )
 
-    private fun fromRecord(record: AuthUserRecord): AuthUser = authUser()
+    override fun fromRecord(record: AuthUserRecord): AuthUser = authUser()
         .id(record.id!!)
         .createdAt(record.createdAt!!)
         .updatedAt(record.updatedAt!!)
@@ -131,7 +67,7 @@ class AuthUserRepository(private val defaultContext: DSLContext) {
         .passwordHash(record.passwordHash!!)
         .build()
 
-    private fun toRecord(entity: AuthUser): AuthUserRecord = AuthUserRecord(
+    override fun toRecord(entity: AuthUser): AuthUserRecord = AuthUserRecord(
         id = entity.id,
         createdAt = entity.createdAt,
         updatedAt = entity.updatedAt,

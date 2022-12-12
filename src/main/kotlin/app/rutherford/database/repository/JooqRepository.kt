@@ -1,37 +1,39 @@
 package app.rutherford.database.repository
 
-import app.rutherford.database.entity.AuthUser
-import app.rutherford.database.jooq.generated.tables.records.AuthUserRecord
+import app.rutherford.database.entity.Entity
 import app.rutherford.database.jooq.generated.tables.references.AUTH_USER
 import org.jooq.Condition
 import org.jooq.DSLContext
+import org.jooq.Record
 import org.jooq.SelectWhereStep
+import org.jooq.Table
 import java.util.*
 
-abstract class JooqRepository(
-    private val defaultContext: DSLContext
+abstract class JooqRepository<R : Record, E: Entity>(
+    private val defaultContext: DSLContext,
+    private val fetchTable: Table<R>,
 ) {
-    protected fun findById(id: UUID): AuthUser? {
+    protected fun findById(id: UUID): E? {
         return findOne(
-            defaultContext.dsl().selectFrom(AUTH_USER),
+            defaultContext.dsl().selectFrom(fetchTable),
             byId(id),
             this::fromRecord
         )
     }
 
-    protected fun findByIdWhere(id: UUID, condition: Condition): AuthUser? {
+    protected fun findByIdWhere(id: UUID, condition: Condition): E? {
         return findOne(
-            defaultContext.dsl().selectFrom(AUTH_USER),
+            defaultContext.dsl().selectFrom(fetchTable),
             byId(id).and(condition),
             this::fromRecord
         )
     }
 
     private fun findOne(
-        query: SelectWhereStep<AuthUserRecord>,
+        query: SelectWhereStep<R>,
         condition: Condition,
-        mapper: (AuthUserRecord) -> AuthUser
-    ): AuthUser? {
+        mapper: (R) -> E
+    ): E? {
         val entities = query
             .where(condition)
             .fetch()
@@ -48,9 +50,9 @@ abstract class JooqRepository(
     }
 
     private fun byId(id: UUID): Condition {
-        return AUTH_USER.ID.eq(id)
+        return AUTH_USER.ID.eq(id) // TODO ??? fix
     }
 
-    protected abstract fun fromRecord(record: AuthUserRecord): AuthUser
-    protected abstract fun toRecord(entity: AuthUser): AuthUserRecord
+    protected abstract fun fromRecord(record: R): E
+    protected abstract fun toRecord(entity: E): R
 }
