@@ -11,9 +11,9 @@ object TransactionManager { // TODO correct? thread-safe?
 }
 
 @DslMarker
-annotation class TransactionDsl
+annotation class TransactionMarker
 
-@TransactionDsl
+@TransactionMarker
 class Transaction {
     fun apply(block: Transaction.(Configuration) -> Unit) {
         TransactionManager.dslContext.transaction { tx ->
@@ -22,7 +22,7 @@ class Transaction {
     }
 }
 
-@TransactionDsl
+@TransactionMarker
 fun transaction(init: Transaction.(Configuration) -> Unit) {
     Transaction().apply(init)
 }
