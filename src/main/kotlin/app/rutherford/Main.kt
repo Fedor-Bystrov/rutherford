@@ -21,6 +21,10 @@ import app.rutherford.module.ApplicationModule
 //  6. Set up test containers for e2e tests
 //  7. Fix all other todos
 
+// TODO fix
+//     1. Flyway timout
+//     2. Jooq generator timeout
+
 fun main() {
     System.setProperty("org.jooq.no-logo", "true")
     System.setProperty("org.jooq.no-tips", "true")
