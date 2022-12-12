@@ -5,6 +5,8 @@ import org.jooq.DSLContext
 
 
 object TransactionManager { // TODO correct? thread-safe?
+    // TODO make TransactionManager a class
+    // TODO put dslContext into companion object
     lateinit var dslContext: DSLContext
 }
 

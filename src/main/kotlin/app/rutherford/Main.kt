@@ -12,11 +12,14 @@ import app.rutherford.module.ApplicationModule
 //      4.1 Check .net identity and create TODO for functionality that I need to implement
 
 // TODO Set up !!
-//  1. Add CreateUserAuthToken resource
+//  1. Add CreateUser resource
 //      1.1 it should accept json and create entity in the database
-//      1.2 create transaction method similar to Exposed framework
-//  2. Add logback.xml (similar to penn)
-//  3. Set up test containers for e2e tests
+//  2. Check todos in AuthUserRepository
+//  3. Check todos in TransactionManager
+//  4. Add tests
+//  5. Add logback.xml (similar to penn)
+//  6. Set up test containers for e2e tests
+//  7. Fix all other todos
 
 fun main() {
     System.setProperty("org.jooq.no-logo", "true")
@@ -27,10 +30,4 @@ fun main() {
     Runtime
         .getRuntime()
         .addShutdownHook(Thread(application::stop))
-
-//    dslContext.transaction { tx ->
-//        val now = Instant.now()
-//        AuthUserDao(tx)
-//            .insert(AuthUser(randomUUID(), now, now, now, "aa", "test4@test.com", false, ""))
-//    }
 }
