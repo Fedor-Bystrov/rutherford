@@ -24,6 +24,7 @@ class AuthUserRepository(
     fun findAll(): List<AuthUser> = from(authUserDao.findAll())
 
     fun insert(configuration: Configuration, authUser: AuthUser) {
+        // TODO implement insert without dao
         AuthUserDao(configuration).insert(to(authUser))
     }
 
