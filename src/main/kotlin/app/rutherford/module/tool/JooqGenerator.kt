@@ -56,30 +56,15 @@ object JooqGenerator {
                             .withPackageName("app.rutherford.database.jooq.generated")
                             .withDirectory("src/main/kotlin")
                     )
-                    .withStrategy(
-                        Strategy()
-                            .withMatchers(
-                                Matchers().withTables(
-                                    MatchersTableType()
-                                        .withExpression("")
-                                        .withPojoClass(
-                                            MatcherRule()
-                                                .withTransform(PASCAL)
-                                                .withExpression("J_$0")
-                                        )
-                                        .withPojoImplements("app.rutherford.database.jooq.JooqPojo")
-                                )
-                            )
-                    )
                     .withGenerate(
                         Generate()
-                            .withDaos(true)
                             .withFluentSetters(true)
                             .withRecords(true)
                             .withRelations(true)
                             .withKotlinSetterJvmNameAnnotationsOnIsPrefix(true)
-                            .withPojos(true)
-                            .withPojosAsKotlinDataClasses(true)
+                            .withDaos(false)
+                            .withPojos(false)
+                            .withPojosAsKotlinDataClasses(false)
                             .withDeprecated(false)
                             .withImmutablePojos(false)
                             .withJavaTimeTypes(false)
