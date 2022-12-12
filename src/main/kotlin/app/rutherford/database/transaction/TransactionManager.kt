@@ -1,29 +1,26 @@
 package app.rutherford.database.transaction
 
 import org.jooq.Configuration
+import org.jooq.DSLContext
 
 
-object TransactionManager {
-//    private val dslContext: DSLContext
-
-    init {
-
-    }
-
-
+object TransactionManager { // TODO correct? thread-safe?
+    lateinit var dslContext: DSLContext
 }
 
-annotation class TransactionMarker // TODO rename TransactionDsl
+annotation class TransactionDsl
 
-@TransactionMarker
+@TransactionDsl
 class Transaction {
-    fun apply(block: Transaction.(Configuration?) -> Unit) {
-        block.invoke(this, null)
+    fun apply(block: Transaction.(Configuration) -> Unit) {
+        TransactionManager.dslContext.transaction { tx ->
+            block.invoke(this, tx)
+        }
     }
 }
 
-@TransactionMarker
-fun transaction(init: Transaction.(Configuration?) -> Unit) {
+@TransactionDsl
+fun transaction(init: Transaction.(Configuration) -> Unit) {
     Transaction().apply(init)
 }
 
