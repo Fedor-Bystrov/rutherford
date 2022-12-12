@@ -24,6 +24,7 @@ import app.rutherford.module.ApplicationModule
 // TODO fix
 //     1. Flyway timout
 //     2. Jooq generator timeout
+//     3. Write tests on repositories
 
 fun main() {
     System.setProperty("org.jooq.no-logo", "true")
