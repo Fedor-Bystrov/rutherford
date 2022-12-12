@@ -29,7 +29,7 @@ object JooqGenerator {
 
     fun generateSchema(databaseConfig: DatabaseConfig) {
         val configuration = Configuration()
-            .withLogging(WARN)
+            .withLogging(WARN) // TODO control log level in config logback
             .withJdbc(
                 Jdbc()
                     .withDriver("org.postgresql.Driver")
