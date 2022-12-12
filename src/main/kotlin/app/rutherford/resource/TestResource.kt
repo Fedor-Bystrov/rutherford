@@ -24,9 +24,9 @@ class TestResource(
     }
 
     private fun allUsers(): (Context) -> Unit {
-        return { context ->
+        return {
             val users = authUserRepository.findAll()
-            context.json(users)
+            it.json(users)
         }
     }
 
