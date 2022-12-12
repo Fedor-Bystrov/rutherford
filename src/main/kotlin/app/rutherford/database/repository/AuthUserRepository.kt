@@ -10,9 +10,12 @@ import org.jooq.Configuration
 import org.jooq.DSLContext
 import java.util.*
 
-class AuthUserRepository(defaultContext: DSLContext) : JooqRepository<AuthUserRecord, AuthUser>(
+class AuthUserRepository(
+    defaultContext: DSLContext
+) : JooqRepository<AuthUserRecord, AuthUser>(
     defaultContext,
-    AUTH_USER
+    AUTH_USER,
+    AUTH_USER.ID
 ) {
     private val authUserDao: AuthUserDao = AuthUserDao(defaultContext.configuration())
 

@@ -1,17 +1,18 @@
 package app.rutherford.database.repository
 
 import app.rutherford.database.entity.Entity
-import app.rutherford.database.jooq.generated.tables.references.AUTH_USER
 import org.jooq.Condition
 import org.jooq.DSLContext
 import org.jooq.Record
 import org.jooq.SelectWhereStep
 import org.jooq.Table
+import org.jooq.TableField
 import java.util.*
 
-abstract class JooqRepository<R : Record, E: Entity>(
+abstract class JooqRepository<R : Record, E : Entity>(
     private val defaultContext: DSLContext,
     private val fetchTable: Table<R>,
+    private val idField: TableField<R, UUID?>
 ) {
     protected fun findById(id: UUID): E? {
         return findOne(
@@ -50,7 +51,7 @@ abstract class JooqRepository<R : Record, E: Entity>(
     }
 
     private fun byId(id: UUID): Condition {
-        return AUTH_USER.ID.eq(id) // TODO ??? fix
+        return idField.eq(id)
     }
 
     protected abstract fun fromRecord(record: R): E
