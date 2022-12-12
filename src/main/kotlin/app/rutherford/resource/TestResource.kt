@@ -1,6 +1,5 @@
 package app.rutherford.resource
 
-import app.rutherford.database.entity.AuthUser.Builder.Companion.authUser
 import app.rutherford.database.repository.AuthUserRepository
 import app.rutherford.database.transaction.transaction
 import io.javalin.Javalin
@@ -8,8 +7,8 @@ import io.javalin.apibuilder.ApiBuilder.get
 import io.javalin.apibuilder.ApiBuilder.path
 import io.javalin.apibuilder.ApiBuilder.post
 import io.javalin.http.Context
+import io.javalin.http.HttpStatus.NO_CONTENT
 import java.util.*
-
 
 class TestResource(
     private val javalin: Javalin,
@@ -17,33 +16,52 @@ class TestResource(
 ) : Resource {
     override fun bindRoutes() {
         javalin.routes {
-            path("/test") {
-                get(allUsers())
+            path("/test/users") {
+                get("/all", all())
+                get(one())
                 post(createUser())
             }
         }
     }
 
-    private fun allUsers(): (Context) -> Unit {
+    private fun all(): (Context) -> Unit {
         return {
-            val users = authUserRepository.findAll()
+            it.json(
+                authUserRepository.find(
+                    listOf(
+                        UUID.fromString("60d327e7-c936-4ec9-99a0-9903de82fe59"),
+                        UUID.fromString("e09ce7ca-c30e-4735-bb02-1efa413bdada"),
+                        UUID.fromString("38cf9d9c-6f00-4fff-9092-82a325e442eb")
+                    )
+                )
+            )
+        }
+    }
 
-            // TODO extract to separate resource
-            authUserRepository.find(UUID.fromString("38cf9d9c-6f00-4fff-9092-82a325e442eb"))
-            it.json(users)
+    private fun one(): (Context) -> Unit {
+        return {
+            val user = authUserRepository
+                .find(UUID.fromString("38cf9d9c-6f00-4fff-9092-82a325e442eb"))
+
+            if (user != null)
+                it.json(user)
+            else
+                it.status(NO_CONTENT)
+
         }
     }
 
     private fun createUser(): (Context) -> Unit {
         return {
             transaction { tx ->
-                authUserRepository.insert(
-                    tx, authUser()
-                        .applicationName("applicationName")
-                        .email("pojo.email")
-                        .passwordHash("pojo.passwordHash")
-                        .build()
-                )
+                // TODO implement
+//                authUserRepository.insert(
+//                    tx, authUser()
+//                        .applicationName("applicationName")
+//                        .email("pojo.email")
+//                        .passwordHash("pojo.passwordHash")
+//                        .build()
+//                )
             }
         }
     }

@@ -14,8 +14,7 @@ import app.rutherford.module.ApplicationModule
 // TODO Set up !!
 //  1. Add CreateUser resource
 //      1.1 it should accept json and create entity in the database
-//  2. Check todos in AuthUserRepository
-//  3. Check todos in TransactionManager
+//  2. Implement insert
 //  4. Add tests
 //  5. Add logback.xml (similar to penn)
 //  6. Set up test containers for e2e tests
