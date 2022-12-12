@@ -5,7 +5,6 @@ package app.rutherford.database.jooq.generated.tables.records
 
 
 import app.rutherford.database.jooq.generated.tables.AuthUserRefreshToken
-import app.rutherford.database.jooq.generated.tables.pojos.JAuthUserRefreshToken
 
 import java.time.Instant
 import java.util.UUID
@@ -152,20 +151,5 @@ open class AuthUserRefreshTokenRecord() : UpdatableRecordImpl<AuthUserRefreshTok
         this.state = state
         this.tokenHash = tokenHash
         this.userId = userId
-    }
-
-    /**
-     * Create a detached, initialised AuthUserRefreshTokenRecord
-     */
-    constructor(value: JAuthUserRefreshToken?): this() {
-        if (value != null) {
-            this.id = value.id
-            this.createdAt = value.createdAt
-            this.updatedAt = value.updatedAt
-            this.expiration = value.expiration
-            this.state = value.state
-            this.tokenHash = value.tokenHash
-            this.userId = value.userId
-        }
     }
 }

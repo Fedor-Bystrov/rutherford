@@ -5,7 +5,6 @@ package app.rutherford.database.jooq.generated.tables.records
 
 
 import app.rutherford.database.jooq.generated.tables.AuthUser
-import app.rutherford.database.jooq.generated.tables.pojos.JAuthUser
 
 import java.time.Instant
 import java.util.UUID
@@ -166,21 +165,5 @@ open class AuthUserRecord() : UpdatableRecordImpl<AuthUserRecord>(AuthUser.AUTH_
         this.email = email
         this.emailConfirmed = emailConfirmed
         this.passwordHash = passwordHash
-    }
-
-    /**
-     * Create a detached, initialised AuthUserRecord
-     */
-    constructor(value: JAuthUser?): this() {
-        if (value != null) {
-            this.id = value.id
-            this.createdAt = value.createdAt
-            this.updatedAt = value.updatedAt
-            this.lastLogin = value.lastLogin
-            this.applicationName = value.applicationName
-            this.email = value.email
-            this.emailConfirmed = value.emailConfirmed
-            this.passwordHash = value.passwordHash
-        }
     }
 }
