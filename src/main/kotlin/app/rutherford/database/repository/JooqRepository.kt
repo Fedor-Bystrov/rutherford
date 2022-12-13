@@ -4,7 +4,6 @@ import app.rutherford.database.entity.Entity
 import org.jooq.Condition
 import org.jooq.Configuration
 import org.jooq.DSLContext
-import org.jooq.Record
 import org.jooq.SelectWhereStep
 import org.jooq.Table
 import org.jooq.TableField
@@ -13,7 +12,7 @@ import java.util.*
 
 // TODO write tests on repositories
 
-abstract class JooqRepository<R : Record, E : Entity>(
+abstract class JooqRepository<R : UpdatableRecord<*>, E : Entity>(
     private val defaultContext: DSLContext,
     private val table: Table<R>,
     private val idField: TableField<R, UUID?>
@@ -63,13 +62,19 @@ abstract class JooqRepository<R : Record, E : Entity>(
 
     protected fun insertOne(conf: Configuration, entity: E): E {
         val record = conf.dsl().newRecord(table, toRecord(entity))
-        (record as UpdatableRecord<*>).insert()
+        record.insert()
         return fromRecord(record)
+    }
+
+    protected fun insertBatch(conf: Configuration, entities: Collection<E>) {
+        val records = entities.map { toRecord(it) }
+        records.forEach { it.changed(true) } // https://stackoverflow.com/a/45279364
+        conf.dsl().batchInsert(records).execute()
     }
 
     protected fun updateOne(conf: Configuration, entity: E): E {
         val record = conf.dsl().newRecord(table, toRecord(entity))
-        (record as UpdatableRecord<*>).update()
+        record.update()
         return fromRecord(record)
     }
 
