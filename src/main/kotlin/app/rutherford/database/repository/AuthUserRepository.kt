@@ -22,7 +22,18 @@ class AuthUserRepository(
     // TODO create REPOSITORY interface
 
     fun insert(conf: Configuration, entity: AuthUser): AuthUser = insertOne(conf, entity)
+    fun insertBatch(conf: Configuration, entities: Collection<AuthUser>) {
+        // TODO move this method to super class
+        val records = entities.map { toRecord(it) }
+        conf.dsl().batchInsert(records).execute() // TODO what's the return value? Do I need it?
+    }
+
     fun update(conf: Configuration, entity: AuthUser): AuthUser = updateOne(conf, entity)
+    fun updateBatch(conf: Configuration, entities: Collection<AuthUser>) {
+        // TODO move this method to super class
+        val records = entities.map { toRecord(it) }
+        conf.dsl().batchUpdate(records).execute() // TODO what's the return value? Do I need it?
+    }
 
     override fun fromRecord(record: AuthUserRecord): AuthUser = authUser()
         .id(record.id!!)

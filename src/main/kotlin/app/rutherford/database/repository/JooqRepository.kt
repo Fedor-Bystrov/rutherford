@@ -73,7 +73,6 @@ abstract class JooqRepository<R : Record, E : Entity>(
         return fromRecord(record)
     }
 
-
     private fun findOne(
         query: SelectWhereStep<R>,
         condition: Condition,
