@@ -5,6 +5,7 @@ import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.jooq.DSLContext
 import org.jooq.SQLDialect.POSTGRES
+import org.jooq.conf.Settings
 import org.jooq.impl.DSL
 import org.jooq.impl.DefaultConfiguration
 import java.util.concurrent.TimeUnit.MINUTES
@@ -18,6 +19,12 @@ class DatabaseModule(private val dbConfig: DatabaseConfig) {
         val dataSource = HikariDataSource(hikariConfig)
         val configuration = DefaultConfiguration()
             .set(dataSource)
+            .set(
+                Settings()
+                    // Fetched all columns from inserted / stored entity
+                    // and updated the UpdatableRecord
+                    .withReturnAllOnUpdatableRecord(true)
+            )
             .set(POSTGRES)
         dslContext = DSL.using(configuration)
     }

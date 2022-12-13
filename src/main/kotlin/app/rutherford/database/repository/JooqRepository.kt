@@ -2,18 +2,20 @@ package app.rutherford.database.repository
 
 import app.rutherford.database.entity.Entity
 import org.jooq.Condition
+import org.jooq.Configuration
 import org.jooq.DSLContext
 import org.jooq.Record
 import org.jooq.SelectWhereStep
 import org.jooq.Table
 import org.jooq.TableField
+import org.jooq.UpdatableRecord
 import java.util.*
 
 // TODO write tests on repositories
 
 abstract class JooqRepository<R : Record, E : Entity>(
     private val defaultContext: DSLContext,
-    private val fetchTable: Table<R>,
+    private val table: Table<R>,
     private val idField: TableField<R, UUID?>
 ) {
 
@@ -29,7 +31,7 @@ abstract class JooqRepository<R : Record, E : Entity>(
 
     protected fun findById(id: UUID): E? {
         return findOne(
-            defaultContext.dsl().selectFrom(fetchTable),
+            defaultContext.dsl().selectFrom(table),
             byId(id),
             this::fromRecord
         )
@@ -37,7 +39,7 @@ abstract class JooqRepository<R : Record, E : Entity>(
 
     protected fun findByIds(id: Collection<UUID>): Collection<E> {
         return findAll(
-            defaultContext.dsl().selectFrom(fetchTable),
+            defaultContext.dsl().selectFrom(table),
             byIds(id),
             this::fromRecord
         )
@@ -45,7 +47,7 @@ abstract class JooqRepository<R : Record, E : Entity>(
 
     protected fun findByIdWhere(id: UUID, condition: Condition): E? {
         return findOne(
-            defaultContext.dsl().selectFrom(fetchTable),
+            defaultContext.dsl().selectFrom(table),
             byId(id).and(condition),
             this::fromRecord
         )
@@ -53,11 +55,24 @@ abstract class JooqRepository<R : Record, E : Entity>(
 
     protected fun findByIdsWhere(id: Collection<UUID>, condition: Condition): Collection<E> {
         return findAll(
-            defaultContext.dsl().selectFrom(fetchTable),
+            defaultContext.dsl().selectFrom(table),
             byIds(id).and(condition),
             this::fromRecord
         )
     }
+
+    protected fun insertOne(conf: Configuration, entity: E): E {
+        val record = conf.dsl().newRecord(table, toRecord(entity))
+        (record as UpdatableRecord<*>).insert()
+        return fromRecord(record)
+    }
+
+    protected fun updateOne(conf: Configuration, entity: E): E {
+        val record = conf.dsl().newRecord(table, toRecord(entity))
+        (record as UpdatableRecord<*>).update()
+        return fromRecord(record)
+    }
+
 
     private fun findOne(
         query: SelectWhereStep<R>,
