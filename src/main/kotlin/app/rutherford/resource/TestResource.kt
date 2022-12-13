@@ -24,37 +24,33 @@ class TestResource(
         }
     }
 
-    private fun all(): (Context) -> Unit {
-        return {
-            it.json(
-                authUserRepository.find(
-                    listOf(
-                        UUID.fromString("60d327e7-c936-4ec9-99a0-9903de82fe59"),
-                        UUID.fromString("e09ce7ca-c30e-4735-bb02-1efa413bdada"),
-                        UUID.fromString("38cf9d9c-6f00-4fff-9092-82a325e442eb")
-                    )
+    private fun all(): (Context) -> Unit = {
+        it.json(
+            authUserRepository.find(
+                listOf(
+                    UUID.fromString("60d327e7-c936-4ec9-99a0-9903de82fe59"),
+                    UUID.fromString("e09ce7ca-c30e-4735-bb02-1efa413bdada"),
+                    UUID.fromString("38cf9d9c-6f00-4fff-9092-82a325e442eb")
                 )
             )
-        }
+        )
     }
 
-    private fun one(): (Context) -> Unit {
-        return {
-            val user = authUserRepository
-                .find(UUID.fromString("38cf9d9c-6f00-4fff-9092-82a325e442eb"))
 
-            if (user != null)
-                it.json(user)
-            else
-                it.status(NO_CONTENT)
+    private fun one(): (Context) -> Unit = {
+        val user = authUserRepository
+            .find(UUID.fromString("38cf9d9c-6f00-4fff-9092-82a325e442eb"))
 
-        }
+        if (user != null)
+            it.json(user)
+        else
+            it.status(NO_CONTENT)
     }
 
-    private fun createUser(): (Context) -> Unit {
-        return {
-            transaction { tx ->
-                // TODO implement
+
+    private fun createUser(): (Context) -> Unit = {
+        transaction { tx ->
+            // TODO implement
 //                authUserRepository.insert(
 //                    tx, authUser()
 //                        .applicationName("applicationName")
@@ -62,7 +58,6 @@ class TestResource(
 //                        .passwordHash("pojo.passwordHash")
 //                        .build()
 //                )
-            }
         }
     }
 }
