@@ -12,13 +12,11 @@ import app.rutherford.module.ApplicationModule
 //      4.1 Check .net identity and create TODO for functionality that I need to implement
 
 // TODO Set up !!
-//  1. Add CreateUser resource
-//      1.1 it should accept json and create entity in the database
-//  2. Implement insert
-//  4. Add tests
-//  5. Add logback.xml (similar to penn)
-//  6. Set up test containers for e2e tests
-//  7. Fix all other todos
+//  1. Implement insert
+//  2. Add tests
+//  3. Add logback.xml (similar to penn)
+//  4. Set up test containers for e2e tests
+//  5. Fix all other todos
 
 // TODO fix
 //     1. Flyway timout

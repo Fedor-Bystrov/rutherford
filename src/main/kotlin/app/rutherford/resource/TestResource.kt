@@ -18,7 +18,7 @@ class TestResource(
         javalin.routes {
             path("/test/users") {
                 get("/all", all())
-                get(one())
+                get("/{id}", one())
                 post(createUser())
             }
         }
@@ -38,8 +38,8 @@ class TestResource(
 
 
     private fun one(): (Context) -> Unit = {
-        val user = authUserRepository
-            .find(UUID.fromString("38cf9d9c-6f00-4fff-9092-82a325e442eb"))
+        val userId = it.pathParamAsClass("id", UUID::class.java).get()
+        val user = authUserRepository.find(userId)
 
         if (user != null)
             it.json(user)

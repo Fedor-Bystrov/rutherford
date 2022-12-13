@@ -10,6 +10,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.javalin.Javalin
 import io.javalin.json.JavalinJackson
+import io.javalin.validation.JavalinValidation
+import java.util.*
 
 class ApplicationModule {
     private val applicationPort: Int
@@ -35,6 +37,10 @@ class ApplicationModule {
         database = DatabaseModule(databaseConfig)
         repository = RepositoryModule(database.dslContext)
         transactionManager = TransactionManager.of(database.dslContext)
+
+        // TODO extract javalin module
+        // TODO add exception mapper, handle JavalinValidation exception
+        JavalinValidation.register(UUID::class.java) { UUID.fromString(it) }
 
         javalin = Javalin.create { config ->
             val jsonMapper = JavalinJackson(
