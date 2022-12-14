@@ -2,6 +2,7 @@ package app.rutherford.module
 
 import app.rutherford.database.transaction.TransactionManager
 import app.rutherford.module.configuration.DatabaseConfig
+import app.rutherford.module.tool.Dotenv
 import app.rutherford.module.tool.FlywayMigrator.migrate
 import app.rutherford.module.tool.JooqGenerator.generateSchema
 
@@ -15,11 +16,10 @@ class ApplicationModule {
     private val resources: ResourceModule
 
     init {
-        // TODO extract to env files (add .env support)
-        val url = "jdbc:postgresql://localhost:5432/rutherford"
-        val user = "rutherford_app"
-        val password = "123"
-        applicationPort = 7070
+        val url = Dotenv.get("DB_URL")
+        val user = Dotenv.get("DB_USER")
+        val password = Dotenv.get("DB_PASS")
+        applicationPort = Dotenv.getInt("PORT")
 
         databaseConfig = DatabaseConfig(
             jdbcUrl = url,
