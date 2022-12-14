@@ -1,5 +1,6 @@
 package app.rutherford.resource
 
+import app.rutherford.database.entity.AuthUser.Builder.Companion.authUser
 import app.rutherford.database.repository.AuthUserRepository
 import app.rutherford.database.transaction.transaction
 import io.javalin.Javalin
@@ -50,14 +51,13 @@ class TestResource(
 
     private fun createUser(): (Context) -> Unit = {
         transaction { tx ->
-            // TODO implement
-//                authUserRepository.insert(
-//                    tx, authUser()
-//                        .applicationName("applicationName")
-//                        .email("pojo.email")
-//                        .passwordHash("pojo.passwordHash")
-//                        .build()
-//                )
+            authUserRepository.insert(
+                tx, authUser()
+                    .applicationName("applicationName")
+                    .email("pojo.email2")
+                    .passwordHash("pojo.passwordHash")
+                    .build()
+            )
         }
     }
 }
