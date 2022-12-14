@@ -13,11 +13,10 @@ import app.rutherford.module.ApplicationModule
 //      4.1 Check .net identity and create TODO for functionality that I need to implement
 
 // TODO Set up !!
-//  1. Implement insert
-//  2. Add tests
-//  3. Add logback.xml (similar to penn)
-//  4. Set up test containers for e2e tests
-//  5. Fix all other todos
+//  1. Add tests
+//  2. Add logback.xml (similar to penn)
+//  3. Set up test containers for e2e tests
+//  4. Fix all other todos
 
 // TODO fix
 //     1. Flyway timout
