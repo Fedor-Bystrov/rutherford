@@ -25,7 +25,7 @@ class DatabaseModule(private val dbConfig: DatabaseConfig) {
                 .set(
                     Settings()
                         // Fetched all columns from inserted / stored entity
-                        // and updated the UpdatableRecord
+                        // and update the UpdatableRecord
                         .withReturnAllOnUpdatableRecord(true)
                 )
                 .set(POSTGRES)
