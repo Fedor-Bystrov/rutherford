@@ -17,6 +17,7 @@ import app.rutherford.module.ApplicationModule
 //  2. Write tests on repositories
 //  3. Add Javalin exception mapping (take teller / penn as example)
 //  4. Fix all other todos
+//  5. Jooq should run on the build stage, not on the run stage!
 
 fun main() {
     val application = ApplicationModule()
