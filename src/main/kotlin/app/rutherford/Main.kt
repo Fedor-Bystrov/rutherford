@@ -13,11 +13,10 @@ import app.rutherford.module.ApplicationModule
 //      4.1 Check .net identity and create TODO for functionality that I need to implement
 
 // TODO Set up
-//  1. Add tests on tools
-//  2. Set up test containers for e2e tests
-//  3. Write tests on repositories
-//  4. Add Javalin exception mapping (take teller / penn as example)
-//  5. Fix all other todos
+//  1. Set up test containers for e2e tests
+//  2. Write tests on repositories
+//  3. Add Javalin exception mapping (take teller / penn as example)
+//  4. Fix all other todos
 
 fun main() {
     val application = ApplicationModule()
