@@ -11,6 +11,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.javalin.Javalin
 import io.javalin.json.JavalinJackson
 import io.javalin.validation.JavalinValidation
+import org.slf4j.LoggerFactory
 import java.util.*
 
 class ApplicationModule {
@@ -51,6 +52,13 @@ class ApplicationModule {
             )
             config.showJavalinBanner = false
             config.jsonMapper(jsonMapper)
+            val logger = LoggerFactory.getLogger("Rutherford")
+            config.requestLogger.http { ctx, executionTimeMs ->
+                logger.info(
+                    "${ctx.ip()} ${ctx.userAgent()} ${ctx.contentType()} ${ctx.contentLength()} " +
+                            "${ctx.method()} ${ctx.path()} ${ctx.statusCode()} in $executionTimeMs ms"
+                )
+            }
         }
 
         resources = ResourceModule(javalin, repository)
