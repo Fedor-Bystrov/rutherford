@@ -4,15 +4,6 @@ import app.rutherford.database.transaction.TransactionManager
 import app.rutherford.module.configuration.DatabaseConfig
 import app.rutherford.module.tool.FlywayMigrator.migrate
 import app.rutherford.module.tool.JooqGenerator.generateSchema
-import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
-import com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import io.javalin.Javalin
-import io.javalin.json.JavalinJackson
-import io.javalin.validation.JavalinValidation
-import org.slf4j.LoggerFactory
-import java.util.*
 
 class ApplicationModule {
     private val applicationPort: Int
@@ -20,7 +11,7 @@ class ApplicationModule {
     private val database: DatabaseModule
     private val repository: RepositoryModule
     private val transactionManager: TransactionManager
-    private val javalin: Javalin
+    private val javalinModule: JavalinModule
     private val resources: ResourceModule
 
     init {
@@ -38,40 +29,18 @@ class ApplicationModule {
         database = DatabaseModule(databaseConfig)
         repository = RepositoryModule(database.dslContext)
         transactionManager = TransactionManager.of(database.dslContext)
-
-        // TODO extract javalin module
-        // TODO add exception mapper, handle JavalinValidation exception
-        JavalinValidation.register(UUID::class.java) { UUID.fromString(it) }
-
-        javalin = Javalin.create { config ->
-            val jsonMapper = JavalinJackson(
-                jacksonObjectMapper()
-                    .registerModule(JavaTimeModule())
-                    .configure(WRITE_DATES_AS_TIMESTAMPS, false)
-                    .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
-            )
-            config.showJavalinBanner = false
-            config.jsonMapper(jsonMapper)
-            val logger = LoggerFactory.getLogger("Rutherford")
-            config.requestLogger.http { ctx, executionTimeMs ->
-                logger.info(
-                    "${ctx.ip()} ${ctx.userAgent()} ${ctx.contentType()} ${ctx.contentLength()} " +
-                            "${ctx.method()} ${ctx.path()} ${ctx.statusCode()} in $executionTimeMs ms"
-                )
-            }
-        }
-
-        resources = ResourceModule(javalin, repository)
+        javalinModule = JavalinModule()
+        resources = ResourceModule(javalinModule.javalin, repository)
     }
 
     fun start() {
         migrate(database.dataSource)
         generateSchema(databaseConfig)
         resources.bindRoutes()
-        javalin.start(applicationPort)
+        javalinModule.start(applicationPort)
     }
 
     fun stop() {
-        javalin.stop()
+        javalinModule.stop()
     }
 }
