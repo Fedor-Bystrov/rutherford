@@ -25,6 +25,7 @@ dependencies {
     implementation("org.jooq:jooq:3.17.6")
     implementation("org.jooq:jooq-codegen:3.17.6")
     implementation("org.jooq:jooq-meta:3.17.6")
+    implementation("io.github.cdimascio:dotenv-kotlin:6.4.0")
 
     testImplementation(kotlin("test"))
 }
