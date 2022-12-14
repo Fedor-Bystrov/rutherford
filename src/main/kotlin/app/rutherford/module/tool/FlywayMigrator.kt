@@ -1,17 +1,14 @@
 package app.rutherford.module.tool
 
-import app.rutherford.module.configuration.DatabaseConfig
 import org.flywaydb.core.Flyway
+import javax.sql.DataSource
 
 object FlywayMigrator {
-    fun migrate(databaseConfig: DatabaseConfig) {
+    fun migrate(dataSource: DataSource) {
         Flyway.configure()
-            .dataSource(
-                databaseConfig.jdbcUrl,
-                databaseConfig.username,
-                databaseConfig.password
-            )
+            .dataSource(dataSource)
             .validateMigrationNaming(true)
+            .connectRetries(3)
             .load()
             .migrate()
     }

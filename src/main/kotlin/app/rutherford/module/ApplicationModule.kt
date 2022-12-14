@@ -57,7 +57,7 @@ class ApplicationModule {
     }
 
     fun start() {
-        migrate(databaseConfig)
+        migrate(database.dataSource)
         generateSchema(databaseConfig)
         resources.bindRoutes()
         javalin.start(applicationPort)
