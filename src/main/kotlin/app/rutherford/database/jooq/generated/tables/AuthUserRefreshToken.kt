@@ -4,7 +4,7 @@
 package app.rutherford.database.jooq.generated.tables
 
 
-import app.rutherford.database.converter.InstantConverter
+import app.rutherford.database.jooq.converter.InstantConverter
 import app.rutherford.database.jooq.generated.Public
 import app.rutherford.database.jooq.generated.indexes.USER_REFRESH_TOKENS_TOKEN_HASH_IDX
 import app.rutherford.database.jooq.generated.keys.AUTH_USER_REFRESH_TOKEN_PKEY

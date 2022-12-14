@@ -1,4 +1,4 @@
-package app.rutherford.database.converter
+package app.rutherford.database.jooq.converter
 
 import org.jooq.Converter
 import java.sql.Timestamp

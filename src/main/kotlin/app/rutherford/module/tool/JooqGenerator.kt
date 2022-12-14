@@ -23,7 +23,7 @@ object JooqGenerator {
     private val FORCED_TYPES: List<ForcedType> = listOf(
         ForcedType()
             .withUserType("java.time.Instant")
-            .withConverter("app.rutherford.database.converter.InstantConverter")
+            .withConverter("app.rutherford.database.jooq.converterclea")
             .withTypes("Timestamp")
     )
 
