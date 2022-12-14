@@ -18,6 +18,13 @@ abstract class JooqRepository<R : UpdatableRecord<*>, E : Entity>(
     private val idField: TableField<R, UUID?>
 ) {
 
+    abstract fun find(id: UUID): E?
+    abstract fun find(id: Collection<UUID>): Collection<E>
+    abstract fun insert(conf: Configuration, entity: E): E
+    abstract fun insert(conf: Configuration, entities: Collection<E>)
+    abstract fun update(conf: Configuration, entity: E): E
+
+
     protected fun findAll(ids: Collection<UUID>): Collection<E> {
         return if (ids.isEmpty())
             emptyList()

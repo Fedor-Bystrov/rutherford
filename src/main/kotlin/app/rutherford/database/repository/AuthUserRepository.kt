@@ -15,15 +15,11 @@ class AuthUserRepository(
     AUTH_USER,
     AUTH_USER.ID
 ) {
-    fun find(id: UUID): AuthUser? = findById(id)
-    fun find(ids: Collection<UUID>): Collection<AuthUser> = findByIds(ids)
-
-    // TODO create REPOSITORY interface
-
-    fun insert(conf: Configuration, entity: AuthUser): AuthUser = insertOne(conf, entity)
-    fun insert(conf: Configuration, entities: Collection<AuthUser>) = insertBatch(conf, entities)
-
-    fun update(conf: Configuration, entity: AuthUser): AuthUser = updateOne(conf, entity)
+    override fun find(id: UUID): AuthUser? = findById(id)
+    override fun find(ids: Collection<UUID>): Collection<AuthUser> = findByIds(ids)
+    override fun insert(conf: Configuration, entity: AuthUser): AuthUser = insertOne(conf, entity)
+    override fun insert(conf: Configuration, entities: Collection<AuthUser>) = insertBatch(conf, entities)
+    override fun update(conf: Configuration, entity: AuthUser): AuthUser = updateOne(conf, entity)
 
     override fun fromRecord(record: AuthUserRecord): AuthUser = authUser()
         .id(record.id!!)
