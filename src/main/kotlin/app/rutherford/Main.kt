@@ -20,9 +20,6 @@ import app.rutherford.module.ApplicationModule
 //  5. Fix all other todos
 
 fun main() {
-    System.setProperty("org.jooq.no-logo", "true")
-    System.setProperty("org.jooq.no-tips", "true")
-
     val application = ApplicationModule()
     application.start()
     Runtime
