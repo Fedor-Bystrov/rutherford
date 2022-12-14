@@ -1,12 +1,16 @@
 package app.rutherford.util
 
-import org.junit.jupiter.api.Assertions.*
+import app.rutherford.util.Checks.validateNotNull
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 
 class ChecksTest {
-    @Test
-    fun `should validate not null`() {
-        TODO("Not yet implemented")
+    @ParameterizedTest
+    @ValueSource(strings = ["", "aa", "null", "asdadasdad", "111"])
+    fun `should validate not null`(value: String) {
+        assertEquals(value, validateNotNull("should not throw", value))
     }
 
     @Test
@@ -14,9 +18,10 @@ class ChecksTest {
         TODO("Not yet implemented")
     }
 
-    @Test
-    fun `should validate not blank`() {
-        TODO("Not yet implemented")
+    @ParameterizedTest
+    @ValueSource(strings = ["  1  ", "  a   a", "nu  ll", " asdadasdad ", "111"])
+    fun `should validate not blank`(value: String) {
+        assertEquals(value, validateNotNull("should not throw", value))
     }
 
     @Test
