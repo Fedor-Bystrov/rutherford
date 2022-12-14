@@ -28,6 +28,7 @@ dependencies {
     implementation("io.github.cdimascio:dotenv-kotlin:6.4.0")
 
     testImplementation(kotlin("test"))
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
 }
 
 tasks.test {
