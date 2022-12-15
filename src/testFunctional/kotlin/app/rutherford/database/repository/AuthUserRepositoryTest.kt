@@ -4,6 +4,7 @@ import app.rutherford.FunctionalTest
 import app.rutherford.database.entity.AuthUser
 import app.rutherford.database.transaction.transaction
 import app.rutherford.fixtures.anAuthUser
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -15,7 +16,7 @@ import java.util.stream.Stream
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-class AuthUserRepositoryFuncTest : FunctionalTest() {
+class AuthUserRepositoryTest : FunctionalTest() {
     companion object {
         private val userId1 = randomUUID()
         private val userId2 = randomUUID()
@@ -41,6 +42,20 @@ class AuthUserRepositoryFuncTest : FunctionalTest() {
                     user1,
                     user2,
                     user3
+                )
+            )
+        }
+    }
+
+    @AfterEach
+    fun tearDown() {
+        super.afterEach()
+        transaction {
+            authUserRepository.delete(
+                it, listOf(
+                    user1,
+                    user2,
+                    user3,
                 )
             )
         }

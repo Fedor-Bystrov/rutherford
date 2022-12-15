@@ -35,10 +35,6 @@ class TestEnvironment : AutoCloseable {
         // TODO implement
     }
 
-    fun resetDatabase() {
-        // TODO implement
-    }
-
     override fun close() {
         postgresContainer.close()
         application.stop()
