@@ -96,9 +96,17 @@ class AuthUserRepositoryTest : FunctionalTest() {
         assertThat(result).containsAll(users)
     }
 
-    @Test
-    fun `should get correct auth_user by id`() {
-        TODO("implement")
+    @ParameterizedTest
+    @MethodSource("userIds")
+    fun `should get correct auth_user by id`(userId: UUID) {
+        // given
+        val expected = getExpectedUser(userId)
+
+        // when
+        val result = authUserRepository.get(userId)
+
+        // then
+        assertThat(result).isEqualTo(expected)
     }
 
     @Test
