@@ -1,6 +1,7 @@
 package app.rutherford.database.repository
 
 import app.rutherford.database.entity.Entity
+import app.rutherford.database.exception.EntityNotFoundException
 import org.jooq.Condition
 import org.jooq.Configuration
 import org.jooq.DSLContext
@@ -17,16 +18,13 @@ abstract class JooqRepository<R : UpdatableRecord<*>, E : Entity>(
     private val table: Table<R>,
     private val idField: TableField<R, UUID?>
 ) {
-
+    abstract fun get(id: UUID): E
     abstract fun find(id: UUID): E?
     abstract fun find(ids: Collection<UUID>): Collection<E>
-//    abstract fun get(id: UUID): E
-
     abstract fun insert(conf: Configuration, entity: E): E
     abstract fun insert(conf: Configuration, entities: Collection<E>)
     abstract fun update(conf: Configuration, entity: E): E
     abstract fun delete(conf: Configuration, entities: Collection<E>)
-
 
     protected fun findById(id: UUID): E? {
         return findOne(
@@ -49,6 +47,8 @@ abstract class JooqRepository<R : UpdatableRecord<*>, E : Entity>(
                 this::fromRecord
             )
     }
+
+    protected fun getById(id: UUID): E = findById(id) ?: throw EntityNotFoundException(table, id);
 
     protected fun findByIdWhere(id: UUID, condition: Condition): E? {
         return findOne(
