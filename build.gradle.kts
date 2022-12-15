@@ -36,6 +36,7 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
     testImplementation("org.testcontainers:postgresql:1.17.6")
+    testImplementation("org.apache.commons:commons-lang3:3.12.0")
 }
 
 tasks.test {
