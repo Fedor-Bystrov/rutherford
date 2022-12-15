@@ -23,7 +23,7 @@ abstract class JooqRepository<R : UpdatableRecord<*>, E : Entity>(
     abstract fun insert(conf: Configuration, entity: E): E
     abstract fun insert(conf: Configuration, entities: Collection<E>)
     abstract fun update(conf: Configuration, entity: E): E
-
+    abstract fun delete(conf: Configuration, entities: Collection<E>)
 
     protected fun findAll(ids: Collection<UUID>): Collection<E> {
         return if (ids.isEmpty())
@@ -83,6 +83,11 @@ abstract class JooqRepository<R : UpdatableRecord<*>, E : Entity>(
         val record = conf.dsl().newRecord(table, toRecord(entity))
         record.update()
         return fromRecord(record)
+    }
+
+    protected fun deleteBatch(conf: Configuration, entities: Collection<E>) {
+        val records = entities.map { toRecord(it) }
+        conf.dsl().batchDelete(records).execute()
     }
 
     private fun findOne(
