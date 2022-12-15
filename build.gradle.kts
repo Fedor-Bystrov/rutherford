@@ -39,7 +39,7 @@ dependencies {
     testImplementation("org.apache.commons:commons-lang3:3.12.0")
 }
 
-tasks.test {
+tasks.withType(Test::class.java) {
     useJUnitPlatform()
 }
 
