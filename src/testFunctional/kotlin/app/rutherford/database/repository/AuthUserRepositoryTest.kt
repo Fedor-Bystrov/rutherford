@@ -119,7 +119,29 @@ class AuthUserRepositoryTest : FunctionalTest() {
             .hasMessage("auth_user with id: $id not found")
     }
 
-    // TODO add test for the rest of method
+    @Test
+    fun `should insert single entity`() {
+        TODO("implement")
+    }
+
+    @Test
+    fun `should batch insert entities`() {
+        TODO("implement")
+    }
+
+    @Test
+    fun `should update single entity`() {
+        TODO("implement")
+    }
+
+    @Test
+    fun `should batch update entities`() {
+        TODO("implement")
+    }
+
+    fun `should delete entity by id`() {
+        TODO("implement")
+    }
 
     private fun getExpectedUser(id: UUID): AuthUser = when (id) {
         userId1 -> user1
