@@ -8,5 +8,10 @@ open class FunctionalTest {
     @AfterEach
     fun afterEach() {
         testEnvironment.resetMocks()
+        resetDatabase()
+    }
+
+    private fun resetDatabase() {
+        // TODO
     }
 }
