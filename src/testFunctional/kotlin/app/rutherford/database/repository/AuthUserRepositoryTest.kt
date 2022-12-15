@@ -102,7 +102,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
     }
 
     @Test
-    fun `should throw when get unexisting auth_user by id`() {
+    fun `should throw when get cannot find user by id`() {
         TODO("implement")
     }
 
