@@ -1,12 +1,15 @@
 package app.rutherford.module
 
+import app.rutherford.Overrides
 import app.rutherford.database.transaction.TransactionManager
 import app.rutherford.module.configuration.DatabaseConfig
 import app.rutherford.module.tool.Dotenv
 import app.rutherford.module.tool.FlywayMigrator.migrate
 import app.rutherford.module.tool.JooqGenerator.generateSchema
 
-class ApplicationModule {
+class ApplicationModule(
+    overrides: Overrides
+) {
     private val applicationPort: Int
     private val databaseConfig: DatabaseConfig
     private val database: DatabaseModule
@@ -21,7 +24,7 @@ class ApplicationModule {
         val password = Dotenv.get("DB_PASS")
         applicationPort = Dotenv.getInt("PORT")
 
-        databaseConfig = DatabaseConfig(
+        databaseConfig = overrides.databaseConfig ?: DatabaseConfig(
             jdbcUrl = url,
             username = user,
             password = password

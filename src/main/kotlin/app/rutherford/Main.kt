@@ -20,7 +20,7 @@ import app.rutherford.module.ApplicationModule
 //  5. Jooq should run on the build stage, not on the run stage!
 
 fun main() {
-    val application = ApplicationModule()
+    val application = ApplicationModule(Overrides())
     application.start()
     Runtime
         .getRuntime()
