@@ -2,6 +2,7 @@ package app.rutherford.database.repository
 
 import app.rutherford.FunctionalTest
 import app.rutherford.database.entity.AuthUser
+import app.rutherford.database.exception.EntityNotFoundException
 import app.rutherford.database.transaction.transaction
 import app.rutherford.fixtures.anAuthUser
 import org.assertj.core.api.Assertions.*
@@ -14,7 +15,6 @@ import org.junit.jupiter.params.provider.MethodSource
 import java.util.*
 import java.util.UUID.randomUUID
 import java.util.stream.Stream
-import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 class AuthUserRepositoryTest : FunctionalTest() {
@@ -103,8 +103,15 @@ class AuthUserRepositoryTest : FunctionalTest() {
 
     @Test
     fun `should throw when get cannot find user by id`() {
-        TODO("implement")
+        // given
+        val id = randomUUID()
+
+        assertThatThrownBy { authUserRepository.get(id) }
+            .isInstanceOf(EntityNotFoundException::class.java)
+            .hasMessage("auth_user with id: $id not found")
     }
+
+    // TODO add test for the rest of method
 
     private fun getExpectedUser(id: UUID): AuthUser = when (id) {
         userId1 -> user1

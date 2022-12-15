@@ -11,8 +11,6 @@ import org.jooq.TableField
 import org.jooq.UpdatableRecord
 import java.util.*
 
-// TODO write tests on repositories
-
 abstract class JooqRepository<R : UpdatableRecord<*>, E : Entity>(
     private val defaultContext: DSLContext,
     private val table: Table<R>,
