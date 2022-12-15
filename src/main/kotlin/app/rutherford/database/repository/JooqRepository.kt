@@ -19,7 +19,7 @@ abstract class JooqRepository<R : UpdatableRecord<*>, E : Entity>(
 ) {
 
     abstract fun find(id: UUID): E?
-    abstract fun find(id: Collection<UUID>): Collection<E>
+    abstract fun find(ids: Collection<UUID>): Collection<E>
     abstract fun insert(conf: Configuration, entity: E): E
     abstract fun insert(conf: Configuration, entities: Collection<E>)
     abstract fun update(conf: Configuration, entity: E): E
