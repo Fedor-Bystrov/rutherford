@@ -4,6 +4,7 @@ import app.rutherford.FunctionalTest
 import app.rutherford.database.entity.AuthUser
 import app.rutherford.database.transaction.transaction
 import app.rutherford.fixtures.anAuthUser
+import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -85,11 +86,23 @@ class AuthUserRepositoryTest : FunctionalTest() {
 
     @Test
     fun `should find correct auth_user by collection of ids`() {
-        TODO("implement")
+        // given
+        val users = listOf(user1, user2, user3)
+
+        // when
+        val result = authUserRepository.find(users.map { it.id })
+
+        // then
+        assertThat(result).containsAll(users)
     }
 
     @Test
     fun `should get correct auth_user by id`() {
+        TODO("implement")
+    }
+
+    @Test
+    fun `should throw when get unexisting auth_user by id`() {
         TODO("implement")
     }
 

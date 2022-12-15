@@ -88,4 +88,8 @@ class AuthUser private constructor(builder: Builder) : Entity {
         result = 31 * result + passwordHash.hashCode()
         return result
     }
+
+    override fun toString(): String {
+        return "AuthUser(id=$id, applicationName='$applicationName', email='$email')"
+    }
 }
