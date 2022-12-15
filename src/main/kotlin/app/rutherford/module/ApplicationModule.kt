@@ -13,10 +13,11 @@ class ApplicationModule(
     private val applicationPort: Int
     private val databaseConfig: DatabaseConfig
     private val database: DatabaseModule
-    private val repository: RepositoryModule
     private val transactionManager: TransactionManager
     private val javalinModule: JavalinModule
     private val resources: ResourceModule
+
+    val repository: RepositoryModule
 
     init {
         val url = Dotenv.get("DB_URL")

@@ -1,12 +1,15 @@
 package app.rutherford
 
 import app.rutherford.module.ApplicationModule
+import app.rutherford.module.RepositoryModule
 import app.rutherford.module.configuration.DatabaseConfig
 import org.testcontainers.containers.PostgreSQLContainer
 
 class TestEnvironment : AutoCloseable {
     private val postgresContainer = PostgreSQLContainer("postgres:15.1")
     private val application: ApplicationModule
+
+    val repository: RepositoryModule
 
     init {
         postgresContainer.start()
@@ -21,12 +24,18 @@ class TestEnvironment : AutoCloseable {
             )
         )
 
+        repository = application.repository
+
         addShutdownHook(Thread(postgresContainer::stop))
         addShutdownHook(Thread(application::stop))
         application.start()
     }
 
     fun resetMocks() {
+        // TODO implement
+    }
+
+    fun resetDatabase() {
         // TODO implement
     }
 
