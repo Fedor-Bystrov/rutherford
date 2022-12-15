@@ -1,6 +1,5 @@
-package app.rutherford.testing
+package app.rutherford
 
-import app.rutherford.Overrides
 import app.rutherford.module.ApplicationModule
 import app.rutherford.module.configuration.DatabaseConfig
 import org.testcontainers.containers.PostgreSQLContainer
