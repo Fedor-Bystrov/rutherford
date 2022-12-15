@@ -1,7 +1,7 @@
 package app.rutherford.module.tool
 
 import app.rutherford.module.exception.DotenvException
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -20,7 +20,7 @@ class DotenvTest {
         ]
     )
     fun `should load string env variable from dotenv file`(key: String, expectedValue: String) {
-        assertEquals(expectedValue, Dotenv.get(key))
+        assertThat(Dotenv.get(key)).isEqualTo(expectedValue)
     }
 
     @ParameterizedTest
@@ -32,7 +32,7 @@ class DotenvTest {
     )
     fun `should throw when string env variable is not found`(key: String) {
         val result = assertThrows<DotenvException> { Dotenv.getInt(key) }
-        assertEquals("No value for $key key", result.message)
+        assertThat(result.message).isEqualTo("No value for $key key")
     }
 
     @ParameterizedTest
@@ -43,7 +43,7 @@ class DotenvTest {
         ]
     )
     fun `should load int env variable from dotenv file`(key: String, expectedValue: Int) {
-        assertEquals(expectedValue, Dotenv.getInt(key))
+        assertThat(Dotenv.getInt(key)).isEqualTo(expectedValue)
     }
 
     @ParameterizedTest
@@ -55,7 +55,7 @@ class DotenvTest {
     )
     fun `should throw when cannot parse int env variable`(key: String) {
         val result = assertThrows<DotenvException> { Dotenv.getInt(key) }
-        assertEquals("No value for $key key", result.message)
+        assertThat(result.message).isEqualTo("No value for $key key")
     }
 
     @ParameterizedTest
@@ -67,6 +67,6 @@ class DotenvTest {
     )
     fun `should throw when int env variable is not found`(key: String) {
         val result = assertThrows<DotenvException> { Dotenv.getInt(key) }
-        assertEquals("No value for $key key", result.message)
+        assertThat(result.message).isEqualTo("No value for $key key")
     }
 }

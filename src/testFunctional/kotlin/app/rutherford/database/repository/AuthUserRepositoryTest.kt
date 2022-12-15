@@ -73,15 +73,15 @@ class AuthUserRepositoryTest : FunctionalTest() {
 
         // then
         assertNotNull(result)
-        assertEquals(expected.id, result.id)
-        assertEquals(expected.createdAt, result.createdAt)
-        assertEquals(expected.updatedAt, result.updatedAt)
-        assertEquals(expected.lastLogin, result.lastLogin)
-        assertEquals(expected.applicationName, result.applicationName)
-        assertEquals(expected.email, result.email)
-        assertEquals(expected.emailConfirmed, result.emailConfirmed)
-        assertEquals(expected.passwordHash, result.passwordHash)
-        assertEquals(expected, result)
+        assertThat(result.id).isEqualTo(expected.id)
+        assertThat(result.createdAt).isEqualTo(expected.createdAt)
+        assertThat(result.updatedAt).isEqualTo(expected.updatedAt)
+        assertThat(result.lastLogin).isEqualTo(expected.lastLogin)
+        assertThat(result.applicationName).isEqualTo(expected.applicationName)
+        assertThat(result.email).isEqualTo(expected.email)
+        assertThat(result.emailConfirmed).isEqualTo(expected.emailConfirmed)
+        assertThat(result.passwordHash).isEqualTo(expected.passwordHash)
+        assertThat(result).isEqualTo(expected)
     }
 
     @Test
