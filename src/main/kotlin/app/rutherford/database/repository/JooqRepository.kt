@@ -20,20 +20,13 @@ abstract class JooqRepository<R : UpdatableRecord<*>, E : Entity>(
 
     abstract fun find(id: UUID): E?
     abstract fun find(ids: Collection<UUID>): Collection<E>
+//    abstract fun get(id: UUID): E
+
     abstract fun insert(conf: Configuration, entity: E): E
     abstract fun insert(conf: Configuration, entities: Collection<E>)
     abstract fun update(conf: Configuration, entity: E): E
     abstract fun delete(conf: Configuration, entities: Collection<E>)
 
-    protected fun findAll(ids: Collection<UUID>): Collection<E> {
-        return if (ids.isEmpty())
-            emptyList()
-        else if (ids.size == 1) {
-            val entity = findById(ids.first())
-            if (entity == null) listOf() else listOf(entity)
-        } else
-            findByIds(ids)
-    }
 
     protected fun findById(id: UUID): E? {
         return findOne(
@@ -43,12 +36,18 @@ abstract class JooqRepository<R : UpdatableRecord<*>, E : Entity>(
         )
     }
 
-    protected fun findByIds(id: Collection<UUID>): Collection<E> {
-        return findAll(
-            defaultContext.dsl().selectFrom(table),
-            byIds(id),
-            this::fromRecord
-        )
+    protected fun findByIds(ids: Collection<UUID>): Collection<E> {
+        return if (ids.isEmpty())
+            emptyList()
+        else if (ids.size == 1) {
+            val entity = findById(ids.first())
+            if (entity == null) listOf() else listOf(entity)
+        } else
+            findAll(
+                defaultContext.dsl().selectFrom(table),
+                byIds(ids),
+                this::fromRecord
+            )
     }
 
     protected fun findByIdWhere(id: UUID, condition: Condition): E? {
