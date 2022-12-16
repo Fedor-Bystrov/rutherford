@@ -122,6 +122,8 @@ class AuthUserRepositoryTest : FunctionalTest() {
         }
 
         // then
+        assertNotNull(result)
+        assertThat(result.size).isEqualTo(users.size)
         assertThat(result).containsAll(users)
     }
 

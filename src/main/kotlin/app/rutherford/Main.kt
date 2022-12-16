@@ -14,6 +14,7 @@ import app.rutherford.module.ApplicationModule
 
 // TODO Set up
 //  - Write tests on repositories
+//  - Write tests on TransactionManager
 //  - Add Javalin exception mapping (take teller / penn as example)
 //  - Fix all other todos
 //  - Jooq should run on the build stage, not on the run stage!
