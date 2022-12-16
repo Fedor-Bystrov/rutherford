@@ -14,6 +14,7 @@ import app.rutherford.module.ApplicationModule
 
 // TODO Set up
 //  - Write test on AuthUserTokenRepository
+//  - add microtypes on user_id and token_id
 //  - Add Javalin exception mapping (take teller / penn as example)
 
 fun main() {

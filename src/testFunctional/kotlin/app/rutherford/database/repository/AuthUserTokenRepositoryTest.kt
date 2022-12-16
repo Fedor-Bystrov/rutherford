@@ -142,26 +142,25 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
         assertThat(created).isEqualTo(token)
     }
 
-    // TODO impl:
+    @Test
+    fun `should insert single entity and find it in the same transaction`() {
+        // given
+        val token = anAuthUserToken().userId(user2.id).build()
 
-//    @Test
-//    fun `should insert single entity and find it in the same transaction`() {
-//        // given
-//        val user = anAuthUser().build()
-//
-//        // when
-//        transaction {
-//            authUserRepository.insert(it, user)
-//
-//            val result = authUserRepository.find(it, user.id)
-//            assertThat(result).isEqualTo(user)
-//        }
-//
-//        // then
-//        val createdUser = authUserRepository.get(id = user.id)
-//        assertThat(createdUser).isEqualTo(user)
-//    }
-//
+        // when
+        transaction {
+            authUserTokenRepository.insert(it, token)
+
+            // then
+            val result = authUserTokenRepository.find(it, token.id)
+            assertThat(result).isEqualTo(token)
+        }
+
+        // and
+        val created = authUserTokenRepository.get(id = token.id)
+        assertThat(created).isEqualTo(token)
+    }
+
 //    @Test
 //    fun `should update single entity`() {
 //        // given
