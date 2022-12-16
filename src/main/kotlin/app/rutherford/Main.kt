@@ -13,12 +13,9 @@ import app.rutherford.module.ApplicationModule
 //      4.1 Check .net identity and create TODO for functionality that I need to implement
 
 // TODO Set up
-//  - Improve AuthUser
 //  - Add AuthUserRefreshTokenRepository (rename table to AuthUserToken?)
 //  - Write test on AuthUserRefreshTokenRepository
 //  - Add Javalin exception mapping (take teller / penn as example)
-//  - Fix all other todos
-//  - Jooq should run on the build stage, not on the run stage!
 
 fun main() {
     val application = ApplicationModule(Overrides())
