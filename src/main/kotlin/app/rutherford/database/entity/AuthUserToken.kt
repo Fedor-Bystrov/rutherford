@@ -1,6 +1,6 @@
 package app.rutherford.database.entity
 
-import app.rutherford.database.entity.AuthUserToken.Builder.Companion.authTokenUser
+import app.rutherford.database.entity.AuthUserToken.Builder.Companion.authUserToken
 import app.rutherford.util.Checks.validateNotBlank
 import app.rutherford.util.Checks.validateNotNull
 import java.time.Instant
@@ -13,7 +13,7 @@ class AuthUserToken private constructor(builder: Builder) : Entity() {
     val createdAt: Instant
     val updatedAt: Instant
     val expiration: Instant?
-    val state: String
+    val state: String // TODO map to enum
     val tokenHash: String
     val userId: UUID
 
@@ -27,7 +27,7 @@ class AuthUserToken private constructor(builder: Builder) : Entity() {
         userId = validateNotNull("userId", builder.userId)
     }
 
-    override fun copy(): Builder = authTokenUser()
+    override fun copy(): Builder = authUserToken()
         .id(this.id)
         .createdAt(this.createdAt)
         .updatedAt(this.updatedAt)
@@ -46,7 +46,7 @@ class AuthUserToken private constructor(builder: Builder) : Entity() {
         internal var userId: UUID? = null;
 
         companion object {
-            fun authTokenUser(): Builder {
+            fun authUserToken(): Builder {
                 val now = now()
                 return Builder()
                     .id(randomUUID())
