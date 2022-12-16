@@ -167,6 +167,11 @@ class AuthUserRepositoryTest : FunctionalTest() {
     }
 
     @Test
+    fun `should update single entity and see changes in the same transaction`() {
+        TODO("implement")
+    }
+
+    @Test
     fun `should batch update entities`() {
         TODO("implement")
     }
