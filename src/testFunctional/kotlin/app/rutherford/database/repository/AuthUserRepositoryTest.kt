@@ -223,7 +223,23 @@ class AuthUserRepositoryTest : FunctionalTest() {
     }
 
     @Test
-    fun `should batch delete entities by id`() {
+    fun `should delete entity by id`() {
+        // when
+        transaction {
+            authUserRepository.delete(it, userId1)
+
+            // then
+            val deleted = authUserRepository.find(it, id = userId1)
+            assertThat(deleted).isNull()
+        }
+
+        // and
+        val deleted = authUserRepository.find(id = userId1)
+        assertThat(deleted).isNull()
+    }
+
+    @Test
+    fun `should batch delete entities`() {
         // given
         val id1 = userId2
         val id2 = userId3
