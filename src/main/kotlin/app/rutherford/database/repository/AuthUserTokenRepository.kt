@@ -22,6 +22,8 @@ class AuthUserTokenRepository(
     //  - can't just use token_hash since two users can have the same password
     //  - or use user-defined salt to generate token_hash?
     // TODO fix auth_user_token index
+    fun get(conf: Configuration? = null, id: UUID): AuthUserToken = getById(conf, id)
+    fun find(conf: Configuration? = null, id: UUID): AuthUserToken? = findById(conf, id)
     fun insert(conf: Configuration, entity: AuthUserToken): AuthUserToken = insertOne(conf, entity)
     fun update(conf: Configuration, entity: AuthUserToken): AuthUserToken = updateOne(conf, entity)
     fun delete(conf: Configuration, id: UUID): Unit = deleteById(conf, id)
