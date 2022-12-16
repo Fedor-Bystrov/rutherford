@@ -5,6 +5,7 @@ import app.rutherford.database.exception.EntityNotFoundException
 import org.jooq.Condition
 import org.jooq.Configuration
 import org.jooq.DSLContext
+import org.jooq.DeleteUsingStep
 import org.jooq.SelectWhereStep
 import org.jooq.Table
 import org.jooq.TableField
@@ -22,6 +23,7 @@ abstract class JooqRepository<R : UpdatableRecord<*>, E : Entity>(
     abstract fun insert(conf: Configuration, entity: E): E
     abstract fun insert(conf: Configuration, entities: Collection<E>)
     abstract fun update(conf: Configuration, entity: E): E
+    abstract fun delete(conf: Configuration, id: UUID)
     abstract fun delete(conf: Configuration, entities: Collection<E>)
 
     protected fun findById(conf: Configuration?, id: UUID): E? {
@@ -83,6 +85,13 @@ abstract class JooqRepository<R : UpdatableRecord<*>, E : Entity>(
         return fromRecord(record)
     }
 
+    protected fun deleteById(conf: Configuration, id: UUID) {
+        deleteOne(
+            conf.dsl().deleteFrom(table),
+            byId(id)
+        )
+    }
+
     protected fun deleteBatch(conf: Configuration, entities: Collection<E>) {
         val records = entities.map { toRecord(it) }
         conf.dsl().batchDelete(records).execute()
@@ -107,6 +116,8 @@ abstract class JooqRepository<R : UpdatableRecord<*>, E : Entity>(
 
         return entities.getOrNull(0)
     }
+
+    private fun deleteOne(delete: DeleteUsingStep<R>, condition: Condition) = delete.where(condition).execute()
 
     private fun findAll(
         query: SelectWhereStep<R>,
