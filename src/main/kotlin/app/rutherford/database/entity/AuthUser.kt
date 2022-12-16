@@ -33,6 +33,7 @@ class AuthUser private constructor(builder: Builder) : Entity {
     fun confirmEmail(): AuthUser {
         if (this.emailConfirmed) return this
         return copy()
+            .updatedAt(now())
             .emailConfirmed(true)
             .build()
     }

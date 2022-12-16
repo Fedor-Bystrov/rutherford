@@ -208,7 +208,17 @@ class AuthUserRepositoryTest : FunctionalTest() {
 
     @Test
     fun `should update single entity and see changes in the same transaction`() {
-        TODO("implement")
+        // when
+        transaction {
+            authUserRepository.update(it, userWithNotConfirmedEmail.confirmEmail())
+
+            val updated = authUserRepository.get(it, userWithNotConfirmedEmail.id)
+            assertThat(updated.emailConfirmed).isTrue
+        }
+
+        // then
+        val foundUser = authUserRepository.get(id = userWithNotConfirmedEmail.id)
+        assertThat(foundUser.emailConfirmed).isTrue
     }
 
     @Test
