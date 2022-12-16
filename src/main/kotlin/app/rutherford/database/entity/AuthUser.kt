@@ -9,7 +9,7 @@ import java.time.Instant.now
 import java.util.*
 import java.util.UUID.randomUUID
 
-class AuthUser private constructor(builder: Builder) : Entity {
+class AuthUser private constructor(builder: Builder) : Entity() {
     val id: UUID
     val createdAt: Instant
     val updatedAt: Instant
@@ -30,15 +30,7 @@ class AuthUser private constructor(builder: Builder) : Entity {
         passwordHash = validateNotBlank("passwordHash", builder.passwordHash)
     }
 
-    fun confirmEmail(): AuthUser {
-        if (this.emailConfirmed) return this
-        return copy()
-            .updatedAt(now())
-            .emailConfirmed(true)
-            .build()
-    }
-
-    private fun copy(): Builder = authUser()
+    override fun copy(): Builder = authUser()
         .id(this.id)
         .createdAt(this.createdAt)
         .updatedAt(this.updatedAt)
@@ -48,17 +40,24 @@ class AuthUser private constructor(builder: Builder) : Entity {
         .emailConfirmed(this.emailConfirmed)
         .passwordHash(this.passwordHash)
 
+    override fun withUpdateAt(updatedAt: Instant): AuthUser = copy()
+        .updatedAt(updatedAt)
+        .build()
 
-    class Builder private constructor(
-        var id: UUID? = null,
-        var createdAt: Instant? = null,
-        var updatedAt: Instant? = null,
-        var lastLogin: Instant? = null,
-        var applicationName: ApplicationName? = null,
-        var email: String? = null,
-        var emailConfirmed: Boolean? = false,
-        var passwordHash: String? = null
-    ) {
+    fun confirmEmail(): AuthUser = copy()
+        .emailConfirmed(true)
+        .build()
+
+    class Builder : EntityBuilder() {
+        internal var id: UUID? = null;
+        internal var createdAt: Instant? = null;
+        internal var updatedAt: Instant? = null;
+        internal var lastLogin: Instant? = null;
+        internal var applicationName: ApplicationName? = null;
+        internal var email: String? = null;
+        internal var emailConfirmed: Boolean? = false;
+        internal var passwordHash: String? = null;
+
         companion object {
             fun authUser(): Builder {
                 val now = now()
