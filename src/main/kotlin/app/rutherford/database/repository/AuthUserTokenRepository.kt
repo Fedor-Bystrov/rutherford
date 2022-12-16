@@ -29,6 +29,7 @@ class AuthUserTokenRepository(
     fun insert(conf: Configuration, entities: Collection<AuthUserToken>) = insertBatch(conf, entities)
     fun update(conf: Configuration, entity: AuthUserToken): AuthUserToken = updateOne(conf, entity)
     fun delete(conf: Configuration, id: UUID): Unit = deleteById(conf, id)
+    fun delete(conf: Configuration, entities: Collection<AuthUserToken>) = deleteBatch(conf, entities)
 
     override fun fromRecord(record: AuthUserTokenRecord): AuthUserToken = authUserToken()
         .id(record.id!!)
