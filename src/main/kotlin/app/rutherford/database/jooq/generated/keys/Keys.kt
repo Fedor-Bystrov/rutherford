@@ -5,9 +5,9 @@ package app.rutherford.database.jooq.generated.keys
 
 
 import app.rutherford.database.jooq.generated.tables.AuthUser
-import app.rutherford.database.jooq.generated.tables.AuthUserRefreshToken
+import app.rutherford.database.jooq.generated.tables.AuthUserToken
 import app.rutherford.database.jooq.generated.tables.records.AuthUserRecord
-import app.rutherford.database.jooq.generated.tables.records.AuthUserRefreshTokenRecord
+import app.rutherford.database.jooq.generated.tables.records.AuthUserTokenRecord
 
 import org.jooq.ForeignKey
 import org.jooq.UniqueKey
@@ -21,10 +21,10 @@ import org.jooq.impl.Internal
 // -------------------------------------------------------------------------
 
 val AUTH_USER_PKEY: UniqueKey<AuthUserRecord> = Internal.createUniqueKey(AuthUser.AUTH_USER, DSL.name("auth_user_pkey"), arrayOf(AuthUser.AUTH_USER.ID), true)
-val AUTH_USER_REFRESH_TOKEN_PKEY: UniqueKey<AuthUserRefreshTokenRecord> = Internal.createUniqueKey(AuthUserRefreshToken.AUTH_USER_REFRESH_TOKEN, DSL.name("auth_user_refresh_token_pkey"), arrayOf(AuthUserRefreshToken.AUTH_USER_REFRESH_TOKEN.ID), true)
+val AUTH_USER_TOKEN_PKEY: UniqueKey<AuthUserTokenRecord> = Internal.createUniqueKey(AuthUserToken.AUTH_USER_TOKEN, DSL.name("auth_user_token_pkey"), arrayOf(AuthUserToken.AUTH_USER_TOKEN.ID), true)
 
 // -------------------------------------------------------------------------
 // FOREIGN KEY definitions
 // -------------------------------------------------------------------------
 
-val AUTH_USER_REFRESH_TOKEN__AUTH_USER_REFRESH_TOKEN_USER_ID_FKEY: ForeignKey<AuthUserRefreshTokenRecord, AuthUserRecord> = Internal.createForeignKey(AuthUserRefreshToken.AUTH_USER_REFRESH_TOKEN, DSL.name("auth_user_refresh_token_user_id_fkey"), arrayOf(AuthUserRefreshToken.AUTH_USER_REFRESH_TOKEN.USER_ID), app.rutherford.database.jooq.generated.keys.AUTH_USER_PKEY, arrayOf(AuthUser.AUTH_USER.ID), true)
+val AUTH_USER_TOKEN__AUTH_USER_TOKEN_USER_ID_FKEY: ForeignKey<AuthUserTokenRecord, AuthUserRecord> = Internal.createForeignKey(AuthUserToken.AUTH_USER_TOKEN, DSL.name("auth_user_token_user_id_fkey"), arrayOf(AuthUserToken.AUTH_USER_TOKEN.USER_ID), app.rutherford.database.jooq.generated.keys.AUTH_USER_PKEY, arrayOf(AuthUser.AUTH_USER.ID), true)

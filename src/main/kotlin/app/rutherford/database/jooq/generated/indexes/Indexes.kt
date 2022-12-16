@@ -4,7 +4,7 @@
 package app.rutherford.database.jooq.generated.indexes
 
 
-import app.rutherford.database.jooq.generated.tables.AuthUserRefreshToken
+import app.rutherford.database.jooq.generated.tables.AuthUserToken
 
 import org.jooq.Index
 import org.jooq.impl.DSL
@@ -16,4 +16,4 @@ import org.jooq.impl.Internal
 // INDEX definitions
 // -------------------------------------------------------------------------
 
-val USER_REFRESH_TOKENS_TOKEN_HASH_IDX: Index = Internal.createIndex(DSL.name("user_refresh_tokens_token_hash_idx"), AuthUserRefreshToken.AUTH_USER_REFRESH_TOKEN, arrayOf(AuthUserRefreshToken.AUTH_USER_REFRESH_TOKEN.TOKEN_HASH), false)
+val AUTH_USER_TOKEN_TOKEN_HASH_IDX: Index = Internal.createIndex(DSL.name("auth_user_token_token_hash_idx"), AuthUserToken.AUTH_USER_TOKEN, arrayOf(AuthUserToken.AUTH_USER_TOKEN.TOKEN_HASH), false)

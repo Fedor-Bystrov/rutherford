@@ -5,7 +5,7 @@ package app.rutherford.database.jooq.generated.tables.references
 
 
 import app.rutherford.database.jooq.generated.tables.AuthUser
-import app.rutherford.database.jooq.generated.tables.AuthUserRefreshToken
+import app.rutherford.database.jooq.generated.tables.AuthUserToken
 
 
 
@@ -15,6 +15,6 @@ import app.rutherford.database.jooq.generated.tables.AuthUserRefreshToken
 val AUTH_USER: AuthUser = AuthUser.AUTH_USER
 
 /**
- * The table <code>public.auth_user_refresh_token</code>.
+ * The table <code>public.auth_user_token</code>.
  */
-val AUTH_USER_REFRESH_TOKEN: AuthUserRefreshToken = AuthUserRefreshToken.AUTH_USER_REFRESH_TOKEN
+val AUTH_USER_TOKEN: AuthUserToken = AuthUserToken.AUTH_USER_TOKEN
