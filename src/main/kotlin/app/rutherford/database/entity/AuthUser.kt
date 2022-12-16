@@ -40,11 +40,8 @@ class AuthUser private constructor(builder: Builder) : Entity() {
         .emailConfirmed(this.emailConfirmed)
         .passwordHash(this.passwordHash)
 
-    override fun withUpdateAt(updatedAt: Instant): AuthUser = copy()
-        .updatedAt(updatedAt)
-        .build()
-
     fun confirmEmail(): AuthUser = copy()
+        .updatedAt(now())
         .emailConfirmed(true)
         .build()
 
