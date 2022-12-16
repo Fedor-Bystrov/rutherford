@@ -13,8 +13,8 @@ import app.rutherford.module.ApplicationModule
 //      4.1 Check .net identity and create TODO for functionality that I need to implement
 
 // TODO Set up
-//  - Add AuthUserRefreshTokenRepository (rename table to AuthUserToken?)
-//  - Write test on AuthUserRefreshTokenRepository
+//  - Add AuthUserTokenRepository
+//  - Write test on AuthUserTokenRepository
 //  - Add Javalin exception mapping (take teller / penn as example)
 
 fun main() {
