@@ -1,5 +1,6 @@
 package app.rutherford.fixtures
 
+import app.rutherford.ApplicationName.TEST
 import app.rutherford.database.entity.AuthUser.Builder.Companion.authUser
 import org.apache.commons.lang3.RandomStringUtils.randomAlphabetic
 import org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
@@ -11,7 +12,7 @@ fun anAuthUser() = authUser()
     .createdAt(now())
     .updatedAt(now())
     .lastLogin(now())
-    .applicationName(randomAlphanumeric(10))
+    .applicationName(TEST)
     .email("${randomAlphabetic(10)}@test.com")
     .emailConfirmed(false)
     .passwordHash(randomAlphanumeric(50))

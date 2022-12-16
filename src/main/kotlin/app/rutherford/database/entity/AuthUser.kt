@@ -1,5 +1,6 @@
 package app.rutherford.database.entity
 
+import app.rutherford.ApplicationName
 import app.rutherford.database.entity.AuthUser.Builder.Companion.authUser
 import app.rutherford.util.Checks.validateNotBlank
 import app.rutherford.util.Checks.validateNotNull
@@ -14,7 +15,7 @@ class AuthUser private constructor(builder: Builder) : Entity {
     val createdAt: Instant
     val updatedAt: Instant
     val lastLogin: Instant?
-    val applicationName: String  // TODO use ENUM
+    val applicationName: ApplicationName
     val email: String
     val emailConfirmed: Boolean
     val passwordHash: String
@@ -24,7 +25,7 @@ class AuthUser private constructor(builder: Builder) : Entity {
         createdAt = validateNotNull("createdAt", builder.createdAt)
         updatedAt = validateNotNull("updatedAt", builder.updatedAt)
         lastLogin = builder.lastLogin
-        applicationName = validateNotBlank("applicationName", builder.applicationName)
+        applicationName = validateNotNull("applicationName", builder.applicationName)
         email = validateNotBlank("email", builder.email)
         emailConfirmed = validateNotNull("emailConfirmed", builder.emailConfirmed)
         passwordHash = validateNotBlank("passwordHash", builder.passwordHash)
@@ -54,7 +55,7 @@ class AuthUser private constructor(builder: Builder) : Entity {
         var createdAt: Instant? = null,
         var updatedAt: Instant? = null,
         var lastLogin: Instant? = null,
-        var applicationName: String? = null,
+        var applicationName: ApplicationName? = null,
         var email: String? = null,
         var emailConfirmed: Boolean? = false,
         var passwordHash: String? = null
@@ -73,7 +74,7 @@ class AuthUser private constructor(builder: Builder) : Entity {
         fun createdAt(createdAt: Instant?) = apply { this.createdAt = createdAt }
         fun updatedAt(updatedAt: Instant?) = apply { this.updatedAt = updatedAt }
         fun lastLogin(lastLogin: Instant?) = apply { this.lastLogin = lastLogin }
-        fun applicationName(applicationName: String?) = apply { this.applicationName = applicationName }
+        fun applicationName(applicationName: ApplicationName?) = apply { this.applicationName = applicationName }
         fun email(email: String?) = apply { this.email = email }
         fun emailConfirmed(emailConfirmed: Boolean?) = apply { this.emailConfirmed = emailConfirmed }
         fun passwordHash(passwordHash: String?) = apply { this.passwordHash = passwordHash }

@@ -18,10 +18,10 @@ object JooqGenerator {
         ForcedType()
             .withUserType("java.time.Instant")
             .withConverter("app.rutherford.database.jooq.converter.InstantConverter")
-            .withTypes("Timestamp"),
+            .withIncludeTypes("Timestamp"),
         ForcedType()
             .withUserType("app.rutherford.ApplicationName")
-            .withEnumConverter(true)
+            .withConverter("org.jooq.impl.EnumConverter")
             .withIncludeExpression(
                 """.*\.AUTH_USER\.application_name"""
             )
