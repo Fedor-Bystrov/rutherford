@@ -27,20 +27,20 @@ class AuthUserRepositoryTest : FunctionalTest() {
         private fun userIds() = Stream.of(arguments(userId1), arguments(userId2), arguments(userId3))
     }
 
-    private lateinit var user1: AuthUser
+    private lateinit var userWithNotConfirmedEmail: AuthUser
     private lateinit var user2: AuthUser
     private lateinit var user3: AuthUser
 
     @BeforeEach
     fun setUp() {
-        user1 = anAuthUser().id(userId1).lastLogin(null).build()
+        userWithNotConfirmedEmail = anAuthUser().id(userId1).lastLogin(null).emailConfirmed(false).build()
         user2 = anAuthUser().id(userId2).emailConfirmed(true).build()
         user3 = anAuthUser().id(userId3).build()
 
         transaction {
             authUserRepository.insert(
                 it, listOf(
-                    user1,
+                    userWithNotConfirmedEmail,
                     user2,
                     user3
                 )
@@ -54,7 +54,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
         transaction {
             authUserRepository.delete(
                 it, listOf(
-                    user1,
+                    userWithNotConfirmedEmail,
                     user2,
                     user3,
                 )
@@ -102,7 +102,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
     @Test
     fun `should find correct auth_user by collection of ids`() {
         // given
-        val users = listOf(user1, user2, user3)
+        val users = listOf(userWithNotConfirmedEmail, user2, user3)
 
         // when
         val result = authUserRepository.find(ids = users.map { it.id })
@@ -114,7 +114,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
     @Test
     fun `should find correct auth_user by collection of ids in transaction`() {
         // given
-        val users = listOf(user1, user2, user3)
+        val users = listOf(userWithNotConfirmedEmail, user2, user3)
 
         // when
         val result = transaction { tx ->
@@ -188,13 +188,22 @@ class AuthUserRepositoryTest : FunctionalTest() {
     }
 
     @Test
-    fun `should batch insert entities`() {
-        TODO("implement")
-    }
-
-    @Test
     fun `should update single entity`() {
-        TODO("implement")
+        // given
+        val updatedUser = userWithNotConfirmedEmail.confirmEmail()
+
+        // when
+        val result = transaction {
+            authUserRepository.update(it, updatedUser)
+        }
+
+        // then
+        assertThat(result).isEqualTo(updatedUser)
+
+        // and
+        val foundUser = authUserRepository.get(id = userWithNotConfirmedEmail.id)
+        assertThat(foundUser).isEqualTo(updatedUser)
+        assertThat(foundUser.emailConfirmed).isTrue
     }
 
     @Test
@@ -213,7 +222,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
     }
 
     private fun getExpectedUser(id: UUID): AuthUser = when (id) {
-        userId1 -> user1
+        userId1 -> userWithNotConfirmedEmail
         userId2 -> user2
         userId3 -> user3
         else -> throw IllegalArgumentException("user with id $id not found")

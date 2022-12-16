@@ -1,5 +1,6 @@
 package app.rutherford.database.entity
 
+import app.rutherford.database.entity.AuthUser.Builder.Companion.authUser
 import app.rutherford.util.Checks.validateNotBlank
 import app.rutherford.util.Checks.validateNotNull
 import java.time.Instant
@@ -28,6 +29,24 @@ class AuthUser private constructor(builder: Builder) : Entity {
         emailConfirmed = validateNotNull("emailConfirmed", builder.emailConfirmed)
         passwordHash = validateNotBlank("passwordHash", builder.passwordHash)
     }
+
+    fun confirmEmail(): AuthUser {
+        if (this.emailConfirmed) return this
+        return copy()
+            .emailConfirmed(true)
+            .build()
+    }
+
+    private fun copy(): Builder = authUser()
+        .id(this.id)
+        .createdAt(this.createdAt)
+        .updatedAt(this.updatedAt)
+        .lastLogin(this.lastLogin)
+        .applicationName(this.applicationName)
+        .email(this.email)
+        .emailConfirmed(this.emailConfirmed)
+        .passwordHash(this.passwordHash)
+
 
     class Builder private constructor(
         var id: UUID? = null,
