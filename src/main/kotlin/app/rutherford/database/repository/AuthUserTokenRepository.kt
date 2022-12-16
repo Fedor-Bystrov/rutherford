@@ -1,6 +1,5 @@
 package app.rutherford.database.repository
 
-import app.rutherford.database.entity.AuthUser
 import app.rutherford.database.entity.AuthUserToken
 import app.rutherford.database.entity.AuthUserToken.Builder.Companion.authUserToken
 import app.rutherford.database.jooq.generated.tables.records.AuthUserTokenRecord
