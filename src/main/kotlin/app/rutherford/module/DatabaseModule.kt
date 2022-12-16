@@ -1,5 +1,6 @@
 package app.rutherford.module
 
+import app.rutherford.Overrides
 import app.rutherford.module.configuration.DatabaseConfig
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
@@ -13,7 +14,10 @@ import java.util.concurrent.TimeUnit.MINUTES
 import java.util.concurrent.TimeUnit.SECONDS
 import javax.sql.DataSource
 
-class DatabaseModule(private val dbConfig: DatabaseConfig) {
+class DatabaseModule(
+    private val dbConfig: DatabaseConfig,
+    overrides: Overrides,
+) {
     val dslContext: DSLContext
     val dataSource: DataSource
 
@@ -24,7 +28,7 @@ class DatabaseModule(private val dbConfig: DatabaseConfig) {
             DefaultConfiguration()
                 .set(dataSource)
                 .set(
-                    Settings()
+                    overrides.jooqSettings ?: Settings()
                         // Fetched all columns from inserted / stored entity
                         // and update the UpdatableRecord
                         .withReturnAllOnUpdatableRecord(true)

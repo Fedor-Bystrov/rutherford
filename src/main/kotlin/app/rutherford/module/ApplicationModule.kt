@@ -30,7 +30,7 @@ class ApplicationModule(
             username = user,
             password = password
         )
-        database = DatabaseModule(databaseConfig)
+        database = DatabaseModule(databaseConfig, overrides)
         repository = RepositoryModule(database.dslContext)
         transactionManager = TransactionManager.of(database.dslContext)
         javalinModule = JavalinModule()

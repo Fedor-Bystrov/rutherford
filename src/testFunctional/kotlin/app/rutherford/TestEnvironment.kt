@@ -1,8 +1,12 @@
 package app.rutherford
 
+import app.rutherford.database.jooq.generated.tables.references.AUTH_USER
+import app.rutherford.database.jooq.generated.tables.references.AUTH_USER_TOKEN
+import app.rutherford.database.transaction.transaction
 import app.rutherford.module.ApplicationModule
 import app.rutherford.module.RepositoryModule
 import app.rutherford.module.configuration.DatabaseConfig
+import org.jooq.conf.Settings
 import org.testcontainers.containers.PostgreSQLContainer
 
 class TestEnvironment : AutoCloseable {
@@ -20,7 +24,9 @@ class TestEnvironment : AutoCloseable {
                     jdbcUrl = postgresContainer.jdbcUrl,
                     username = postgresContainer.username,
                     password = postgresContainer.password
-                )
+                ),
+                jooqSettings = Settings()
+                    .withReturnAllOnUpdatableRecord(true)
             )
         )
 
@@ -31,8 +37,11 @@ class TestEnvironment : AutoCloseable {
         application.start()
     }
 
-    fun resetMocks() {
-        // TODO implement
+    fun reset() {
+        transaction {
+            it.dsl().deleteFrom(AUTH_USER_TOKEN).execute()
+            it.dsl().deleteFrom(AUTH_USER).execute()
+        }
     }
 
     override fun close() {

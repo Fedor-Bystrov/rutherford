@@ -6,7 +6,6 @@ import app.rutherford.database.exception.EntityNotFoundException
 import app.rutherford.database.transaction.transaction
 import app.rutherford.fixtures.anAuthUser
 import org.assertj.core.api.Assertions.*
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -43,20 +42,6 @@ class AuthUserRepositoryTest : FunctionalTest() {
                     userWithNotConfirmedEmail,
                     user2,
                     user3
-                )
-            )
-        }
-    }
-
-    @AfterEach
-    fun tearDown() {
-        super.afterEach()
-        transaction {
-            authUserRepository.delete(
-                it, listOf(
-                    userWithNotConfirmedEmail,
-                    user2,
-                    user3,
                 )
             )
         }

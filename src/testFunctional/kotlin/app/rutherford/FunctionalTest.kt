@@ -12,6 +12,6 @@ open class FunctionalTest {
 
     @AfterEach
     fun afterEach() {
-        testEnvironment.resetMocks()
+        testEnvironment.reset()
     }
 }
