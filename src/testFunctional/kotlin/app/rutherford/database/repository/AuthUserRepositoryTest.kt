@@ -84,6 +84,21 @@ class AuthUserRepositoryTest : FunctionalTest() {
         assertThat(result).isEqualTo(expected)
     }
 
+    @ParameterizedTest
+    @MethodSource("userIds")
+    fun `should find correct auth_user by id in transaction`(userId: UUID) {
+        // given
+        val expected = getExpectedUser(userId)
+
+        // when
+        val result = transaction {
+            authUserRepository.find(it, id = userId)
+        }
+
+        // then
+        assertThat(result).isEqualTo(expected)
+    }
+
     @Test
     fun `should find correct auth_user by collection of ids`() {
         // given
@@ -91,6 +106,20 @@ class AuthUserRepositoryTest : FunctionalTest() {
 
         // when
         val result = authUserRepository.find(ids = users.map { it.id })
+
+        // then
+        assertThat(result).containsAll(users)
+    }
+
+    @Test
+    fun `should find correct auth_user by collection of ids in transaction`() {
+        // given
+        val users = listOf(user1, user2, user3)
+
+        // when
+        val result = transaction { tx ->
+            authUserRepository.find(tx, ids = users.map { it.id })
+        }
 
         // then
         assertThat(result).containsAll(users)
