@@ -8,6 +8,7 @@ open class FunctionalTest {
     }
 
     protected val authUserRepository = testEnvironment.repository.authUserRepository
+    protected val authUserTokenRepository = testEnvironment.repository.authUserTokenRepository
 
     @AfterEach
     fun afterEach() {
