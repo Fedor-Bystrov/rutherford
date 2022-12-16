@@ -21,8 +21,6 @@ class AuthUserRepository(
     fun insert(conf: Configuration, entity: AuthUser): AuthUser = insertOne(conf, entity)
     fun insert(conf: Configuration, entities: Collection<AuthUser>) = insertBatch(conf, entities)
     fun update(conf: Configuration, entity: AuthUser): AuthUser = updateOne(conf, entity)
-    fun delete(conf: Configuration, id: UUID): Unit = deleteById(conf, id)
-    fun delete(conf: Configuration, entities: Collection<AuthUser>) = deleteBatch(conf, entities)
 
     override fun fromRecord(record: AuthUserRecord): AuthUser = authUser()
         .id(record.id!!)
