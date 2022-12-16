@@ -128,16 +128,32 @@ class AuthUserRepositoryTest : FunctionalTest() {
         // when
         val result = transaction {
             authUserRepository.insert(it, user)
-            authUserRepository.find(it, user.id)// TODO add test to insert and fetch in the same tx
         }
 
         // then
         assertThat(result).isEqualTo(user)
 
-        // amd
+        // and
         val createdUser = authUserRepository.find(id = user.id)
-        assertThat(result).isEqualTo(createdUser)
+        assertThat(createdUser).isEqualTo(user)
+    }
 
+    @Test
+    fun `should insert single entity and find it in the same transaction`() {
+        // given
+        val user = anAuthUser().build()
+
+        // when
+        transaction {
+            authUserRepository.insert(it, user)
+
+            val result = authUserRepository.find(it, user.id)
+            assertThat(result).isEqualTo(user)
+        }
+
+        // then
+        val createdUser = authUserRepository.get(id = user.id)
+        assertThat(createdUser).isEqualTo(user)
     }
 
     @Test
