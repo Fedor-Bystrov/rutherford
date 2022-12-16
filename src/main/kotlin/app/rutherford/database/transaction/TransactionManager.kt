@@ -19,15 +19,17 @@ annotation class TransactionMarker
 
 @TransactionMarker
 class Transaction {
-    fun apply(block: Transaction.(Configuration) -> Unit) {
+    fun <E> apply(block: Transaction.(Configuration) -> E?): E? {
+        var e: E? = null
         TransactionManager.dslContext.transaction { tx ->
-            block.invoke(this, tx)
+            e = block.invoke(this, tx)
         }
+        return e
     }
 }
 
 @TransactionMarker
-fun transaction(init: Transaction.(Configuration) -> Unit) {
-    Transaction().apply(init)
+fun <E> transaction(init: Transaction.(Configuration) -> E?): E? {
+    return Transaction().apply(init)
 }
 
