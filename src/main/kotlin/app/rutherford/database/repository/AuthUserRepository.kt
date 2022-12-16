@@ -15,14 +15,14 @@ class AuthUserRepository(
     AUTH_USER,
     AUTH_USER.ID
 ) {
-    override fun get(conf: Configuration?, id: UUID): AuthUser = getById(conf, id)
-    override fun find(conf: Configuration?, id: UUID): AuthUser? = findById(conf, id)
-    override fun find(conf: Configuration?, ids: Collection<UUID>): Collection<AuthUser> = findByIds(conf, ids)
-    override fun insert(conf: Configuration, entity: AuthUser): AuthUser = insertOne(conf, entity)
-    override fun insert(conf: Configuration, entities: Collection<AuthUser>) = insertBatch(conf, entities)
-    override fun update(conf: Configuration, entity: AuthUser): AuthUser = updateOne(conf, entity)
-    override fun delete(conf: Configuration, id: UUID): Unit = deleteById(conf, id)
-    override fun delete(conf: Configuration, entities: Collection<AuthUser>) = deleteBatch(conf, entities)
+    fun get(conf: Configuration?, id: UUID): AuthUser = getById(conf, id)
+    fun find(conf: Configuration?, id: UUID): AuthUser? = findById(conf, id)
+    fun find(conf: Configuration?, ids: Collection<UUID>): Collection<AuthUser> = findByIds(conf, ids)
+    fun insert(conf: Configuration, entity: AuthUser): AuthUser = insertOne(conf, entity)
+    fun insert(conf: Configuration, entities: Collection<AuthUser>) = insertBatch(conf, entities)
+    fun update(conf: Configuration, entity: AuthUser): AuthUser = updateOne(conf, entity)
+    fun delete(conf: Configuration, id: UUID): Unit = deleteById(conf, id)
+    fun delete(conf: Configuration, entities: Collection<AuthUser>) = deleteBatch(conf, entities)
 
     override fun fromRecord(record: AuthUserRecord): AuthUser = authUser()
         .id(record.id!!)

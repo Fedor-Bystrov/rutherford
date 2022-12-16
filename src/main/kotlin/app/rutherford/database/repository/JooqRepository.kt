@@ -17,15 +17,6 @@ abstract class JooqRepository<R : UpdatableRecord<*>, E : Entity>(
     private val table: Table<R>,
     private val idField: TableField<R, UUID?>
 ) {
-    abstract fun get(conf: Configuration? = null, id: UUID): E
-    abstract fun find(conf: Configuration? = null, id: UUID): E?
-    abstract fun find(conf: Configuration? = null, ids: Collection<UUID>): Collection<E>
-    abstract fun insert(conf: Configuration, entity: E): E
-    abstract fun insert(conf: Configuration, entities: Collection<E>)
-    abstract fun update(conf: Configuration, entity: E): E
-    abstract fun delete(conf: Configuration, id: UUID)
-    abstract fun delete(conf: Configuration, entities: Collection<E>)
-
     protected fun findById(conf: Configuration?, id: UUID): E? {
         return findOne(
             (conf ?: defaultContext.configuration()).dsl().selectFrom(table),
