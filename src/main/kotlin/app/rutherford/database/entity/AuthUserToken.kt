@@ -37,6 +37,11 @@ class AuthUserToken private constructor(builder: Builder) : Entity() {
         .tokenHash(this.tokenHash)
         .userId(this.userId)
 
+    fun withTokenHash(tokenHash: String): AuthUserToken = copy()
+        .updatedAt(now())
+        .tokenHash(tokenHash)
+        .build()
+
     class Builder : EntityBuilder() {
         internal var id: UUID? = null;
         internal var createdAt: Instant? = null;
