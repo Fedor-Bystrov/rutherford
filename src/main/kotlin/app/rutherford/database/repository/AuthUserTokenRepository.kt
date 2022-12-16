@@ -1,9 +1,11 @@
 package app.rutherford.database.repository
 
+import app.rutherford.database.entity.AuthUser
 import app.rutherford.database.entity.AuthUserToken
 import app.rutherford.database.entity.AuthUserToken.Builder.Companion.authUserToken
 import app.rutherford.database.jooq.generated.tables.records.AuthUserTokenRecord
 import app.rutherford.database.jooq.generated.tables.references.AUTH_USER_TOKEN
+import org.jooq.Configuration
 import org.jooq.DSLContext
 
 class AuthUserTokenRepository(
@@ -13,6 +15,12 @@ class AuthUserTokenRepository(
     AUTH_USER_TOKEN,
     AUTH_USER_TOKEN.ID
 ) {
+
+    // TODO impl find by user_id and token_hash
+    //  - can't just use token_hash since two users can have the same password
+    //  - or use user-defined salt to generate token_hash?
+    // TODO fix auth_user_token index
+    fun update(conf: Configuration, entity: AuthUserToken): AuthUserToken = updateOne(conf, entity)
 
     override fun fromRecord(record: AuthUserTokenRecord): AuthUserToken = authUserToken()
         .id(record.id!!)
