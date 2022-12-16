@@ -212,23 +212,43 @@ class AuthUserRepositoryTest : FunctionalTest() {
         transaction {
             authUserRepository.update(it, userWithNotConfirmedEmail.confirmEmail())
 
+            // then
             val updated = authUserRepository.get(it, userWithNotConfirmedEmail.id)
             assertThat(updated.emailConfirmed).isTrue
         }
 
-        // then
+        // and
         val foundUser = authUserRepository.get(id = userWithNotConfirmedEmail.id)
         assertThat(foundUser.emailConfirmed).isTrue
     }
 
     @Test
-    fun `should batch update entities`() {
-        TODO("implement")
-    }
+    fun `should batch delete entities by id`() {
+        // given
+        val id1 = userId2
+        val id2 = userId3
 
-    @Test
-    fun `should delete entity by id`() {
-        TODO("implement")
+        // when
+        transaction {
+            val user1 = authUserRepository.get(it, id1)
+            val user2 = authUserRepository.get(it, id2)
+
+            authUserRepository.delete(it, listOf(user1, user2))
+
+            // then
+            val deleted1 = authUserRepository.find(it, id = id1)
+            val deleted2 = authUserRepository.find(it, id = id2)
+
+            assertThat(deleted1).isNull()
+            assertThat(deleted2).isNull()
+        }
+
+        // and
+        val user1 = authUserRepository.find(id = id1)
+        val user2 = authUserRepository.find(id = id2)
+
+        assertThat(user1).isNull()
+        assertThat(user2).isNull()
     }
 
     private fun getExpectedUser(id: UUID): AuthUser = when (id) {

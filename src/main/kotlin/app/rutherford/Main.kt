@@ -14,6 +14,7 @@ import app.rutherford.module.ApplicationModule
 
 // TODO Set up
 //  - Write tests on AuthUserRepository
+//  - Upgrade gradle
 //  - Write tests on TransactionManager
 //  - Improve AuthUser
 //  - Add AuthUserRefreshTokenRepository (rename table to AuthUserToken?)
