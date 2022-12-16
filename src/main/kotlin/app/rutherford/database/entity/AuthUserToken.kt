@@ -13,7 +13,7 @@ class AuthUserToken private constructor(builder: Builder) : Entity() {
     val createdAt: Instant
     val updatedAt: Instant
     val expiration: Instant?
-    val state: String // TODO map to enum
+    val state: State
     val tokenHash: String
     val userId: UUID
 
@@ -41,7 +41,7 @@ class AuthUserToken private constructor(builder: Builder) : Entity() {
         internal var createdAt: Instant? = null;
         internal var updatedAt: Instant? = null;
         internal var expiration: Instant? = null;
-        internal var state: String? = null;
+        internal var state: State? = null;
         internal var tokenHash: String? = null;
         internal var userId: UUID? = null;
 
@@ -59,7 +59,7 @@ class AuthUserToken private constructor(builder: Builder) : Entity() {
         fun createdAt(createdAt: Instant?) = apply { this.createdAt = createdAt }
         fun updatedAt(updatedAt: Instant?) = apply { this.updatedAt = updatedAt }
         fun expiration(expiration: Instant?) = apply { this.expiration = expiration }
-        fun state(state: String?) = apply { this.state = state }
+        fun state(state: State?) = apply { this.state = state }
         fun tokenHash(tokenHash: String?) = apply { this.tokenHash = tokenHash }
         fun userId(userId: UUID?) = apply { this.userId = userId }
         fun build(): AuthUserToken = AuthUserToken(this)
