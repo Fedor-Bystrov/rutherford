@@ -8,7 +8,6 @@ import app.rutherford.database.transaction.transaction
 import app.rutherford.fixtures.anAuthUser
 import app.rutherford.fixtures.anAuthUserToken
 import org.assertj.core.api.Assertions.*
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -21,16 +20,9 @@ import kotlin.test.assertNotNull
 
 class AuthUserTokenRepositoryTest : FunctionalTest() {
     companion object {
-        private val userId1 = randomUUID()
-        private val userId2 = randomUUID()
-        private val userId3 = randomUUID()
-
         private val tokenId1 = randomUUID()
         private val tokenId2 = randomUUID()
         private val tokenId3 = randomUUID()
-
-        @JvmStatic
-        private fun userIds() = Stream.of(arguments(userId1), arguments(userId2), arguments(userId3))
 
         @JvmStatic
         private fun tokenIds() = Stream.of(arguments(tokenId1), arguments(tokenId2), arguments(tokenId3))
@@ -46,13 +38,13 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
 
     @BeforeEach
     fun setUp() {
-        user1 = anAuthUser().id(userId1).lastLogin(null).emailConfirmed(false).build()
-        user2 = anAuthUser().id(userId2).emailConfirmed(true).build()
-        user3 = anAuthUser().id(userId3).build()
+        user1 = anAuthUser().lastLogin(null).emailConfirmed(false).build()
+        user2 = anAuthUser().emailConfirmed(true).build()
+        user3 = anAuthUser().build()
 
-        token1 = anAuthUserToken().id(tokenId1).userId(userId1).build()
-        token2 = anAuthUserToken().id(tokenId2).userId(userId2).build()
-        token3 = anAuthUserToken().id(tokenId3).userId(userId3).build()
+        token1 = anAuthUserToken().id(tokenId1).userId(user1.id).build()
+        token2 = anAuthUserToken().id(tokenId2).userId(user2.id).build()
+        token3 = anAuthUserToken().id(tokenId3).userId(user3.id).build()
 
         transaction {
             authUserRepository.insert(
@@ -67,27 +59,6 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
                     token1,
                     token2,
                     token3
-                )
-            )
-        }
-    }
-
-    @AfterEach
-    fun tearDown() {
-        super.afterEach()
-        transaction {
-            authUserTokenRepository.delete(
-                it, listOf(
-                    token1,
-                    token2,
-                    token3
-                )
-            )
-            authUserRepository.delete(
-                it, listOf(
-                    user1,
-                    user2,
-                    user3,
                 )
             )
         }
@@ -225,58 +196,6 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
 //        val foundUser = authUserRepository.get(id = user1.id)
 //        assertThat(foundUser.emailConfirmed).isTrue
 //    }
-//
-//    @Test
-//    fun `should delete entity by id`() {
-//        // when
-//        transaction {
-//            authUserRepository.delete(it, userId1)
-//
-//            // then
-//            val deleted = authUserRepository.find(it, id = userId1)
-//            assertThat(deleted).isNull()
-//        }
-//
-//        // and
-//        val deleted = authUserRepository.find(id = userId1)
-//        assertThat(deleted).isNull()
-//    }
-//
-//    @Test
-//    fun `should batch delete entities`() {
-//        // given
-//        val id1 = userId2
-//        val id2 = userId3
-//
-//        // when
-//        transaction {
-//            val user1 = authUserRepository.get(it, id1)
-//            val user2 = authUserRepository.get(it, id2)
-//
-//            authUserRepository.delete(it, listOf(user1, user2))
-//
-//            // then
-//            val deleted1 = authUserRepository.find(it, id = id1)
-//            val deleted2 = authUserRepository.find(it, id = id2)
-//
-//            assertThat(deleted1).isNull()
-//            assertThat(deleted2).isNull()
-//        }
-//
-//        // and
-//        val user1 = authUserRepository.find(id = id1)
-//        val user2 = authUserRepository.find(id = id2)
-//
-//        assertThat(user1).isNull()
-//        assertThat(user2).isNull()
-//    }
-
-    private fun getExpectedUser(id: UUID): AuthUser = when (id) {
-        userId1 -> user1
-        userId2 -> user2
-        userId3 -> user3
-        else -> throw IllegalArgumentException("user with id $id not found")
-    }
 
     private fun getExpectedToken(id: UUID): AuthUserToken = when (id) {
         tokenId1 -> token1
