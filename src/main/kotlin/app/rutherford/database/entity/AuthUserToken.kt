@@ -1,6 +1,7 @@
 package app.rutherford.database.entity
 
 import app.rutherford.database.entity.AuthUserToken.Builder.Companion.authUserToken
+import app.rutherford.database.entity.Entity.State.CREATED
 import app.rutherford.util.Checks.validateNotBlank
 import app.rutherford.util.Checks.validateNotNull
 import java.time.Instant
@@ -41,7 +42,7 @@ class AuthUserToken private constructor(builder: Builder) : Entity() {
         internal var createdAt: Instant? = null;
         internal var updatedAt: Instant? = null;
         internal var expiration: Instant? = null;
-        internal var state: State? = null;
+        internal var state: State? = CREATED;
         internal var tokenHash: String? = null;
         internal var userId: UUID? = null;
 
