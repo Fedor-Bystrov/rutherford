@@ -1,5 +1,6 @@
 package app.rutherford.database.repository
 
+import app.rutherford.database.entity.AuthUser
 import app.rutherford.database.entity.AuthUserToken
 import app.rutherford.database.entity.AuthUserToken.Builder.Companion.authUserToken
 import app.rutherford.database.jooq.generated.tables.records.AuthUserTokenRecord
@@ -25,6 +26,7 @@ class AuthUserTokenRepository(
     fun get(conf: Configuration? = null, id: UUID): AuthUserToken = getById(conf, id)
     fun find(conf: Configuration? = null, id: UUID): AuthUserToken? = findById(conf, id)
     fun insert(conf: Configuration, entity: AuthUserToken): AuthUserToken = insertOne(conf, entity)
+    fun insert(conf: Configuration, entities: Collection<AuthUserToken>) = insertBatch(conf, entities)
     fun update(conf: Configuration, entity: AuthUserToken): AuthUserToken = updateOne(conf, entity)
     fun delete(conf: Configuration, id: UUID): Unit = deleteById(conf, id)
 
