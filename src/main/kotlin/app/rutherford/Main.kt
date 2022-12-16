@@ -13,7 +13,6 @@ import app.rutherford.module.ApplicationModule
 //      4.1 Check .net identity and create TODO for functionality that I need to implement
 
 // TODO Set up
-//  - Write tests on AuthUserRepository
 //  - Upgrade gradle
 //  - Write tests on TransactionManager
 //  - Improve AuthUser
