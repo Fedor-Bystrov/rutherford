@@ -64,4 +64,36 @@ class AuthUserToken private constructor(builder: Builder) : Entity() {
         fun userId(userId: UUID?) = apply { this.userId = userId }
         fun build(): AuthUserToken = AuthUserToken(this)
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as AuthUserToken
+
+        if (id != other.id) return false
+        if (createdAt != other.createdAt) return false
+        if (updatedAt != other.updatedAt) return false
+        if (expiration != other.expiration) return false
+        if (state != other.state) return false
+        if (tokenHash != other.tokenHash) return false
+        if (userId != other.userId) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + createdAt.hashCode()
+        result = 31 * result + updatedAt.hashCode()
+        result = 31 * result + (expiration?.hashCode() ?: 0)
+        result = 31 * result + state.hashCode()
+        result = 31 * result + tokenHash.hashCode()
+        result = 31 * result + userId.hashCode()
+        return result
+    }
+
+    override fun toString(): String {
+        return "AuthUserToken(id=$id)"
+    }
 }
