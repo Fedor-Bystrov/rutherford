@@ -15,9 +15,9 @@ class AuthUserRepository(
     AUTH_USER,
     AUTH_USER.ID
 ) {
-    override fun get(id: UUID): AuthUser = getById(id)
-    override fun find(id: UUID): AuthUser? = findById(id)
-    override fun find(ids: Collection<UUID>): Collection<AuthUser> = findByIds(ids)
+    override fun get(conf: Configuration?, id: UUID): AuthUser = getById(conf, id)
+    override fun find(conf: Configuration?, id: UUID): AuthUser? = findById(conf, id)
+    override fun find(conf: Configuration?, ids: Collection<UUID>): Collection<AuthUser> = findByIds(conf, ids)
     override fun insert(conf: Configuration, entity: AuthUser): AuthUser = insertOne(conf, entity)
     override fun insert(conf: Configuration, entities: Collection<AuthUser>) = insertBatch(conf, entities)
     override fun update(conf: Configuration, entity: AuthUser): AuthUser = updateOne(conf, entity)

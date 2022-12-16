@@ -28,7 +28,7 @@ class TestResource(
     private fun all(): (Context) -> Unit = {
         it.json(
             authUserRepository.find(
-                listOf(
+                ids = listOf(
                     UUID.fromString("60d327e7-c936-4ec9-99a0-9903de82fe59"),
                     UUID.fromString("e09ce7ca-c30e-4735-bb02-1efa413bdada"),
                     UUID.fromString("38cf9d9c-6f00-4fff-9092-82a325e442eb")
@@ -40,7 +40,7 @@ class TestResource(
 
     private fun one(): (Context) -> Unit = {
         val userId = it.pathParamAsClass("id", UUID::class.java).get()
-        val user = authUserRepository.find(userId)
+        val user = authUserRepository.find(id = userId)
 
         if (user != null)
             it.json(user)

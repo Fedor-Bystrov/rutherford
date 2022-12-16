@@ -16,49 +16,50 @@ abstract class JooqRepository<R : UpdatableRecord<*>, E : Entity>(
     private val table: Table<R>,
     private val idField: TableField<R, UUID?>
 ) {
-    abstract fun get(id: UUID): E
-    abstract fun find(id: UUID): E?
-    abstract fun find(ids: Collection<UUID>): Collection<E>
+    abstract fun get(conf: Configuration? = null, id: UUID): E
+    abstract fun find(conf: Configuration? = null, id: UUID): E?
+    abstract fun find(conf: Configuration? = null, ids: Collection<UUID>): Collection<E>
     abstract fun insert(conf: Configuration, entity: E): E
     abstract fun insert(conf: Configuration, entities: Collection<E>)
     abstract fun update(conf: Configuration, entity: E): E
     abstract fun delete(conf: Configuration, entities: Collection<E>)
 
-    protected fun findById(id: UUID): E? {
+    protected fun findById(conf: Configuration?, id: UUID): E? {
         return findOne(
-            defaultContext.dsl().selectFrom(table),
+            (conf ?: defaultContext.configuration()).dsl().selectFrom(table),
             byId(id),
             this::fromRecord
         )
     }
 
-    protected fun findByIds(ids: Collection<UUID>): Collection<E> {
+    protected fun findByIds(conf: Configuration?, ids: Collection<UUID>): Collection<E> {
         return if (ids.isEmpty())
             emptyList()
         else if (ids.size == 1) {
-            val entity = findById(ids.first())
+            val entity = findById(conf, ids.first())
             if (entity == null) listOf() else listOf(entity)
         } else
             findAll(
-                defaultContext.dsl().selectFrom(table),
+                (conf ?: defaultContext.configuration()).dsl().selectFrom(table),
                 byIds(ids),
                 this::fromRecord
             )
     }
 
-    protected fun getById(id: UUID): E = findById(id) ?: throw EntityNotFoundException(table, id);
+    protected fun getById(conf: Configuration?, id: UUID): E =
+        findById(conf, id) ?: throw EntityNotFoundException(table, id);
 
-    protected fun findByIdWhere(id: UUID, condition: Condition): E? {
+    protected fun findByIdWhere(conf: Configuration?, id: UUID, condition: Condition): E? {
         return findOne(
-            defaultContext.dsl().selectFrom(table),
+            (conf ?: defaultContext.configuration()).dsl().selectFrom(table),
             byId(id).and(condition),
             this::fromRecord
         )
     }
 
-    protected fun findByIdsWhere(id: Collection<UUID>, condition: Condition): Collection<E> {
+    protected fun findByIdsWhere(conf: Configuration?, id: Collection<UUID>, condition: Condition): Collection<E> {
         return findAll(
-            defaultContext.dsl().selectFrom(table),
+            (conf ?: defaultContext.configuration()).dsl().selectFrom(table),
             byIds(id).and(condition),
             this::fromRecord
         )

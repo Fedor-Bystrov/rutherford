@@ -69,7 +69,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
         val expected = getExpectedUser(userId)
 
         // when
-        val result = authUserRepository.find(userId)
+        val result = authUserRepository.find(id = userId)
 
         // then
         assertNotNull(result)
@@ -90,7 +90,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
         val users = listOf(user1, user2, user3)
 
         // when
-        val result = authUserRepository.find(users.map { it.id })
+        val result = authUserRepository.find(ids = users.map { it.id })
 
         // then
         assertThat(result).containsAll(users)
@@ -103,7 +103,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
         val expected = getExpectedUser(userId)
 
         // when
-        val result = authUserRepository.get(userId)
+        val result = authUserRepository.get(id = userId)
 
         // then
         assertThat(result).isEqualTo(expected)
@@ -114,14 +114,30 @@ class AuthUserRepositoryTest : FunctionalTest() {
         // given
         val id = randomUUID()
 
-        assertThatThrownBy { authUserRepository.get(id) }
+        // then
+        assertThatThrownBy { authUserRepository.get(id = id) }
             .isInstanceOf(EntityNotFoundException::class.java)
             .hasMessage("auth_user with id: $id not found")
     }
 
     @Test
     fun `should insert single entity`() {
-        TODO("implement")
+        // given
+        val user = anAuthUser().build()
+
+        // when
+        val result = transaction {
+            authUserRepository.insert(it, user)
+            authUserRepository.find(it, user.id)// TODO add test to insert and fetch in the same tx
+        }
+
+        // then
+        assertThat(result).isEqualTo(user)
+
+        // amd
+        val createdUser = authUserRepository.find(id = user.id)
+        assertThat(result).isEqualTo(createdUser)
+
     }
 
     @Test
@@ -139,6 +155,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
         TODO("implement")
     }
 
+    @Test
     fun `should delete entity by id`() {
         TODO("implement")
     }
