@@ -21,7 +21,7 @@ class TransactionManagerTest : FunctionalTest() {
         assertThat(user).isEqualTo(user)
 
         // and
-        val created = authUserRepository.get(id = user.id)
+        val created = authUserRepository.get(id = user.id())
         assertThat(created).isEqualTo(user)
     }
 
@@ -63,7 +63,7 @@ class TransactionManagerTest : FunctionalTest() {
         }
 
         // and
-        val created = authUserRepository.get(id = user.id)
+        val created = authUserRepository.get(id = user.id())
         assertThat(created).isEqualTo(user)
     }
 }

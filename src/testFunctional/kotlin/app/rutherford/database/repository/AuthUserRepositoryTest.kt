@@ -2,6 +2,7 @@ package app.rutherford.database.repository
 
 import app.rutherford.FunctionalTest
 import app.rutherford.database.entity.AuthUser
+import app.rutherford.database.entity.Entity.Id
 import app.rutherford.database.exception.EntityNotFoundException
 import app.rutherford.database.transaction.transaction
 import app.rutherford.fixtures.anAuthUser
@@ -119,7 +120,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
         val expected = getExpectedUser(userId)
 
         // when
-        val result = authUserRepository.get(id = userId)
+        val result = authUserRepository.get(id = Id(userId))
 
         // then
         assertThat(result).isEqualTo(expected)
@@ -128,12 +129,12 @@ class AuthUserRepositoryTest : FunctionalTest() {
     @Test
     fun `should throw when get cannot find user by id`() {
         // given
-        val id = randomUUID()
+        val id = Id<AuthUser>(randomUUID())
 
         // then
         assertThatThrownBy { authUserRepository.get(id = id) }
             .isInstanceOf(EntityNotFoundException::class.java)
-            .hasMessage("auth_user with id: $id not found")
+            .hasMessage("auth_user with id: ${id.value} not found")
     }
 
     @Test
@@ -168,7 +169,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
         }
 
         // then
-        val createdUser = authUserRepository.get(id = user.id)
+        val createdUser = authUserRepository.get(id = user.id())
         assertThat(createdUser).isEqualTo(user)
     }
 
@@ -186,7 +187,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
         assertThat(result).isEqualTo(updatedUser)
 
         // and
-        val foundUser = authUserRepository.get(id = userWithNotConfirmedEmail.id)
+        val foundUser = authUserRepository.get(id = userWithNotConfirmedEmail.id())
         assertThat(foundUser).isEqualTo(updatedUser)
         assertThat(foundUser.emailConfirmed).isTrue
     }
@@ -198,12 +199,12 @@ class AuthUserRepositoryTest : FunctionalTest() {
             authUserRepository.update(it, userWithNotConfirmedEmail.confirmEmail())
 
             // then
-            val updated = authUserRepository.get(it, userWithNotConfirmedEmail.id)
+            val updated = authUserRepository.get(it, userWithNotConfirmedEmail.id())
             assertThat(updated.emailConfirmed).isTrue
         }
 
         // and
-        val foundUser = authUserRepository.get(id = userWithNotConfirmedEmail.id)
+        val foundUser = authUserRepository.get(id = userWithNotConfirmedEmail.id())
         assertThat(foundUser.emailConfirmed).isTrue
     }
 

@@ -10,7 +10,7 @@ import java.util.*
 import java.util.UUID.randomUUID
 
 class AuthUser private constructor(builder: Builder) : Entity() {
-    val id: UUID
+    val id: UUID // TODO make private and update all methods in repo
     val createdAt: Instant
     val updatedAt: Instant
     val lastLogin: Instant?
@@ -30,6 +30,8 @@ class AuthUser private constructor(builder: Builder) : Entity() {
         passwordHash = validateNotBlank("passwordHash", builder.passwordHash)
     }
 
+    override fun id(): Id<AuthUser> = Id(this.id) // TODO extract to super class?
+
     override fun copy(): Builder = authUser()
         .id(this.id)
         .createdAt(this.createdAt)
@@ -46,14 +48,14 @@ class AuthUser private constructor(builder: Builder) : Entity() {
         .build()
 
     class Builder : EntityBuilder() {
-        internal var id: UUID? = null;
-        internal var createdAt: Instant? = null;
-        internal var updatedAt: Instant? = null;
-        internal var lastLogin: Instant? = null;
-        internal var applicationName: ApplicationName? = null;
-        internal var email: String? = null;
-        internal var emailConfirmed: Boolean? = false;
-        internal var passwordHash: String? = null;
+        internal var id: UUID? = null
+        internal var createdAt: Instant? = null
+        internal var updatedAt: Instant? = null
+        internal var lastLogin: Instant? = null
+        internal var applicationName: ApplicationName? = null
+        internal var email: String? = null
+        internal var emailConfirmed: Boolean? = false
+        internal var passwordHash: String? = null
 
         companion object {
             fun authUser(): Builder {

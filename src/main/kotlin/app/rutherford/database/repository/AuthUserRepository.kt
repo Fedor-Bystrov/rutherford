@@ -2,6 +2,7 @@ package app.rutherford.database.repository
 
 import app.rutherford.database.entity.AuthUser
 import app.rutherford.database.entity.AuthUser.Builder.Companion.authUser
+import app.rutherford.database.entity.Entity.Id
 import app.rutherford.database.jooq.generated.tables.records.AuthUserRecord
 import app.rutherford.database.jooq.generated.tables.references.AUTH_USER
 import org.jooq.Configuration
@@ -15,7 +16,9 @@ class AuthUserRepository(
     AUTH_USER,
     AUTH_USER.ID
 ) {
-    fun get(conf: Configuration? = null, id: UUID): AuthUser = getById(conf, id)
+
+    // TODO use Id<AuthUser> everywhere or make AuthUserId type and map jooq directly
+    fun get(conf: Configuration? = null, id: Id<AuthUser>): AuthUser = getById(conf, id.value)
     fun find(conf: Configuration? = null, id: UUID): AuthUser? = findById(conf, id)
     fun find(conf: Configuration? = null, ids: Collection<UUID>): Collection<AuthUser> = findByIds(conf, ids)
     fun insert(conf: Configuration, entity: AuthUser): AuthUser = insertOne(conf, entity)

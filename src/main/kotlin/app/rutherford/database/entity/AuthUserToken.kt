@@ -10,7 +10,7 @@ import java.util.*
 import java.util.UUID.randomUUID
 
 class AuthUserToken private constructor(builder: Builder) : Entity() {
-    val id: UUID
+    val id: UUID // TODO make private
     val createdAt: Instant
     val updatedAt: Instant
     val expiration: Instant?
@@ -28,6 +28,8 @@ class AuthUserToken private constructor(builder: Builder) : Entity() {
         userId = validateNotNull("userId", builder.userId)
     }
 
+    override fun id(): Id<AuthUserToken> = Id(this.id)
+
     override fun copy(): Builder = authUserToken()
         .id(this.id)
         .createdAt(this.createdAt)
@@ -43,13 +45,13 @@ class AuthUserToken private constructor(builder: Builder) : Entity() {
         .build()
 
     class Builder : EntityBuilder() {
-        internal var id: UUID? = null;
-        internal var createdAt: Instant? = null;
-        internal var updatedAt: Instant? = null;
-        internal var expiration: Instant? = null;
-        internal var state: State? = CREATED;
-        internal var tokenHash: String? = null;
-        internal var userId: UUID? = null;
+        internal var id: UUID? = null
+        internal var createdAt: Instant? = null
+        internal var updatedAt: Instant? = null
+        internal var expiration: Instant? = null
+        internal var state: State? = CREATED
+        internal var tokenHash: String? = null
+        internal var userId: UUID? = null
 
         companion object {
             fun authUserToken(): Builder {
