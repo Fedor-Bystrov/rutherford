@@ -7,7 +7,6 @@ import app.rutherford.database.exception.EntityNotFoundException
 import app.rutherford.database.transaction.transaction
 import app.rutherford.fixtures.anAuthUser
 import app.rutherford.fixtures.anAuthUserToken
-import org.apache.commons.lang3.RandomStringUtils
 import org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -183,21 +182,24 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
         assertThat(found.tokenHash).isEqualTo(tokenHash)
     }
 
-//    @Test
-//    fun `should update single entity and see changes in the same transaction`() {
-//        // when
-//        transaction {
-//            authUserRepository.update(it, user1.confirmEmail())
-//
-//            // then
-//            val updated = authUserRepository.get(it, user1.id)
-//            assertThat(updated.emailConfirmed).isTrue
-//        }
-//
-//        // and
-//        val foundUser = authUserRepository.get(id = user1.id)
-//        assertThat(foundUser.emailConfirmed).isTrue
-//    }
+    @Test
+    fun `should update single entity and see changes in the same transaction`() {
+        // given
+        val tokenHash = randomAlphanumeric(55)
+
+        // when
+        transaction {
+            authUserTokenRepository.update(it, token3.withTokenHash(tokenHash))
+
+            // then
+            val updated = authUserTokenRepository.get(it, token3.id)
+            assertThat(updated.tokenHash).isEqualTo(tokenHash)
+        }
+
+        // and
+        val found = authUserTokenRepository.get(id = token3.id)
+        assertThat(found.tokenHash).isEqualTo(tokenHash)
+    }
 
     private fun getExpectedToken(id: UUID): AuthUserToken = when (id) {
         tokenId1 -> token1
