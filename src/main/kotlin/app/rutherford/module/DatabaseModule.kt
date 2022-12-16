@@ -5,6 +5,7 @@ import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.jooq.DSLContext
 import org.jooq.SQLDialect.POSTGRES
+import org.jooq.conf.ExecuteWithoutWhere
 import org.jooq.conf.Settings
 import org.jooq.impl.DSL
 import org.jooq.impl.DefaultConfiguration
@@ -27,6 +28,7 @@ class DatabaseModule(private val dbConfig: DatabaseConfig) {
                         // Fetched all columns from inserted / stored entity
                         // and update the UpdatableRecord
                         .withReturnAllOnUpdatableRecord(true)
+                        .withExecuteDeleteWithoutWhere(ExecuteWithoutWhere.THROW)
                 )
                 .set(POSTGRES)
         )
