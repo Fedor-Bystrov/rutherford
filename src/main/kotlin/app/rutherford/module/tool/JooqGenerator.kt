@@ -8,12 +8,6 @@ import org.jooq.meta.jaxb.ForcedType
 import org.jooq.meta.jaxb.Generate
 import org.jooq.meta.jaxb.Generator
 import org.jooq.meta.jaxb.Jdbc
-import org.jooq.meta.jaxb.Logging.WARN
-import org.jooq.meta.jaxb.MatcherRule
-import org.jooq.meta.jaxb.MatcherTransformType.PASCAL
-import org.jooq.meta.jaxb.Matchers
-import org.jooq.meta.jaxb.MatchersTableType
-import org.jooq.meta.jaxb.Strategy
 import org.jooq.meta.jaxb.Target
 
 // https://www.jooq.org/doc/latest/manual/code-generation/codegen-configuration/
@@ -23,8 +17,14 @@ object JooqGenerator {
     private val FORCED_TYPES: List<ForcedType> = listOf(
         ForcedType()
             .withUserType("java.time.Instant")
-            .withConverter("app.rutherford.database.jooq.converterclea")
-            .withTypes("Timestamp")
+            .withConverter("app.rutherford.database.jooq.converter.InstantConverter")
+            .withTypes("Timestamp"),
+        ForcedType()
+            .withUserType("app.rutherford.ApplicationName")
+            .withEnumConverter(true)
+            .withIncludeExpression(
+                """.*\.AUTH_USER\.application_name"""
+            )
     )
 
     fun generateSchema(databaseConfig: DatabaseConfig) {
