@@ -33,9 +33,9 @@ class AuthUserRepositoryTest : FunctionalTest() {
 
     @BeforeEach
     fun setUp() {
-        userWithNotConfirmedEmail = anAuthUser().id(userId1.value).lastLogin(null).emailConfirmed(false).build()
-        user2 = anAuthUser().id(userId2.value).emailConfirmed(true).build()
-        user3 = anAuthUser().id(userId3.value).build()
+        userWithNotConfirmedEmail = anAuthUser().id(userId1).lastLogin(null).emailConfirmed(false).build()
+        user2 = anAuthUser().id(userId2).emailConfirmed(true).build()
+        user3 = anAuthUser().id(userId3).build()
 
         transaction {
             authUserRepository.insert(

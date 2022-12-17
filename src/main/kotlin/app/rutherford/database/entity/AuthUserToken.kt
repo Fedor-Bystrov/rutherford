@@ -64,6 +64,7 @@ class AuthUserToken private constructor(builder: Builder) : Entity() {
         }
 
         fun id(id: UUID?) = apply { this.id = id }
+        fun id(id: Id<AuthUserToken>?) = apply { this.id = id?.value }
         fun createdAt(createdAt: Instant?) = apply { this.createdAt = createdAt }
         fun updatedAt(updatedAt: Instant?) = apply { this.updatedAt = updatedAt }
         fun expiration(expiration: Instant?) = apply { this.expiration = expiration }

@@ -68,6 +68,7 @@ class AuthUser private constructor(builder: Builder) : Entity() {
         }
 
         fun id(id: UUID?) = apply { this.id = id }
+        fun id(id: Id<AuthUser>?) = apply { this.id = id?.value}
         fun createdAt(createdAt: Instant?) = apply { this.createdAt = createdAt }
         fun updatedAt(updatedAt: Instant?) = apply { this.updatedAt = updatedAt }
         fun lastLogin(lastLogin: Instant?) = apply { this.lastLogin = lastLogin }

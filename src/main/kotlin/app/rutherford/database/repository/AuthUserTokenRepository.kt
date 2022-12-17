@@ -7,7 +7,6 @@ import app.rutherford.database.jooq.generated.tables.records.AuthUserTokenRecord
 import app.rutherford.database.jooq.generated.tables.references.AUTH_USER_TOKEN
 import org.jooq.Configuration
 import org.jooq.DSLContext
-import java.util.*
 
 class AuthUserTokenRepository(
     defaultContext: DSLContext
@@ -23,8 +22,8 @@ class AuthUserTokenRepository(
     //  - can't just use token_hash since two users can have the same password
     //  - or use user-defined salt to generate token_hash?
     // TODO fix auth_user_token index
-    fun get(conf: Configuration? = null, id: UUID): AuthUserToken = getById(conf, id)
-    fun find(conf: Configuration? = null, id: UUID): AuthUserToken? = findById(conf, id)
+    fun get(conf: Configuration? = null, id: Id<AuthUserToken>): AuthUserToken = getById(conf, id.value)
+    fun find(conf: Configuration? = null, id: Id<AuthUserToken>): AuthUserToken? = findById(conf, id.value)
     fun insert(conf: Configuration, entity: AuthUserToken): AuthUserToken = insertOne(conf, entity)
     fun insert(conf: Configuration, entities: Collection<AuthUserToken>) = insertBatch(conf, entities)
     fun update(conf: Configuration, entity: AuthUserToken): AuthUserToken = updateOne(conf, entity)

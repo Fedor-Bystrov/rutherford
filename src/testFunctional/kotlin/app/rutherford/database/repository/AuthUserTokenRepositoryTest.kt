@@ -3,6 +3,7 @@ package app.rutherford.database.repository
 import app.rutherford.FunctionalTest
 import app.rutherford.database.entity.AuthUser
 import app.rutherford.database.entity.AuthUserToken
+import app.rutherford.database.entity.Entity.Id
 import app.rutherford.database.exception.EntityNotFoundException
 import app.rutherford.database.transaction.transaction
 import app.rutherford.fixtures.anAuthUser
@@ -21,9 +22,9 @@ import kotlin.test.assertNotNull
 
 class AuthUserTokenRepositoryTest : FunctionalTest() {
     companion object {
-        private val tokenId1 = randomUUID()
-        private val tokenId2 = randomUUID()
-        private val tokenId3 = randomUUID()
+        private val tokenId1 = Id<AuthUserToken>(randomUUID())
+        private val tokenId2 = Id<AuthUserToken>(randomUUID())
+        private val tokenId3 = Id<AuthUserToken>(randomUUID())
 
         @JvmStatic
         private fun tokenIds() = Stream.of(arguments(tokenId1), arguments(tokenId2), arguments(tokenId3))
@@ -67,7 +68,7 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
 
     @ParameterizedTest
     @MethodSource("tokenIds")
-    fun `should find correct auth_user_token by id`(tokenId: UUID) {
+    fun `should find correct auth_user_token by id`(tokenId: Id<AuthUserToken>) {
         // given
         val expected = getExpectedToken(tokenId)
 
@@ -88,7 +89,7 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
 
     @ParameterizedTest
     @MethodSource("tokenIds")
-    fun `should find correct auth_user_token by id in transaction`(tokenId: UUID) {
+    fun `should find correct auth_user_token by id in transaction`(tokenId: Id<AuthUserToken>) {
         // given
         val expected = getExpectedToken(tokenId)
 
@@ -103,7 +104,7 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
 
     @ParameterizedTest
     @MethodSource("tokenIds")
-    fun `should get correct auth_user_token by id`(tokenId: UUID) {
+    fun `should get correct auth_user_token by id`(tokenId: Id<AuthUserToken>) {
         // given
         val expected = getExpectedToken(tokenId)
 
@@ -117,12 +118,12 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
     @Test
     fun `should throw when get cannot find auth_user_token by id`() {
         // given
-        val id = randomUUID()
+        val id = Id<AuthUserToken>(randomUUID())
 
         // then
         assertThatThrownBy { authUserTokenRepository.get(id = id) }
             .isInstanceOf(EntityNotFoundException::class.java)
-            .hasMessage("auth_user_token with id: $id not found")
+            .hasMessage("auth_user_token with id: ${id.value} not found")
     }
 
     @Test
@@ -139,7 +140,7 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
         assertThat(result).isEqualTo(token)
 
         // and
-        val created = authUserTokenRepository.find(id = token.id)
+        val created = authUserTokenRepository.find(id = token.id())
         assertThat(created).isEqualTo(token)
     }
 
@@ -153,12 +154,12 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
             authUserTokenRepository.insert(it, token)
 
             // then
-            val result = authUserTokenRepository.find(it, token.id)
+            val result = authUserTokenRepository.find(it, token.id())
             assertThat(result).isEqualTo(token)
         }
 
         // and
-        val created = authUserTokenRepository.get(id = token.id)
+        val created = authUserTokenRepository.get(id = token.id())
         assertThat(created).isEqualTo(token)
     }
 
@@ -177,7 +178,7 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
         assertThat(result).isEqualTo(token)
 
         // and
-        val found = authUserTokenRepository.get(id = token1.id)
+        val found = authUserTokenRepository.get(id = token1.id())
         assertThat(found).isEqualTo(token)
         assertThat(found.tokenHash).isEqualTo(tokenHash)
     }
@@ -192,16 +193,16 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
             authUserTokenRepository.update(it, token3.withTokenHash(tokenHash))
 
             // then
-            val updated = authUserTokenRepository.get(it, token3.id)
+            val updated = authUserTokenRepository.get(it, token3.id())
             assertThat(updated.tokenHash).isEqualTo(tokenHash)
         }
 
         // and
-        val found = authUserTokenRepository.get(id = token3.id)
+        val found = authUserTokenRepository.get(id = token3.id())
         assertThat(found.tokenHash).isEqualTo(tokenHash)
     }
 
-    private fun getExpectedToken(id: UUID): AuthUserToken = when (id) {
+    private fun getExpectedToken(id: Id<AuthUserToken>): AuthUserToken = when (id) {
         tokenId1 -> token1
         tokenId2 -> token2
         tokenId3 -> token3
