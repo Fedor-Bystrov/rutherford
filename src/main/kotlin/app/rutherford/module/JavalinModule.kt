@@ -15,6 +15,7 @@ import io.javalin.http.HttpStatus.NOT_FOUND
 import io.javalin.json.JavalinJackson
 import io.javalin.validation.JavalinValidation
 import io.javalin.validation.ValidationException
+import org.json.JSONObject
 import org.slf4j.LoggerFactory
 import java.util.*
 import kotlin.reflect.KClass
@@ -65,10 +66,10 @@ class JavalinModule {
         logger.info("An error occurred with id /*TODO add ID*/", e)
         ctx.status(httpStatus)
         ctx.json(
-            mapOf(
-                "message" to message, // TODO swap to fluent json builder
-                "code" to httpStatus.code
-            )
+            JSONObject()
+                .put("message", message)
+                .put("code", httpStatus.code)
+                .toString()
         )
     }
 

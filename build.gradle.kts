@@ -22,6 +22,7 @@ dependencies {
     implementation("io.javalin:javalin:5.2.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.1")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.1")
+    implementation("org.json:json:20220924")
     implementation("ch.qos.logback:logback-core:1.4.5")
     implementation("ch.qos.logback:logback-classic:1.4.5")
     implementation("org.slf4j:slf4j-api:2.0.5")
