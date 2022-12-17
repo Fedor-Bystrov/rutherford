@@ -18,8 +18,12 @@ import io.javalin.validation.JavalinValidation
 import io.javalin.validation.ValidationException
 import org.json.JSONObject
 import org.slf4j.LoggerFactory
+import org.slf4j.MDC
 import java.util.*
+import java.util.UUID.randomUUID
 import kotlin.reflect.KClass
+
+const val X_REQUEST_ID = "X-Request-ID";
 
 class JavalinModule {
     private val logger = LoggerFactory.getLogger("Rutherford")
@@ -35,13 +39,22 @@ class JavalinModule {
         )
         config.requestLogger.http { ctx, executionTimeMs ->
             logger.info(
-                "${ctx.ip()} ${ctx.userAgent()} ${ctx.contentType()} ${ctx.contentLength()} " +
-                        "${ctx.method()} ${ctx.path()} ${ctx.statusCode()} in $executionTimeMs ms"
+                "[${ctx.res().getHeader(X_REQUEST_ID)}] ${ctx.ip()} ${ctx.userAgent()} ${ctx.contentType()}" +
+                        " ${ctx.contentLength()} ${ctx.method()} ${ctx.path()} ${ctx.statusCode()}" +
+                        " in $executionTimeMs ms"
             )
         }
     }
 
     init {
+        javalin.after { MDC.clear() }
+        javalin.before { ctx ->
+            if (ctx.header(X_REQUEST_ID).isNullOrBlank()) {
+                ctx.header(X_REQUEST_ID, randomUUID().toString())
+            }
+            MDC.put("request-id", ctx.res().getHeader(X_REQUEST_ID))
+        }
+
         // Validators
         JavalinValidation.register(UUID::class.java) { UUID.fromString(it) }
 
@@ -65,7 +78,7 @@ class JavalinModule {
         javalin.exception(clazz.java, exceptionHandler)
 
     private fun <E : Exception> nonCritical(e: E, ctx: Context, httpStatus: HttpStatus, message: String?) {
-        logger.info("An error occurred. request_id: /*TODO add ID*/", e)
+        logger.info("An error occurred", e)
         ctx.status(httpStatus)
         ctx.json(
             JSONObject()
@@ -76,7 +89,7 @@ class JavalinModule {
     }
 
     private fun <E : Exception> internalServerError(e: E, ctx: Context) {
-        logger.error("An error occurred. request_id: /*TODO add ID*/", e)
+        logger.error("An error occurred", e)
         ctx.status(INTERNAL_SERVER_ERROR)
         ctx.json(
             JSONObject()

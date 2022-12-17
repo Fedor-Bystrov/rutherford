@@ -13,10 +13,10 @@ import app.rutherford.module.ApplicationModule
 //      4.1 Check .net identity and create TODO for functionality that I need to implement
 
 // TODO Set up
-//  - add request id to all requests and responses
 //  - divide project into modules
 //    - extract schema module (jooq + converters)
 //    - extract core module (with all tools modules, repos etc)
+//  - set up jetty / javalin timeouts
 
 fun main() {
     val application = ApplicationModule(Overrides())
