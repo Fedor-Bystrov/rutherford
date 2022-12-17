@@ -2,6 +2,7 @@ package app.rutherford.database.repository
 
 import app.rutherford.database.entity.AuthUserToken
 import app.rutherford.database.entity.AuthUserToken.Builder.Companion.authUserToken
+import app.rutherford.database.entity.Entity.Id
 import app.rutherford.database.jooq.generated.tables.records.AuthUserTokenRecord
 import app.rutherford.database.jooq.generated.tables.references.AUTH_USER_TOKEN
 import org.jooq.Configuration
@@ -35,7 +36,7 @@ class AuthUserTokenRepository(
         .expiration(record.expiration)
         .state(record.state!!)
         .tokenHash(record.tokenHash!!)
-        .userId(record.userId!!)
+        .userId(Id(record.userId!!))
         .build()
 
     override fun toRecord(entity: AuthUserToken): AuthUserTokenRecord = AuthUserTokenRecord(
@@ -45,6 +46,6 @@ class AuthUserTokenRepository(
         expiration = entity.expiration,
         state = entity.state,
         tokenHash = entity.tokenHash,
-        userId = entity.userId
+        userId = entity.userId.value
     )
 }

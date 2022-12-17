@@ -43,9 +43,9 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
         user2 = anAuthUser().emailConfirmed(true).build()
         user3 = anAuthUser().build()
 
-        token1 = anAuthUserToken().id(tokenId1).userId(user1.id).build()
-        token2 = anAuthUserToken().id(tokenId2).userId(user2.id).build()
-        token3 = anAuthUserToken().id(tokenId3).userId(user3.id).build()
+        token1 = anAuthUserToken().id(tokenId1).userId(user1.id()).build()
+        token2 = anAuthUserToken().id(tokenId2).userId(user2.id()).build()
+        token3 = anAuthUserToken().id(tokenId3).userId(user3.id()).build()
 
         transaction {
             authUserRepository.insert(
@@ -128,7 +128,7 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
     @Test
     fun `should insert single entity`() {
         // given
-        val token = anAuthUserToken().userId(user1.id).build()
+        val token = anAuthUserToken().userId(user1.id()).build()
 
         // when
         val result = transaction {
@@ -146,7 +146,7 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
     @Test
     fun `should insert single entity and find it in the same transaction`() {
         // given
-        val token = anAuthUserToken().userId(user2.id).build()
+        val token = anAuthUserToken().userId(user2.id()).build()
 
         // when
         transaction {
