@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory
 import org.slf4j.MDC
 import java.util.*
 import java.util.UUID.randomUUID
+import java.util.concurrent.TimeUnit.MINUTES
 import kotlin.reflect.KClass
 
 const val X_REQUEST_ID = "X-Request-ID";
@@ -29,6 +30,7 @@ class JavalinModule {
     private val logger = LoggerFactory.getLogger("Rutherford")
     val javalin: Javalin = Javalin.create { config ->
         config.showJavalinBanner = false
+        config.http.asyncTimeout = MINUTES.toMillis(1)
         config.jsonMapper(
             JavalinJackson(
                 jacksonObjectMapper()

@@ -16,7 +16,6 @@ import app.rutherford.module.ApplicationModule
 //  - divide project into modules
 //    - extract schema module (jooq + converters)
 //    - extract core module (with all tools modules, repos etc)
-//  - set up jetty / javalin timeouts
 
 fun main() {
     val application = ApplicationModule(Overrides())
