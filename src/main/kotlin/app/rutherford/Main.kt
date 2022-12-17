@@ -15,10 +15,10 @@ import app.rutherford.module.ApplicationModule
 // TODO Set up
 //  - Add Javalin exception mapping (take teller / penn as example)
 //    - https://javalin.io/documentation#exception-mapping
+//  - add request id to all requests and responses
 //  - divide project into modules
 //    - extract schema module (jooq + converters)
 //    - extract core module (with all tools modules, repos etc)
-//    -
 
 fun main() {
     val application = ApplicationModule(Overrides())
