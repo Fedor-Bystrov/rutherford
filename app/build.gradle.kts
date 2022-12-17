@@ -1,18 +1,11 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     kotlin("jvm") version "1.7.20"
-    application
     id("org.unbroken-dome.test-sets") version "4.0.0"
+    application
 }
 
 group = "app.rutherford"
 version = "0.1"
-
-repositories {
-    mavenCentral()
-    gradlePluginPortal()
-}
 
 testSets {
     create("testFunctional")
@@ -39,17 +32,6 @@ dependencies {
     testImplementation("org.assertj:assertj-core:3.23.1")
     testImplementation("org.testcontainers:postgresql:1.17.6")
     testImplementation("org.apache.commons:commons-lang3:3.12.0")
-}
-
-tasks.withType(Test::class.java) {
-    useJUnitPlatform()
-    testLogging {
-        events("passed", "skipped", "failed")
-    }
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "17"
 }
 
 application {
