@@ -11,6 +11,7 @@ import io.javalin.http.Context
 import io.javalin.http.ExceptionHandler
 import io.javalin.http.HttpStatus
 import io.javalin.http.HttpStatus.BAD_REQUEST
+import io.javalin.http.HttpStatus.INTERNAL_SERVER_ERROR
 import io.javalin.http.HttpStatus.NOT_FOUND
 import io.javalin.json.JavalinJackson
 import io.javalin.validation.JavalinValidation
@@ -49,6 +50,7 @@ class JavalinModule {
         exception(ValidationException::class) { e, c -> nonCritical(e, c, BAD_REQUEST, getMessage(e)) }
         exception(IllegalStateException::class) { e, c -> nonCritical(e, c, BAD_REQUEST, e.message) }
         exception(EntityNotFoundException::class) { e, c -> nonCritical(e, c, NOT_FOUND, "Not Found") }
+        exception(Exception::class) { e, c -> internalServerError(e, c) }
     }
 
     fun start(applicationPort: Int) {
@@ -63,7 +65,7 @@ class JavalinModule {
         javalin.exception(clazz.java, exceptionHandler)
 
     private fun <E : Exception> nonCritical(e: E, ctx: Context, httpStatus: HttpStatus, message: String?) {
-        logger.info("An error occurred with id /*TODO add ID*/", e)
+        logger.info("An error occurred. request_id: /*TODO add ID*/", e)
         ctx.status(httpStatus)
         ctx.json(
             JSONObject()
@@ -71,6 +73,23 @@ class JavalinModule {
                 .put("code", httpStatus.code)
                 .toString()
         )
+    }
+
+    private fun <E : Exception> internalServerError(e: E, ctx: Context) {
+        logger.error("An error occurred. request_id: /*TODO add ID*/", e)
+        ctx.status(INTERNAL_SERVER_ERROR)
+        ctx.json(
+            JSONObject()
+                .put("message", "Internal Server Error")
+                .put("code", INTERNAL_SERVER_ERROR.code)
+                .toString()
+        )
+
+        when (e) {
+            InterruptedException::class.java -> {
+                Thread.currentThread().interrupt()
+            }
+        }
     }
 
     private fun getMessage(e: ValidationException): String {
