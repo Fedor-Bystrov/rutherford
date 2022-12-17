@@ -10,7 +10,7 @@ import java.util.*
 import java.util.UUID.randomUUID
 
 class AuthUser private constructor(builder: Builder) : Entity() {
-    val id: UUID // TODO make private and update all methods in repo
+    val id: UUID
     val createdAt: Instant
     val updatedAt: Instant
     val lastLogin: Instant?
@@ -109,6 +109,6 @@ class AuthUser private constructor(builder: Builder) : Entity() {
     }
 
     override fun toString(): String {
-        return "AuthUser(id=$id, applicationName='$applicationName', email='$email')"
+        return "AuthUser(id=$id)"
     }
 }

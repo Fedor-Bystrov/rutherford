@@ -19,9 +19,9 @@ import kotlin.test.assertNotNull
 
 class AuthUserRepositoryTest : FunctionalTest() {
     companion object {
-        private val userId1 = randomUUID()
-        private val userId2 = randomUUID()
-        private val userId3 = randomUUID()
+        private val userId1 = Id<AuthUser>(randomUUID())
+        private val userId2 = Id<AuthUser>(randomUUID())
+        private val userId3 = Id<AuthUser>(randomUUID())
 
         @JvmStatic
         private fun userIds() = Stream.of(arguments(userId1), arguments(userId2), arguments(userId3))
@@ -33,9 +33,9 @@ class AuthUserRepositoryTest : FunctionalTest() {
 
     @BeforeEach
     fun setUp() {
-        userWithNotConfirmedEmail = anAuthUser().id(userId1).lastLogin(null).emailConfirmed(false).build()
-        user2 = anAuthUser().id(userId2).emailConfirmed(true).build()
-        user3 = anAuthUser().id(userId3).build()
+        userWithNotConfirmedEmail = anAuthUser().id(userId1.value).lastLogin(null).emailConfirmed(false).build()
+        user2 = anAuthUser().id(userId2.value).emailConfirmed(true).build()
+        user3 = anAuthUser().id(userId3.value).build()
 
         transaction {
             authUserRepository.insert(
@@ -50,7 +50,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
 
     @ParameterizedTest
     @MethodSource("userIds")
-    fun `should find correct auth_user by id`(userId: UUID) {
+    fun `should find correct auth_user by id`(userId: Id<AuthUser>) {
         // given
         val expected = getExpectedUser(userId)
 
@@ -60,6 +60,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
         // then
         assertNotNull(result)
         assertThat(result.id).isEqualTo(expected.id)
+        assertThat(result.id()).isEqualTo(expected.id())
         assertThat(result.createdAt).isEqualTo(expected.createdAt)
         assertThat(result.updatedAt).isEqualTo(expected.updatedAt)
         assertThat(result.lastLogin).isEqualTo(expected.lastLogin)
@@ -72,7 +73,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
 
     @ParameterizedTest
     @MethodSource("userIds")
-    fun `should find correct auth_user by id in transaction`(userId: UUID) {
+    fun `should find correct auth_user by id in transaction`(userId: Id<AuthUser>) {
         // given
         val expected = getExpectedUser(userId)
 
@@ -91,7 +92,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
         val users = listOf(userWithNotConfirmedEmail, user2, user3)
 
         // when
-        val result = authUserRepository.find(ids = users.map { it.id })
+        val result = authUserRepository.find(ids = users.map { it.id() })
 
         // then
         assertThat(result).containsAll(users)
@@ -104,7 +105,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
 
         // when
         val result = transaction { tx ->
-            authUserRepository.find(tx, ids = users.map { it.id })
+            authUserRepository.find(tx, ids = users.map { it.id() })
         }
 
         // then
@@ -115,12 +116,12 @@ class AuthUserRepositoryTest : FunctionalTest() {
 
     @ParameterizedTest
     @MethodSource("userIds")
-    fun `should get correct auth_user by id`(userId: UUID) {
+    fun `should get correct auth_user by id`(userId: Id<AuthUser>) {
         // given
         val expected = getExpectedUser(userId)
 
         // when
-        val result = authUserRepository.get(id = Id(userId))
+        val result = authUserRepository.get(id = userId)
 
         // then
         assertThat(result).isEqualTo(expected)
@@ -151,7 +152,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
         assertThat(result).isEqualTo(user)
 
         // and
-        val createdUser = authUserRepository.find(id = user.id)
+        val createdUser = authUserRepository.find(id = user.id())
         assertThat(createdUser).isEqualTo(user)
     }
 
@@ -164,7 +165,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
         transaction {
             authUserRepository.insert(it, user)
 
-            val result = authUserRepository.find(it, user.id)
+            val result = authUserRepository.find(it, user.id())
             assertThat(result).isEqualTo(user)
         }
 
@@ -208,7 +209,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
         assertThat(foundUser.emailConfirmed).isTrue
     }
 
-    private fun getExpectedUser(id: UUID): AuthUser = when (id) {
+    private fun getExpectedUser(id: Id<AuthUser>): AuthUser = when (id) {
         userId1 -> userWithNotConfirmedEmail
         userId2 -> user2
         userId3 -> user3

@@ -7,7 +7,6 @@ import app.rutherford.database.jooq.generated.tables.records.AuthUserRecord
 import app.rutherford.database.jooq.generated.tables.references.AUTH_USER
 import org.jooq.Configuration
 import org.jooq.DSLContext
-import java.util.*
 
 class AuthUserRepository(
     defaultContext: DSLContext
@@ -17,10 +16,11 @@ class AuthUserRepository(
     AUTH_USER.ID
 ) {
 
-    // TODO use Id<AuthUser> everywhere or make AuthUserId type and map jooq directly
     fun get(conf: Configuration? = null, id: Id<AuthUser>): AuthUser = getById(conf, id.value)
-    fun find(conf: Configuration? = null, id: UUID): AuthUser? = findById(conf, id)
-    fun find(conf: Configuration? = null, ids: Collection<UUID>): Collection<AuthUser> = findByIds(conf, ids)
+    fun find(conf: Configuration? = null, id: Id<AuthUser>): AuthUser? = findById(conf, id.value)
+    fun find(conf: Configuration? = null, ids: Collection<Id<AuthUser>>): Collection<AuthUser> =
+        findByIds(conf, ids.map { it.value })
+
     fun insert(conf: Configuration, entity: AuthUser): AuthUser = insertOne(conf, entity)
     fun insert(conf: Configuration, entities: Collection<AuthUser>) = insertBatch(conf, entities)
     fun update(conf: Configuration, entity: AuthUser): AuthUser = updateOne(conf, entity)
@@ -37,7 +37,7 @@ class AuthUserRepository(
         .build()
 
     override fun toRecord(entity: AuthUser): AuthUserRecord = AuthUserRecord(
-        id = entity.id,
+        id = entity.id().value,
         createdAt = entity.createdAt,
         updatedAt = entity.updatedAt,
         lastLogin = entity.lastLogin,

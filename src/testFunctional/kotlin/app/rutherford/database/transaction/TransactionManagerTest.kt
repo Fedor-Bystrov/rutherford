@@ -40,7 +40,7 @@ class TransactionManagerTest : FunctionalTest() {
         }
 
         // then
-        val created = authUserRepository.find(id = user.id)
+        val created = authUserRepository.find(id = user.id())
         assertThat(created).isNull()
     }
 
@@ -53,11 +53,11 @@ class TransactionManagerTest : FunctionalTest() {
             authUserRepository.insert(it, user)
 
             // then
-            val findOutside = authUserRepository.find(id = user.id)
+            val findOutside = authUserRepository.find(id = user.id())
             assertThat(findOutside).isNull()
 
             // and
-            val created = authUserRepository.find(it, id = user.id)
+            val created = authUserRepository.find(it, id = user.id())
             assertNotNull(created)
             assertThat(user).isEqualTo(user)
         }
