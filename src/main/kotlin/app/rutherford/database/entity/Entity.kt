@@ -3,7 +3,7 @@ package app.rutherford.database.entity
 import java.util.*
 
 abstract class Entity {
-    class Id<E : Entity>(val value: UUID)
+    data class Id<E : Entity>(val value: UUID)
 
     enum class State { CREATED }
     abstract class EntityBuilder

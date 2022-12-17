@@ -30,7 +30,7 @@ class AuthUser private constructor(builder: Builder) : Entity() {
         passwordHash = validateNotBlank("passwordHash", builder.passwordHash)
     }
 
-    override fun id(): Id<AuthUser> = Id(this.id) // TODO extract to super class?
+    override fun id(): Id<AuthUser> = Id(this.id)
 
     override fun copy(): Builder = authUser()
         .id(this.id)
