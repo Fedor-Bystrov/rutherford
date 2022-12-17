@@ -59,7 +59,7 @@ object JooqGenerator {
                     .withTarget(
                         Target()
                             .withPackageName("app.rutherford.database.jooq.generated")
-                            .withDirectory("src/main/kotlin")
+                            .withDirectory("app/src/main/kotlin")
                     )
                     .withGenerate(
                         Generate()
