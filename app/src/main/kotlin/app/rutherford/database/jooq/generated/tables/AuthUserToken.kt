@@ -4,8 +4,8 @@
 package app.rutherford.database.jooq.generated.tables
 
 
-import Entity.State
-
+import app.rutherford.database.entity.Entity.State
+import app.rutherford.database.jooq.converter.InstantConverter
 import app.rutherford.database.jooq.generated.Public
 import app.rutherford.database.jooq.generated.indexes.AUTH_USER_TOKEN_TOKEN_HASH_IDX
 import app.rutherford.database.jooq.generated.keys.AUTH_USER_TOKEN_PKEY
@@ -14,7 +14,6 @@ import app.rutherford.database.jooq.generated.tables.records.AuthUserTokenRecord
 
 import java.time.Instant
 import java.util.UUID
-import java.util.function.Function
 
 import javax.annotation.processing.Generated
 

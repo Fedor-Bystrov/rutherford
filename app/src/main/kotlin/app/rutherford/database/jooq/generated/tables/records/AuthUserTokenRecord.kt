@@ -4,8 +4,7 @@
 package app.rutherford.database.jooq.generated.tables.records
 
 
-import Entity.State
-
+import app.rutherford.database.entity.Entity.State
 import app.rutherford.database.jooq.generated.tables.AuthUserToken
 
 import java.time.Instant

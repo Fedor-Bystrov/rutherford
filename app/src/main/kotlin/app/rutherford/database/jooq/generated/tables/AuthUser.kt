@@ -4,13 +4,14 @@
 package app.rutherford.database.jooq.generated.tables
 
 
+import app.rutherford.ApplicationName
+import app.rutherford.database.jooq.converter.InstantConverter
 import app.rutherford.database.jooq.generated.Public
 import app.rutherford.database.jooq.generated.keys.AUTH_USER_PKEY
 import app.rutherford.database.jooq.generated.tables.records.AuthUserRecord
 
 import java.time.Instant
 import java.util.UUID
-import java.util.function.Function
 
 import javax.annotation.processing.Generated
 

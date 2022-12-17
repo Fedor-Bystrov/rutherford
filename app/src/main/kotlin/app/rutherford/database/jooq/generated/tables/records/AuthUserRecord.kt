@@ -4,6 +4,7 @@
 package app.rutherford.database.jooq.generated.tables.records
 
 
+import app.rutherford.ApplicationName
 import app.rutherford.database.jooq.generated.tables.AuthUser
 
 import java.time.Instant

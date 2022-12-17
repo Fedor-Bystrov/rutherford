@@ -17,16 +17,16 @@ object JooqGenerator {
     private val FORCED_TYPES: List<ForcedType> = listOf(
         ForcedType()
             .withUserType("java.time.Instant")
-            .withConverter("app.rutherford.database.jooq.converter.InstantConverter")
+            .withConverter("InstantConverter")
             .withIncludeTypes("Timestamp"),
         ForcedType()
-            .withUserType("app.rutherford.ApplicationName")
+            .withUserType("ApplicationName")
             .withConverter("org.jooq.impl.EnumConverter")
             .withIncludeExpression(
                 """.*\.AUTH_USER\.application_name"""
             ),
         ForcedType()
-            .withUserType("app.rutherford.database.entity.Entity.State")
+            .withUserType("Entity.State")
             .withConverter("org.jooq.impl.EnumConverter")
             .withIncludeExpression(
                 """.*\.auth_user_token\.state"""
