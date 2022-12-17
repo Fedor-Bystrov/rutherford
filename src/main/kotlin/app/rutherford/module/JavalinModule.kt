@@ -15,38 +15,35 @@ import io.javalin.http.HttpStatus.NOT_FOUND
 import io.javalin.json.JavalinJackson
 import io.javalin.validation.JavalinValidation
 import io.javalin.validation.ValidationException
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.*
 import kotlin.reflect.KClass
 
 class JavalinModule {
-    val javalin: Javalin
-    private val logger: Logger
+    private val logger = LoggerFactory.getLogger("Rutherford")
+    val javalin: Javalin = Javalin.create { config ->
+        config.showJavalinBanner = false
+        config.jsonMapper(
+            JavalinJackson(
+                jacksonObjectMapper()
+                    .registerModule(JavaTimeModule())
+                    .configure(WRITE_DATES_AS_TIMESTAMPS, false)
+                    .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
+            )
+        )
+        config.requestLogger.http { ctx, executionTimeMs ->
+            logger.info(
+                "${ctx.ip()} ${ctx.userAgent()} ${ctx.contentType()} ${ctx.contentLength()} " +
+                        "${ctx.method()} ${ctx.path()} ${ctx.statusCode()} in $executionTimeMs ms"
+            )
+        }
+    }
 
     init {
-        // TODO add exception mapper, handle JavalinValidation exception
+        // Validators
         JavalinValidation.register(UUID::class.java) { UUID.fromString(it) }
 
-        logger = LoggerFactory.getLogger("Rutherford")
-        val jsonMapper = JavalinJackson(
-            jacksonObjectMapper()
-                .registerModule(JavaTimeModule())
-                .configure(WRITE_DATES_AS_TIMESTAMPS, false)
-                .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
-        )
-
-        javalin = Javalin.create { config ->
-            config.showJavalinBanner = false
-            config.jsonMapper(jsonMapper)
-            config.requestLogger.http { ctx, executionTimeMs ->
-                logger.info(
-                    "${ctx.ip()} ${ctx.userAgent()} ${ctx.contentType()} ${ctx.contentLength()} " +
-                            "${ctx.method()} ${ctx.path()} ${ctx.statusCode()} in $executionTimeMs ms"
-                )
-            }
-        }
-
+        // Exception Mappers
         exception(JsonParseException::class) { e, c -> nonCritical(e, c, BAD_REQUEST, "Malformed JSON") }
         exception(ValidationException::class) { e, c -> nonCritical(e, c, BAD_REQUEST, getMessage(e)) }
         exception(IllegalStateException::class) { e, c -> nonCritical(e, c, BAD_REQUEST, e.message) }
