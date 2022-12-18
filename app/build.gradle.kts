@@ -12,6 +12,7 @@ testSets {
 }
 
 dependencies {
+    implementation(project(":core"))
     implementation("io.javalin:javalin:5.2.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.1")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.1")
@@ -28,6 +29,7 @@ dependencies {
     implementation("io.github.cdimascio:dotenv-kotlin:6.4.0")
 
     testImplementation(kotlin("test"))
+    testImplementation(project(":core"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
     testImplementation("org.assertj:assertj-core:3.23.1")
     testImplementation("org.testcontainers:postgresql:1.17.6")

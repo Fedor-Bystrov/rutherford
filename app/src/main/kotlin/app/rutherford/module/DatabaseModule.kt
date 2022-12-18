@@ -1,7 +1,7 @@
 package app.rutherford.module
 
 import app.rutherford.Overrides
-import app.rutherford.configuration.DatabaseConfig
+import app.rutherford.core.configuration.DatabaseConfig
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.jooq.DSLContext

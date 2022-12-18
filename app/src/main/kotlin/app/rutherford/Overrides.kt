@@ -1,6 +1,6 @@
 package app.rutherford
 
-import app.rutherford.configuration.DatabaseConfig
+import app.rutherford.core.configuration.DatabaseConfig
 import org.jooq.conf.Settings
 
 class Overrides(
