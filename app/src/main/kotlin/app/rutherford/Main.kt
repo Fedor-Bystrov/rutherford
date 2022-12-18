@@ -13,6 +13,8 @@ import app.rutherford.module.ApplicationModule
 //      4.1 Check .net identity and create TODO for functionality that I need to implement
 
 // TODO Set up
+//  - Remove jooq generation on each project run (keep flyway run)
+//  - add generateSchema to the "build" flow i.e. run generateSchema on each build
 //  - extract IntegrationTest to core (without javalin)
 //  - Create FunctionalTest in app (with javalin) and http client in future
 
