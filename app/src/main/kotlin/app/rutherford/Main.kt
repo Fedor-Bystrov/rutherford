@@ -13,10 +13,9 @@ import app.rutherford.module.ApplicationModule
 //      4.1 Check .net identity and create TODO for functionality that I need to implement
 
 // TODO Set up
-//  - add generateSchema to the "build" flow i.e. run generateSchema on each build
 //  - extract IntegrationTest to core (without javalin)
 //  - Create FunctionalTest in app (with javalin) and http client in future
-//  - extract auth to separate module
+//  - extract auth to separate module (with repos and models)
 
 fun main() {
     val application = ApplicationModule(Overrides())
