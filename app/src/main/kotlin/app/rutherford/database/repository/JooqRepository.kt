@@ -1,7 +1,7 @@
 package app.rutherford.database.repository
 
 import app.rutherford.database.entity.Entity
-import app.rutherford.database.exception.EntityNotFoundException
+import app.rutherford.core.exception.EntityNotFoundException
 import org.jooq.Condition
 import org.jooq.Configuration
 import org.jooq.DSLContext

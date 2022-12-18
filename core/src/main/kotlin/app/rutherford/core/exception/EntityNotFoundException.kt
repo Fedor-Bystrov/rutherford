@@ -1,4 +1,4 @@
-package app.rutherford.database.exception
+package app.rutherford.core.exception
 
 import org.jooq.Table
 import java.util.*

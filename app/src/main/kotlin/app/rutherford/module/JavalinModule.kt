@@ -1,6 +1,6 @@
 package app.rutherford.module
 
-import app.rutherford.database.exception.EntityNotFoundException
+import app.rutherford.core.exception.EntityNotFoundException
 import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL
 import com.fasterxml.jackson.core.JsonParseException
 import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
@@ -37,6 +37,7 @@ class JavalinModule {
                 jacksonObjectMapper()
                     .registerModule(JavaTimeModule())
                     .configure(WRITE_DATES_AS_TIMESTAMPS, false)
+                    .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
                     .setSerializationInclusion(NON_NULL)
             )
         )
