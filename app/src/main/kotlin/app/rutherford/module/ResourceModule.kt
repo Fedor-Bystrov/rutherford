@@ -1,6 +1,6 @@
 package app.rutherford.module
 
-import app.rutherford.resource.Resource
+import app.rutherford.core.resource.Resource
 import app.rutherford.resource.TestResource
 import io.javalin.Javalin
 
