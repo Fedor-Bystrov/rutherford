@@ -8,37 +8,36 @@ import org.jooq.meta.jaxb.ForcedType
 import org.jooq.meta.jaxb.Generate
 import org.jooq.meta.jaxb.Generator
 import org.jooq.meta.jaxb.Jdbc
+import org.jooq.meta.jaxb.Logging.INFO
 import org.jooq.meta.jaxb.Target
 import org.testcontainers.containers.PostgreSQLContainer
 
 open class GenerateSchemaTask : DefaultTask() {
     @TaskAction
     fun generateSchema() {
-        val container = PostgreSQLContainer("postgres:15.1") // TODO dockerImageName extract to property
+        // TODO dockerImageName extract to property
+        PostgreSQLContainer("postgres:15.1").use {
+            println("Staring ${it.getDockerImageName()} container...")
+            it.start()
 
-        println("Staring PostgreSQLContainer...") // TODO print version in log
-        container.start()
-        Runtime.getRuntime().addShutdownHook(Thread(container::stop))
+            val jdbcUrl = it.getJdbcUrl()
+            val username = it.getUsername()
+            val password = it.getPassword()
 
-        val jdbcUrl = container.getJdbcUrl()
-        val username = container.getUsername()
-        val password = container.getPassword()
+            println("Applying migrations...")
+            val migraitonsLocation = "filesystem:${project.projectDir}/src/main/resources/db/migration"
 
-        println("Applying migrations...")
-        val migraitonsLocation = "filesystem:${project.projectDir}/src/main/resources/db/migration"
+            println("Migrations path: $migraitonsLocation")
+            migrate(
+                jdbcUrl = jdbcUrl,
+                username = username,
+                password = password,
+                locations = migraitonsLocation
+            )
 
-        println("Migrations path: $migraitonsLocation")
-        migrate(
-            jdbcUrl = jdbcUrl,
-            username = username,
-            password = password,
-            locations = migraitonsLocation
-        )
-
-        println("Generating schema...")
-        generateSchema(jdbcUrl = jdbcUrl, username = username, password = password)
-
-        container.close()
+            println("Generating schema...")
+            generateSchema(jdbcUrl = jdbcUrl, username = username, password = password)
+        }
     }
 
     private fun migrate(jdbcUrl: String, username: String, password: String, locations: String) {
@@ -72,6 +71,7 @@ open class GenerateSchemaTask : DefaultTask() {
         )
 
         val configuration = Configuration()
+            .withLogging(INFO)
             .withJdbc(
                 Jdbc()
                     .withDriver("org.postgresql.Driver") // TODO extract to propertyu
@@ -96,7 +96,7 @@ open class GenerateSchemaTask : DefaultTask() {
                     .withTarget(
                         Target() // TODO extract to property
                             .withPackageName("app.rutherford.schema.generated")
-                            .withDirectory("src/main/kotlin")
+                            .withDirectory("${project.projectDir}/src/main/kotlin")
                     )
                     .withGenerate(
                         Generate()
@@ -112,7 +112,6 @@ open class GenerateSchemaTask : DefaultTask() {
                             .withJavaTimeTypes(false)
                     )
             )
-
         GenerationTool.generate(configuration)
     }
 }
