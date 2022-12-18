@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.7.20" apply false
-    id("org.unbroken-dome.test-sets") version "4.0.0" apply false
+    kotlin("jvm") version Dependencies.Plugins.Versions.kotlin apply false
+    id("org.unbroken-dome.test-sets") version Dependencies.Plugins.Versions.testSets apply false
 }
 
 allprojects {

@@ -1,4 +1,11 @@
 object Dependencies {
+    object Plugins {
+        object Versions {
+            val kotlin = "1.7.20"
+            val testSets = "4.0.0"
+        }
+    }
+
     object Versions {
         val javalin = "5.2.0"
         val jackson = "2.14.1"

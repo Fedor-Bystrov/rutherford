@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version "1.7.20"
-    id("org.unbroken-dome.test-sets") version "4.0.0"
+    kotlin("jvm") version Dependencies.Plugins.Versions.kotlin
+    id("org.unbroken-dome.test-sets") version Dependencies.Plugins.Versions.testSets
     application
 }
 
