@@ -1,7 +1,5 @@
 package app.rutherford.core.util
 
-import app.rutherford.core.util.Dotenv
-import app.rutherford.core.util.DotenvException
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest

@@ -3,8 +3,8 @@ package app.rutherford.database.entity
 import app.rutherford.ApplicationName
 import app.rutherford.core.entity.Entity
 import app.rutherford.database.entity.AuthUser.Builder.Companion.authUser
-import app.rutherford.util.Checks.validateNotBlank
-import app.rutherford.util.Checks.validateNotNull
+import app.rutherford.core.util.Checks.validateNotBlank
+import app.rutherford.core.util.Checks.validateNotNull
 import java.time.Instant
 import java.time.Instant.now
 import java.util.*
