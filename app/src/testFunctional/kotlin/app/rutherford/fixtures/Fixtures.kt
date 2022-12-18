@@ -1,10 +1,10 @@
 package app.rutherford.fixtures
 
 import app.rutherford.ApplicationName.TEST
+import app.rutherford.core.entity.Entity.Id
+import app.rutherford.core.entity.Entity.State.CREATED
 import app.rutherford.database.entity.AuthUser.Builder.Companion.authUser
 import app.rutherford.database.entity.AuthUserToken.Builder.Companion.authUserToken
-import app.rutherford.database.entity.Entity.Id
-import app.rutherford.database.entity.Entity.State.CREATED
 import org.apache.commons.lang3.RandomStringUtils.randomAlphabetic
 import org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 import java.time.Instant.now

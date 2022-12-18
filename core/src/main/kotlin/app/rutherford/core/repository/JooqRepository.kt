@@ -1,4 +1,4 @@
-package app.rutherford.database.repository
+package app.rutherford.core.repository
 
 import app.rutherford.core.entity.Entity
 import app.rutherford.core.exception.EntityNotFoundException
