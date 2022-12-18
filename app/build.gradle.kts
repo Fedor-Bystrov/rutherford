@@ -21,12 +21,9 @@ dependencies {
     implementation(Dependencies.logbackCore)
     implementation(Dependencies.logbackClassic)
     implementation(Dependencies.slf4jApi)
-    implementation(Dependencies.flywayCore)
     implementation(Dependencies.postgresql)
-    implementation(Dependencies.hikari)
     implementation(Dependencies.jooq)
-    implementation(Dependencies.jooqCodegen)
-    implementation(Dependencies.jooqMeta)
+    implementation(Dependencies.hikari)
 
     testImplementation(kotlin("test"))
     testImplementation(project(":core"))

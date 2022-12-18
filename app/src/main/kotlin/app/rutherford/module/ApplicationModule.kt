@@ -5,7 +5,6 @@ import app.rutherford.core.configuration.DatabaseConfig
 import app.rutherford.core.transaction.TransactionManager
 import app.rutherford.core.util.Dotenv
 import app.rutherford.schema.tool.FlywayMigrator.migrate
-import app.rutherford.schema.tool.JooqGenerator.generateSchema
 
 class ApplicationModule(
     overrides: Overrides
@@ -39,7 +38,6 @@ class ApplicationModule(
 
     fun start() {
         migrate(database.dataSource)
-        generateSchema(databaseConfig)
         resources.bindRoutes()
         javalinModule.start(applicationPort)
     }
