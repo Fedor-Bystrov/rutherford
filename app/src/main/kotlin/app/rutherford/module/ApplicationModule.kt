@@ -3,7 +3,7 @@ package app.rutherford.module
 import app.rutherford.Overrides
 import app.rutherford.database.transaction.TransactionManager
 import app.rutherford.module.configuration.DatabaseConfig
-import app.rutherford.module.tool.Dotenv
+import app.rutherford.util.Dotenv
 import app.rutherford.module.tool.FlywayMigrator.migrate
 import app.rutherford.module.tool.JooqGenerator.generateSchema
 

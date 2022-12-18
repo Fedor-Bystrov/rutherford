@@ -1,4 +1,4 @@
-package app.rutherford.module.tool
+package app.rutherford.util
 
 import app.rutherford.module.exception.DotenvException
 import io.github.cdimascio.dotenv.dotenv
