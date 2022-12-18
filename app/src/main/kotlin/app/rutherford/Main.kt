@@ -16,6 +16,7 @@ import app.rutherford.module.ApplicationModule
 //  - add generateSchema to the "build" flow i.e. run generateSchema on each build
 //  - extract IntegrationTest to core (without javalin)
 //  - Create FunctionalTest in app (with javalin) and http client in future
+//  - extract auth to separate module
 
 fun main() {
     val application = ApplicationModule(Overrides())
