@@ -1,4 +1,4 @@
-package app.rutherford.module.tool
+package app.rutherford.schema.tool
 
 import app.rutherford.module.configuration.DatabaseConfig
 import org.jooq.codegen.GenerationTool

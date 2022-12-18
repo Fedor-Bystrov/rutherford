@@ -1,4 +1,4 @@
-package app.rutherford.module.tool
+package app.rutherford.schema.tool
 
 import org.flywaydb.core.Flyway
 import javax.sql.DataSource

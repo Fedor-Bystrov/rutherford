@@ -4,8 +4,8 @@ import app.rutherford.Overrides
 import app.rutherford.database.transaction.TransactionManager
 import app.rutherford.module.configuration.DatabaseConfig
 import app.rutherford.util.Dotenv
-import app.rutherford.module.tool.FlywayMigrator.migrate
-import app.rutherford.module.tool.JooqGenerator.generateSchema
+import app.rutherford.schema.tool.FlywayMigrator.migrate
+import app.rutherford.schema.tool.JooqGenerator.generateSchema
 
 class ApplicationModule(
     overrides: Overrides
