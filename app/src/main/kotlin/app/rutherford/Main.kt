@@ -16,7 +16,7 @@ import app.rutherford.module.ApplicationModule
 //  - divide project into modules
 //    - fix jooq schema generation in tests
 //    - extract deps to buildSrc Dependencies object
-//    - extract schema module (jooq + converters)
+//    - extract schema module (jooq + converters) (dont forget to add .schema package)
 //    - extract core module (with all tools modules, repos etc)
 
 fun main() {
