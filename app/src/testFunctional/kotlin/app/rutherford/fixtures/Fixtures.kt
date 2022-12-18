@@ -1,6 +1,6 @@
 package app.rutherford.fixtures
 
-import app.rutherford.ApplicationName.TEST
+import app.rutherford.core.ApplicationName.TEST
 import app.rutherford.core.entity.Entity.Id
 import app.rutherford.core.entity.Entity.State.CREATED
 import app.rutherford.database.entity.AuthUser.Builder.Companion.authUser

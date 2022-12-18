@@ -20,7 +20,7 @@ object JooqGenerator {
             .withConverter("app.rutherford.schema.converter.InstantConverter")
             .withIncludeTypes("Timestamp"),
         ForcedType()
-            .withUserType("app.rutherford.ApplicationName")
+            .withUserType("app.rutherford.core.ApplicationName")
             .withConverter("org.jooq.impl.EnumConverter")
             .withIncludeExpression(
                 """.*\.AUTH_USER\.application_name"""

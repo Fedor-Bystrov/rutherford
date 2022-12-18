@@ -1,4 +1,4 @@
-package app.rutherford
+package app.rutherford.core
 
 enum class ApplicationName {
     /**

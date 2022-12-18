@@ -4,7 +4,7 @@
 package app.rutherford.schema.generated.tables.records
 
 
-import app.rutherford.ApplicationName
+import app.rutherford.core.ApplicationName
 import app.rutherford.schema.generated.tables.AuthUser
 
 import java.time.Instant

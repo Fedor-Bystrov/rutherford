@@ -1,6 +1,6 @@
 package app.rutherford.database.entity
 
-import app.rutherford.ApplicationName
+import app.rutherford.core.ApplicationName
 import app.rutherford.core.entity.Entity
 import app.rutherford.database.entity.AuthUser.Builder.Companion.authUser
 import app.rutherford.core.util.Checks.validateNotBlank

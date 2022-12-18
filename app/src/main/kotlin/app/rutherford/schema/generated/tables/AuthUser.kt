@@ -4,7 +4,7 @@
 package app.rutherford.schema.generated.tables
 
 
-import app.rutherford.ApplicationName
+import app.rutherford.core.ApplicationName
 import app.rutherford.schema.converter.InstantConverter
 import app.rutherford.schema.generated.Public
 import app.rutherford.schema.generated.keys.AUTH_USER_PKEY
@@ -12,7 +12,6 @@ import app.rutherford.schema.generated.tables.records.AuthUserRecord
 
 import java.time.Instant
 import java.util.UUID
-import java.util.function.Function
 
 import javax.annotation.processing.Generated
 
