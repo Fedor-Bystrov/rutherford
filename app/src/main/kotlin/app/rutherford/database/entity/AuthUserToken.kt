@@ -1,7 +1,8 @@
 package app.rutherford.database.entity
 
+import app.rutherford.core.entity.Entity
 import app.rutherford.database.entity.AuthUserToken.Builder.Companion.authUserToken
-import app.rutherford.database.entity.Entity.State.CREATED
+import app.rutherford.core.entity.Entity.State.CREATED
 import app.rutherford.util.Checks.validateNotBlank
 import app.rutherford.util.Checks.validateNotNull
 import java.time.Instant

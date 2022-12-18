@@ -26,7 +26,7 @@ object JooqGenerator {
                 """.*\.AUTH_USER\.application_name"""
             ),
         ForcedType()
-            .withUserType("app.rutherford.database.entity.Entity.State")
+            .withUserType("app.rutherford.core.entity.Entity.State")
             .withConverter("org.jooq.impl.EnumConverter")
             .withIncludeExpression(
                 """.*\.auth_user_token\.state"""

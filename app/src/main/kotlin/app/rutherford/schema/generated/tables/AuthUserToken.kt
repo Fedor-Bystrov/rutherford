@@ -4,7 +4,7 @@
 package app.rutherford.schema.generated.tables
 
 
-import app.rutherford.database.entity.Entity.State
+import app.rutherford.core.entity.Entity.State
 import app.rutherford.schema.converter.InstantConverter
 import app.rutherford.schema.generated.Public
 import app.rutherford.schema.generated.indexes.AUTH_USER_TOKEN_TOKEN_HASH_IDX

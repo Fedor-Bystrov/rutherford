@@ -1,6 +1,6 @@
 package app.rutherford.database.repository
 
-import app.rutherford.database.entity.Entity
+import app.rutherford.core.entity.Entity
 import app.rutherford.core.exception.EntityNotFoundException
 import org.jooq.Condition
 import org.jooq.Configuration
