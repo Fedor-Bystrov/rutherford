@@ -13,11 +13,8 @@ import app.rutherford.module.ApplicationModule
 //      4.1 Check .net identity and create TODO for functionality that I need to implement
 
 // TODO Set up
-//  - divide project into modules
-//    - fix jooq schema generation in tests
-//    - extract deps to buildSrc Dependencies object
-//    - extract schema module (jooq + converters) (dont forget to add .schema package)
-//    - extract core module (with all tools modules, repos etc)
+//  - extract api (resources) and core (repo, services etc) modules
+//  - extract deps to buildSrc Dependencies object
 
 fun main() {
     val application = ApplicationModule(Overrides())
