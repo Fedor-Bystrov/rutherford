@@ -31,7 +31,7 @@ object Dependencies {
     val orgJson = "org.json:json:${Versions.orgJson}"
     val logbackCore = "ch.qos.logback:logback-core:${Versions.logback}"
     val logbackClassic = "ch.qos.logback:logback-classic:${Versions.logback}"
-    val slf4j = "org.slf4j:slf4j-api:${Versions.slf4j}"
+    val slf4jApi = "org.slf4j:slf4j-api:${Versions.slf4j}"
     val flywayCore = "org.flywaydb:flyway-core:${Versions.flyway}"
     val postgresql = "org.postgresql:postgresql:${Versions.postgresql}"
     val hikari = "com.zaxxer:HikariCP:${Versions.hikari}"
