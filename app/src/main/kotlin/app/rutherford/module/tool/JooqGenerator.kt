@@ -17,16 +17,16 @@ object JooqGenerator {
     private val FORCED_TYPES: List<ForcedType> = listOf(
         ForcedType()
             .withUserType("java.time.Instant")
-            .withConverter("InstantConverter")
+            .withConverter("app.rutherford.schema.converter.InstantConverter")
             .withIncludeTypes("Timestamp"),
         ForcedType()
-            .withUserType("ApplicationName")
+            .withUserType("app.rutherford.ApplicationName")
             .withConverter("org.jooq.impl.EnumConverter")
             .withIncludeExpression(
                 """.*\.AUTH_USER\.application_name"""
             ),
         ForcedType()
-            .withUserType("Entity.State")
+            .withUserType("app.rutherford.database.entity.Entity.State")
             .withConverter("org.jooq.impl.EnumConverter")
             .withIncludeExpression(
                 """.*\.auth_user_token\.state"""
@@ -58,8 +58,8 @@ object JooqGenerator {
                     )
                     .withTarget(
                         Target()
-                            .withPackageName("app.rutherford.database.jooq.generated")
-                            .withDirectory("app/src/main/kotlin")
+                            .withPackageName("app.rutherford.schema.generated")
+                            .withDirectory("src/main/kotlin")
                     )
                     .withGenerate(
                         Generate()

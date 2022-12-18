@@ -3,8 +3,8 @@ package app.rutherford.database.repository
 import app.rutherford.database.entity.AuthUser
 import app.rutherford.database.entity.AuthUser.Builder.Companion.authUser
 import app.rutherford.database.entity.Entity.Id
-import app.rutherford.database.jooq.generated.tables.records.AuthUserRecord
-import app.rutherford.database.jooq.generated.tables.references.AUTH_USER
+import app.rutherford.schema.generated.tables.records.AuthUserRecord
+import app.rutherford.schema.generated.tables.references.AUTH_USER
 import org.jooq.Configuration
 import org.jooq.DSLContext
 
