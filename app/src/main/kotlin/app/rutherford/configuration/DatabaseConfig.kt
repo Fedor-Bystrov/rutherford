@@ -1,4 +1,4 @@
-package app.rutherford.module.configuration
+package app.rutherford.configuration
 
 data class DatabaseConfig(
     val jdbcUrl: String,

@@ -1,6 +1,6 @@
 package app.rutherford.schema.tool
 
-import app.rutherford.module.configuration.DatabaseConfig
+import app.rutherford.configuration.DatabaseConfig
 import org.jooq.codegen.GenerationTool
 import org.jooq.meta.jaxb.Configuration
 import org.jooq.meta.jaxb.Database
