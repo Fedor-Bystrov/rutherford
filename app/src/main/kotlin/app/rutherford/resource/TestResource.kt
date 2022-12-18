@@ -1,8 +1,8 @@
 package app.rutherford.resource
 
 import app.rutherford.core.ApplicationName.TEST
-import app.rutherford.core.entity.Entity.Id
-import app.rutherford.core.resource.Resource
+import app.rutherford.core.abstract.entity.Entity.Id
+import app.rutherford.core.abstract.resource.Resource
 import app.rutherford.database.entity.AuthUser
 import app.rutherford.database.entity.AuthUser.Builder.Companion.authUser
 import app.rutherford.database.repository.AuthUserRepository

@@ -1,4 +1,4 @@
-package app.rutherford.core.entity
+package app.rutherford.core.abstract.entity
 
 import java.util.*
 

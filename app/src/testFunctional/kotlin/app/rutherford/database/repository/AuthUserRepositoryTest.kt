@@ -1,7 +1,7 @@
 package app.rutherford.database.repository
 
 import app.rutherford.FunctionalTest
-import app.rutherford.core.entity.Entity.Id
+import app.rutherford.core.abstract.entity.Entity.Id
 import app.rutherford.database.entity.AuthUser
 import app.rutherford.core.exception.EntityNotFoundException
 import app.rutherford.core.transaction.transaction

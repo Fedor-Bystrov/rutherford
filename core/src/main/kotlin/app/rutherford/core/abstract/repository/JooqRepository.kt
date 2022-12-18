@@ -1,6 +1,6 @@
-package app.rutherford.core.repository
+package app.rutherford.core.abstract.repository
 
-import app.rutherford.core.entity.Entity
+import app.rutherford.core.abstract.entity.Entity
 import app.rutherford.core.exception.EntityNotFoundException
 import org.jooq.Condition
 import org.jooq.Configuration
@@ -40,7 +40,7 @@ abstract class JooqRepository<R : UpdatableRecord<*>, E : Entity>(
     }
 
     protected fun getById(conf: Configuration?, id: UUID): E =
-        findById(conf, id) ?: throw EntityNotFoundException(table, id);
+        findById(conf, id) ?: throw EntityNotFoundException(table, id)
 
     protected fun findByIdWhere(conf: Configuration?, id: UUID, condition: Condition): E? {
         return findOne(

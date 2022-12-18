@@ -1,8 +1,8 @@
 package app.rutherford.fixtures
 
 import app.rutherford.core.ApplicationName.TEST
-import app.rutherford.core.entity.Entity.Id
-import app.rutherford.core.entity.Entity.State.CREATED
+import app.rutherford.core.abstract.entity.Entity.Id
+import app.rutherford.core.abstract.entity.Entity.State.CREATED
 import app.rutherford.database.entity.AuthUser.Builder.Companion.authUser
 import app.rutherford.database.entity.AuthUserToken.Builder.Companion.authUserToken
 import org.apache.commons.lang3.RandomStringUtils.randomAlphabetic
