@@ -1,7 +1,7 @@
-package app.rutherford.util
+package app.rutherford.core.util
 
-import app.rutherford.util.Checks.validateNotBlank
-import app.rutherford.util.Checks.validateNotNull
+import app.rutherford.core.util.Checks.validateNotBlank
+import app.rutherford.core.util.Checks.validateNotNull
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test

@@ -1,4 +1,4 @@
-package app.rutherford.util
+package app.rutherford.core.util
 
 import io.github.cdimascio.dotenv.dotenv
 import io.github.cdimascio.dotenv.Dotenv as DotenvKotlin

@@ -1,4 +1,4 @@
-package app.rutherford.util
+package app.rutherford.core.util
 
 object Checks {
     fun <T : Any> validateNotNull(paramName: String, value: T?): T {
