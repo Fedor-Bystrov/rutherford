@@ -1,5 +1,8 @@
 import org.flywaydb.core.Flyway
 import org.gradle.api.DefaultTask
+import org.gradle.api.provider.Property
+import org.gradle.api.provider.ListProperty
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 import org.jooq.codegen.GenerationTool
 import org.jooq.meta.jaxb.Configuration
@@ -12,11 +15,19 @@ import org.jooq.meta.jaxb.Logging.INFO
 import org.jooq.meta.jaxb.Target
 import org.testcontainers.containers.PostgreSQLContainer
 
-open class GenerateSchemaTask : DefaultTask() {
+abstract class GenerateSchemaTask : DefaultTask() {
+    @get:Input
+    abstract val dockerimageName: Property<String>
+
+    @get:Input
+    abstract val outputPackage: Property<String>
+
+    @get:Input
+    abstract val forcedTypes: ListProperty<ForcedType>
+
     @TaskAction
     fun generateSchema() {
-        // TODO dockerImageName extract to property
-        PostgreSQLContainer("postgres:15.1").use {
+        PostgreSQLContainer(dockerimageName.get()).use {
             println("Staring ${it.getDockerImageName()} container...")
             it.start()
 
@@ -51,30 +62,11 @@ open class GenerateSchemaTask : DefaultTask() {
     }
 
     private fun generateSchema(jdbcUrl: String, username: String, password: String) {
-        val forcedTypes: List<ForcedType> = listOf( // TODO extract to property
-            ForcedType()
-                .withUserType("java.time.Instant")
-                .withConverter("app.rutherford.schema.converter.InstantConverter")
-                .withIncludeTypes("Timestamp"),
-            ForcedType()
-                .withUserType("app.rutherford.core.ApplicationName")
-                .withConverter("org.jooq.impl.EnumConverter")
-                .withIncludeExpression(
-                    """.*\.AUTH_USER\.application_name"""
-                ),
-            ForcedType()
-                .withUserType("app.rutherford.core.entity.Entity.State")
-                .withConverter("org.jooq.impl.EnumConverter")
-                .withIncludeExpression(
-                    """.*\.auth_user_token\.state"""
-                )
-        )
-
         val configuration = Configuration()
             .withLogging(INFO)
             .withJdbc(
                 Jdbc()
-                    .withDriver("org.postgresql.Driver") // TODO extract to propertyu
+                    .withDriver("org.postgresql.Driver")
                     .withUrl(jdbcUrl)
                     .withUser(username)
                     .withPassword(password)
@@ -91,11 +83,11 @@ open class GenerateSchemaTask : DefaultTask() {
                             .withSchemaVersionProvider(
                                 "SELECT :schema_name || '_' || MAX(\"version\") " + "FROM \"flyway_schema_history\""
                             )
-                            .withForcedTypes(forcedTypes)
+                            .withForcedTypes(forcedTypes.get())
                     )
                     .withTarget(
-                        Target() // TODO extract to property
-                            .withPackageName("app.rutherford.schema.generated")
+                        Target()
+                            .withPackageName(outputPackage.get())
                             .withDirectory("${project.projectDir}/src/main/kotlin")
                     )
                     .withGenerate(

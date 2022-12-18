@@ -13,6 +13,7 @@ testSets {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":schema"))
     implementation(Dependencies.javalin)
     implementation(Dependencies.jacksonModuleKotlin)
     implementation(Dependencies.jacksonJsr310)
