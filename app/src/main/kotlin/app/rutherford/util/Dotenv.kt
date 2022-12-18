@@ -1,8 +1,9 @@
 package app.rutherford.util
 
-import app.rutherford.module.exception.DotenvException
 import io.github.cdimascio.dotenv.dotenv
 import io.github.cdimascio.dotenv.Dotenv as DotenvKotlin
+
+class DotenvException(key: String) : RuntimeException("No value for $key key")
 
 object Dotenv {
     private val dotenv: DotenvKotlin = dotenv()
