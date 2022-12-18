@@ -15,13 +15,14 @@ open class GenerateSchemaTask : DefaultTask() {
     @TaskAction
     fun generateSchema() {
         val container = PostgreSQLContainer("postgres:15.1") // TODO dockerImageName extract to property
+
+        println("Staring PostgreSQLContainer...") // TODO print version in log
         container.start()
         Runtime.getRuntime().addShutdownHook(Thread(container::stop))
 
         val jdbcUrl = container.getJdbcUrl()
         val username = container.getUsername()
         val password = container.getPassword()
-
 
         println("Applying migrations...")
         val migraitonsLocation = "filesystem:${project.projectDir}/src/main/resources/db/migration"
@@ -69,7 +70,6 @@ open class GenerateSchemaTask : DefaultTask() {
                     """.*\.auth_user_token\.state"""
                 )
         )
-
 
         val configuration = Configuration()
             .withJdbc(
