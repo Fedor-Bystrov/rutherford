@@ -3,7 +3,7 @@ package app.rutherford
 import app.rutherford.core.configuration.DatabaseConfig
 import app.rutherford.schema.generated.tables.references.AUTH_USER
 import app.rutherford.schema.generated.tables.references.AUTH_USER_TOKEN
-import app.rutherford.database.transaction.transaction
+import app.rutherford.core.transaction.transaction
 import app.rutherford.module.ApplicationModule
 import app.rutherford.module.RepositoryModule
 import org.jooq.conf.Settings

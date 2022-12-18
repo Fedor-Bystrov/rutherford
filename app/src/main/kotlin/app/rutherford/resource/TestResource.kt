@@ -5,7 +5,7 @@ import app.rutherford.database.entity.AuthUser
 import app.rutherford.database.entity.AuthUser.Builder.Companion.authUser
 import app.rutherford.database.entity.Entity.Id
 import app.rutherford.database.repository.AuthUserRepository
-import app.rutherford.database.transaction.transaction
+import app.rutherford.core.transaction.transaction
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.get
 import io.javalin.apibuilder.ApiBuilder.path

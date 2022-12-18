@@ -1,4 +1,4 @@
-package app.rutherford.database.transaction
+package app.rutherford.core.transaction
 
 import org.jooq.Configuration
 import org.jooq.DSLContext
@@ -9,7 +9,7 @@ object TransactionManager {
         private set
 
     fun of(dslContext: DSLContext): TransactionManager {
-        this.dslContext = dslContext
+        TransactionManager.dslContext = dslContext
         return this
     }
 }

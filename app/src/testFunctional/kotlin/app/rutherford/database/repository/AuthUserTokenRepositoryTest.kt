@@ -4,8 +4,8 @@ import app.rutherford.FunctionalTest
 import app.rutherford.database.entity.AuthUser
 import app.rutherford.database.entity.AuthUserToken
 import app.rutherford.database.entity.Entity.Id
-import app.rutherford.database.exception.EntityNotFoundException
-import app.rutherford.database.transaction.transaction
+import app.rutherford.core.exception.EntityNotFoundException
+import app.rutherford.core.transaction.transaction
 import app.rutherford.fixtures.anAuthUser
 import app.rutherford.fixtures.anAuthUserToken
 import org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric

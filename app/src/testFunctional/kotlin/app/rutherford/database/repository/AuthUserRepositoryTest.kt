@@ -3,8 +3,8 @@ package app.rutherford.database.repository
 import app.rutherford.FunctionalTest
 import app.rutherford.database.entity.AuthUser
 import app.rutherford.database.entity.Entity.Id
-import app.rutherford.database.exception.EntityNotFoundException
-import app.rutherford.database.transaction.transaction
+import app.rutherford.core.exception.EntityNotFoundException
+import app.rutherford.core.transaction.transaction
 import app.rutherford.fixtures.anAuthUser
 import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
