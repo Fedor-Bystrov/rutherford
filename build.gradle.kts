@@ -13,9 +13,6 @@ allprojects {
 
     tasks.withType(Test::class.java) {
         useJUnitPlatform()
-        testLogging {
-            events("passed", "skipped", "failed")
-        }
     }
 
     tasks.withType<KotlinCompile> {

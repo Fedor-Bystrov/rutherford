@@ -34,3 +34,7 @@ tasks.register<GenerateSchemaTask>("generateSchema") {
         )
     )
 }
+
+tasks.build {
+    dependsOn("generateSchema")
+}
