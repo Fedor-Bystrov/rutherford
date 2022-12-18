@@ -1,6 +1,6 @@
 package app.rutherford
 
-import app.rutherford.core.configuration.DatabaseConfig
+import app.rutherford.configuration.DatabaseConfig
 import app.rutherford.schema.generated.tables.references.AUTH_USER
 import app.rutherford.schema.generated.tables.references.AUTH_USER_TOKEN
 import app.rutherford.core.transaction.transaction
