@@ -15,6 +15,8 @@ import app.rutherford.module.ApplicationModule
 // TODO Set up
 //  - extract IntegrationTest to core (without javalin)
 //  - Create FunctionalTest in app (with javalin) and http client in future
+//  - use shadow plugin instead of application
+//  - run all test suits on each build
 
 fun main() {
     val application = ApplicationModule(Overrides())
