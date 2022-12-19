@@ -13,8 +13,6 @@ import app.rutherford.module.ApplicationModule
 //      4.1 Check .net identity and create TODO for functionality that I need to implement
 
 // TODO Set up
-//  - extract IntegrationTest to core (without javalin)
-//  - Create FunctionalTest in app (with javalin) and http client in future
 //  - use shadow plugin instead of application
 //  - run all test suits on each build
 
