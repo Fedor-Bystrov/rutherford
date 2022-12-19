@@ -53,3 +53,7 @@ tasks.build {
 tasks.check {
     dependsOn("testFunctional")
 }
+
+tasks.runShadow {
+    dependsOn(tasks.check)
+}
