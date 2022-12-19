@@ -80,9 +80,6 @@ abstract class GenerateSchemaTask : DefaultTask() {
                             .withIncludes(".*")
                             .withExcludes("public.flyway_schema_history")
                             .withInputSchema("public")
-                            .withSchemaVersionProvider(
-                                "SELECT :schema_name || '_' || MAX(\"version\") " + "FROM \"flyway_schema_history\""
-                            )
                             .withForcedTypes(forcedTypes.get())
                     )
                     .withTarget(
