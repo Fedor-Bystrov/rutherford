@@ -1,7 +1,8 @@
 plugins {
     kotlin("jvm") version Dependencies.Plugins.Versions.kotlin
     id("org.unbroken-dome.test-sets") version Dependencies.Plugins.Versions.testSets
-    application
+    id("com.github.johnrengelman.shadow") version "7.1.2"
+//    application
 }
 
 group = "app.rutherford"
@@ -35,6 +36,25 @@ dependencies {
     testImplementation(Dependencies.commonsLang3)
 }
 
-application {
-    mainClass.set("app.rutherford.MainKt")
+//application { // TODO clean up
+//    mainClass.set("app.rutherford.MainKt")
+//}
+
+tasks.shadowJar {
+    isZip64 = true
+    mergeServiceFiles()
+    minimize()
+    manifest {
+        attributes (
+            "Main-Class" to "app.rutherford.MainKt"
+        )
+    }
+}
+
+tasks.build {
+    dependsOn(tasks.shadowJar)
+}
+
+tasks.check {
+    dependsOn("testFunctional")
 }
