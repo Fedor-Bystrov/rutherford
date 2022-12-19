@@ -1,7 +1,6 @@
-package app.rutherford.database.transaction
+package app.rutherford.core.transaction
 
 import app.rutherford.FunctionalTest
-import app.rutherford.core.transaction.transaction
 import app.rutherford.fixtures.anAuthUser
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

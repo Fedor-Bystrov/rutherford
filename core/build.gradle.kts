@@ -3,10 +3,6 @@ plugins {
     id("org.unbroken-dome.test-sets") version Dependencies.Plugins.Versions.testSets
 }
 
-testSets {
-    create("testFunctional")
-}
-
 dependencies {
     implementation(Dependencies.jooq)
     implementation(Dependencies.dotenv)
@@ -14,5 +10,4 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation(Dependencies.junitJupiter)
     testImplementation(Dependencies.assertjCore)
-    testImplementation(Dependencies.testContainersPg)
 }

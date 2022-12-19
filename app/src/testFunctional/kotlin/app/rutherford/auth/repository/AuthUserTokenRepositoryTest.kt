@@ -1,4 +1,4 @@
-package app.rutherford.database.repository
+package app.rutherford.auth.repository
 
 import app.rutherford.FunctionalTest
 import app.rutherford.core.abstract.entity.Entity.Id

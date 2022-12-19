@@ -28,6 +28,7 @@ dependencies {
 
     testImplementation(kotlin("test"))
     testImplementation(project(":core"))
+    testImplementation(project(":auth"))
     testImplementation(Dependencies.junitJupiter)
     testImplementation(Dependencies.assertjCore)
     testImplementation(Dependencies.testContainersPg)
