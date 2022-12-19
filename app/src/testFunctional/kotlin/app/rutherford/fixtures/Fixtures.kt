@@ -3,8 +3,8 @@ package app.rutherford.fixtures
 import app.rutherford.core.ApplicationName.TEST
 import app.rutherford.core.abstract.entity.Entity.Id
 import app.rutherford.core.abstract.entity.Entity.State.CREATED
-import app.rutherford.database.entity.AuthUser.Builder.Companion.authUser
-import app.rutherford.database.entity.AuthUserToken.Builder.Companion.authUserToken
+import app.rutherford.auth.entity.AuthUser.Builder.Companion.authUser
+import app.rutherford.auth.entity.AuthUserToken.Builder.Companion.authUserToken
 import org.apache.commons.lang3.RandomStringUtils.randomAlphabetic
 import org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 import java.time.Instant.now

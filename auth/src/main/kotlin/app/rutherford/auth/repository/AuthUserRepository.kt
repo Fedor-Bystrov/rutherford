@@ -1,9 +1,9 @@
-package app.rutherford.database.repository
+package app.rutherford.auth.repository
 
 import app.rutherford.core.abstract.entity.Entity.Id
 import app.rutherford.core.abstract.repository.JooqRepository
-import app.rutherford.database.entity.AuthUser
-import app.rutherford.database.entity.AuthUser.Builder.Companion.authUser
+import app.rutherford.auth.entity.AuthUser
+import app.rutherford.auth.entity.AuthUser.Builder.Companion.authUser
 import app.rutherford.schema.generated.tables.records.AuthUserRecord
 import app.rutherford.schema.generated.tables.references.AUTH_USER
 import org.jooq.Configuration

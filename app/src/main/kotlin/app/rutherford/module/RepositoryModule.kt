@@ -1,7 +1,7 @@
 package app.rutherford.module
 
-import app.rutherford.database.repository.AuthUserRepository
-import app.rutherford.database.repository.AuthUserTokenRepository
+import app.rutherford.auth.repository.AuthUserRepository
+import app.rutherford.auth.repository.AuthUserTokenRepository
 import org.jooq.DSLContext
 
 class RepositoryModule(dslContext: DSLContext) {
