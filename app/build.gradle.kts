@@ -7,9 +7,6 @@ plugins {
     application
 }
 
-group = "app.rutherford"
-version = "0.1"
-
 testSets {
     create("testFunctional")
 }
