@@ -1,8 +1,10 @@
+import java.time.Instant.now
+
 plugins {
     kotlin("jvm") version Dependencies.Plugins.Versions.kotlin
     id("org.unbroken-dome.test-sets") version Dependencies.Plugins.Versions.testSets
     id("com.github.johnrengelman.shadow") version "7.1.2"
-//    application
+    application
 }
 
 group = "app.rutherford"
@@ -36,19 +38,15 @@ dependencies {
     testImplementation(Dependencies.commonsLang3)
 }
 
-//application { // TODO clean up
-//    mainClass.set("app.rutherford.MainKt")
-//}
+application {
+    mainClass.set("app.rutherford.MainKt")
+}
 
 tasks.shadowJar {
     isZip64 = true
     mergeServiceFiles()
-    minimize()
-    manifest {
-        attributes (
-            "Main-Class" to "app.rutherford.MainKt"
-        )
-    }
+    archiveBaseName.set("rutherford")
+    archiveVersion.set(now().epochSecond.toString())
 }
 
 tasks.build {
