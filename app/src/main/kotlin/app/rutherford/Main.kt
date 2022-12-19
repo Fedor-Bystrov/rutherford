@@ -12,8 +12,9 @@ import app.rutherford.module.ApplicationModule
 //  5. TODO App should support 2FA, email confirmation (with resending email confirmation) etc
 //      4.1 Check .net identity and create TODO for functionality that I need to implement
 
-
-// TODO delete withSchemaVersionProvider check from jooq generation?
+// TODO Set up
+//  - add docker support, use jib?
+//  - don't forget to set memory and cpu limits for jvm? Or jvm will read it from container?
 
 fun main() {
     val application = ApplicationModule(Overrides())
