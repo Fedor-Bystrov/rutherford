@@ -35,13 +35,11 @@ dependencies {
     testImplementation(Dependencies.commonsLang3)
 }
 
-val rutherfordJvmArgs = listOf( // TODO validate this props
+val rutherfordJvmArgs = listOf(
     "-server",
-    "-Djava.awt.headless=true",
-    "-Xms128m",
-    "-Xmx256m",
     "-XX:+UseG1GC",
-    "-XX:MaxGCPauseMillis=100"
+    "-XX:MaxRAMPercentage=60",
+    // "-XX:InitialRAMPercentage=60", -- performance optimisation
 )
 
 application {

@@ -12,9 +12,6 @@ import app.rutherford.module.ApplicationModule
 //  5. TODO App should support 2FA, email confirmation (with resending email confirmation) etc
 //      4.1 Check .net identity and create TODO for functionality that I need to implement
 
-// TODO Set up
-//  - validate jvm pros for docker
-
 fun main() {
     val application = ApplicationModule(Overrides())
     application.start()
