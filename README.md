@@ -1,3 +1,7 @@
+### Instructions
+- Run `./gradlew clean jibDockerBuild` to build docker image
+- Run `./gradlew clean jib` to build docker image and push it to GCP registry (TODO)
+
 
 ### Run rutherford container locally
 Add `environment` and `ports` to jib cofig
