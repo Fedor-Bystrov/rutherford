@@ -16,7 +16,7 @@ allprojects {
         useJUnitPlatform()
     }
 
-    // required for jib (?) to ignore unchanged layers
+    // required for jib to ignore unchanged layers
     tasks.withType<AbstractArchiveTask>().configureEach {
         isPreserveFileTimestamps = false
         isReproducibleFileOrder = true
