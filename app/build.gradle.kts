@@ -36,16 +36,33 @@ dependencies {
     testImplementation(Dependencies.commonsLang3)
 }
 
+val rutherfordJvmArgs = listOf( // TODO validate this props
+    "-server",
+    "-Djava.awt.headless=true",
+    "-Xms128m",
+    "-Xmx256m",
+    "-XX:+UseG1GC",
+    "-XX:MaxGCPauseMillis=100"
+)
+
 application {
     mainClass.set("app.rutherford.MainKt")
-    applicationDefaultJvmArgs = listOf(
-        "-server",
-        "-Djava.awt.headless=true",
-        "-Xms128m",
-        "-Xmx256m",
-        "-XX:+UseG1GC",
-        "-XX:MaxGCPauseMillis=100"
-    )
+    applicationDefaultJvmArgs = rutherfordJvmArgs
+}
+
+jib {
+    from {
+        image = "eclipse-temurin:17-jre-alpine@sha256:15c47cd825f2bf77b40860bc9c18d4659c72584d16ef5f533eb49a232b3702f3"
+    }
+    to {
+        image = "rutherford"
+        tags = setOf(now().epochSecond.toString(), "latest")
+    }
+    container {
+        creationTime.set("USE_CURRENT_TIMESTAMP")
+        user = "java:java"
+        jvmFlags = rutherfordJvmArgs
+    }
 }
 
 tasks.shadowJar {
@@ -67,26 +84,3 @@ tasks.runShadow {
     dependsOn(tasks.check)
 }
 
-jib {
-    from {
-        image = "eclipse-temurin:17-jre-alpine@sha256:15c47cd825f2bf77b40860bc9c18d4659c72584d16ef5f533eb49a232b3702f3"
-    }
-    to {
-        image = "rutherford"
-        tags = setOf(now().epochSecond.toString(), "latest")
-    }
-    container {
-        creationTime.set("USE_CURRENT_TIMESTAMP")
-        user = "java:java"
-        jvmFlags = listOf(
-            "-server",
-            "-Djava.awt.headless=true",
-            "-XX:InitialRAMFraction=2",
-            "-XX:MinRAMFraction=2",
-            "-XX:MaxRAMFraction=2",
-            "-XX:+UseG1GC",
-            "-XX:MaxGCPauseMillis=100",
-            "-XX:+UseStringDeduplication"
-        )
-    }
-}
