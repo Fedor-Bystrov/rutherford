@@ -17,6 +17,7 @@ import app.rutherford.module.ApplicationModule
 //  - don't forget to set memory and cpu limits for jvm? Or jvm will read it from container?
 //  - delete shadow plugin since I will use jib
 //  - validate jvm pros for docker
+//  - write todo, mention how to compile and build docker image
 
 fun main() {
     val application = ApplicationModule(Overrides())
