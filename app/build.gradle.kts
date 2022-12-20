@@ -65,3 +65,11 @@ jib {
 tasks.check {
     dependsOn("testFunctional")
 }
+
+tasks.jib {
+    dependsOn(tasks.build)
+}
+
+tasks.jibDockerBuild {
+    dependsOn(tasks.build)
+}
