@@ -38,6 +38,14 @@ dependencies {
 
 application {
     mainClass.set("app.rutherford.MainKt")
+    applicationDefaultJvmArgs = listOf(
+        "-server",
+        "-Djava.awt.headless=true",
+        "-Xms128m",
+        "-Xmx256m",
+        "-XX:+UseG1GC",
+        "-XX:MaxGCPauseMillis=100"
+    )
 }
 
 tasks.shadowJar {
@@ -57,4 +65,25 @@ tasks.check {
 
 tasks.runShadow {
     dependsOn(tasks.check)
+}
+
+jib {
+    from {
+        image = "eclipse-temurin:17-jre-alpine"
+    }
+    to {
+        image = "rutherford-jib-17-alpine"
+    }
+    container {
+        jvmFlags = listOf(
+            "-server",
+            "-Djava.awt.headless=true",
+            "-XX:InitialRAMFraction=2",
+            "-XX:MinRAMFraction=2",
+            "-XX:MaxRAMFraction=2",
+            "-XX:+UseG1GC",
+            "-XX:MaxGCPauseMillis=100",
+            "-XX:+UseStringDeduplication"
+        )
+    }
 }
