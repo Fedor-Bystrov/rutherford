@@ -3,6 +3,8 @@ object Dependencies {
         object Versions {
             val kotlin = "1.7.20"
             val testSets = "4.0.0"
+            val shadow = "7.1.2"
+            val jib = "3.3.1"
         }
     }
 

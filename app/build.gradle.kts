@@ -3,7 +3,8 @@ import java.time.Instant.now
 plugins {
     kotlin("jvm") version Dependencies.Plugins.Versions.kotlin
     id("org.unbroken-dome.test-sets") version Dependencies.Plugins.Versions.testSets
-    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("com.github.johnrengelman.shadow") version Dependencies.Plugins.Versions.shadow
+    id("com.google.cloud.tools.jib") version Dependencies.Plugins.Versions.jib
     application
 }
 
