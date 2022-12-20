@@ -6,11 +6,13 @@ import io.github.cdimascio.dotenv.Dotenv as DotenvKotlin
 class DotenvException(key: String) : RuntimeException("No value for $key key")
 
 object Dotenv {
-    private val dotenv: DotenvKotlin = dotenv()
+    private val dotenv: DotenvKotlin = dotenv {
+        ignoreIfMissing = true
+    }
 
     fun get(key: String): String {
         return try {
-            dotenv.get(key)
+            dotenv[key]
         } catch (e: NullPointerException) {
             throw DotenvException(key)
         }
@@ -18,7 +20,7 @@ object Dotenv {
 
     fun getInt(key: String): Int {
         return try {
-            dotenv.get(key).toInt()
+            dotenv[key].toInt()
         } catch (e: RuntimeException) {
             when (e) {
                 is NullPointerException,
