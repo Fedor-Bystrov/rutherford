@@ -1,5 +1,5 @@
 
-### Connect rutherford container to postgreql container
+### Run rutherford container locally
 Add `environment` and `ports` to jib cofig
 ```kotlin
 jib {
@@ -16,6 +16,7 @@ jib {
     }
 }
 ```
+and then:
 1. `docker network create postgres-dev-network`
 2. `docker network connect postgres-dev-network <postgresql-contaner-name>`
 3. `docker run --network postgres-dev-network <app-container-name>`
