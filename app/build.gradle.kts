@@ -58,7 +58,6 @@ jib {
         tags = setOf(now().epochSecond.toString(), "latest")
     }
     container {
-        creationTime.set("USE_CURRENT_TIMESTAMP")
         user = "java:java"
         jvmFlags = rutherfordJvmArgs
     }
