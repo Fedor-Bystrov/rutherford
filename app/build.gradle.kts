@@ -59,14 +59,6 @@ jib {
     }
     container {
         jvmFlags = rutherfordJvmArgs
-
-        // TODO only for testing
-        environment = mapOf(
-            "DB_URL" to "jdbc:postgresql://localhost:5432/rutherford",
-            "DB_USER" to "rutherford_app",
-            "DB_PASS" to "123",
-            "PORT" to "7070",
-        )
     }
 }
 

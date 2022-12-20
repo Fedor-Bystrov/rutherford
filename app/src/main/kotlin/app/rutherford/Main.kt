@@ -14,7 +14,7 @@ import app.rutherford.module.ApplicationModule
 
 // TODO Set up
 //  - validate jvm pros for docker
-//  - write todo, mention how to compile and build docker image
+//  - write readme, mention how to compile and build docker image
 
 fun main() {
     val application = ApplicationModule(Overrides())
