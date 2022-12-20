@@ -69,12 +69,15 @@ tasks.runShadow {
 
 jib {
     from {
-        image = "eclipse-temurin:17-jre-alpine"
+        image = "eclipse-temurin:17-jre-alpine@sha256:15c47cd825f2bf77b40860bc9c18d4659c72584d16ef5f533eb49a232b3702f3"
     }
     to {
-        image = "rutherford-jib-17-alpine"
+        image = "rutherford"
+        tags = setOf(now().epochSecond.toString(), "latest")
     }
     container {
+        creationTime.set("USE_CURRENT_TIMESTAMP")
+        user = "java:java"
         jvmFlags = listOf(
             "-server",
             "-Djava.awt.headless=true",
