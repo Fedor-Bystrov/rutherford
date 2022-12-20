@@ -16,7 +16,6 @@ import app.rutherford.module.ApplicationModule
 //  - add docker support, use jib?
 //  - don't forget to set memory and cpu limits for jvm? Or jvm will read it from container?
 //  - delete shadow plugin since I will use jib
-//  - remove .env from resource, put in to the project root
 
 fun main() {
     val application = ApplicationModule(Overrides())
