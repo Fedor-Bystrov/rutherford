@@ -39,12 +39,6 @@ application {
     mainClass.set("app.rutherford.MainKt")
 }
 
-// required for jib (?) to ignore unchanged layers
-tasks.withType<AbstractArchiveTask>().configureEach {
-    isPreserveFileTimestamps = false
-    isReproducibleFileOrder = true
-}
-
 tasks.shadowJar {
     isZip64 = true
     mergeServiceFiles()
