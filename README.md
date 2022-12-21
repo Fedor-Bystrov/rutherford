@@ -1,3 +1,9 @@
+## Rutherford
+
+An application backend for 12in12 project. Provides JWT authorization and authentication as  well as API for different fronted hypothesis applicaitons. 
+
+---
+
 ### Instructions
 - Run `./gradlew clean jibDockerBuild` to build docker image
 - Run `./gradlew clean jib` to build docker image and push it to GCP registry (TODO)
