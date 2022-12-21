@@ -39,7 +39,7 @@ val rutherfordJvmArgs = listOf(
     "-server",
     "-XX:+UseG1GC",
     "-XX:MaxRAMPercentage=60",
-    // "-XX:InitialRAMPercentage=60", -- performance optimisation
+    "-XX:InitialRAMPercentage=60",
 )
 
 application {
