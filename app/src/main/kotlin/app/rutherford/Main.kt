@@ -11,7 +11,9 @@ import app.rutherford.module.ApplicationModule
 //      - anything else (check .net identity)
 //  - Use .net identity as a reference (but with jwt in mind)
 
-// TODO 2. Email confirmation Functionality
+// TODO 2. Add CORS, allow only my apps to access the BE
+
+// TODO 3. Email confirmation Functionality
 //  - sign_up should send an email to confirm the user's email address
 //  - sign_in should return error and ask to confirm the email
 //      - user should be able to resend confirmation email
