@@ -22,6 +22,9 @@ class UserManager {
         //  - store user in the database
         //  - return created user
 
+        // TODO read https://auth0.com/blog/hashing-passwords-one-way-road-to-security/
+        // TODO use PBKDF2 (as in .net)?
+
         return authUser()
             .build()
     }
