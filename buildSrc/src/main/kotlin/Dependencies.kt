@@ -18,6 +18,7 @@ object Dependencies {
         val hikari = "5.0.1"
         val jooq = "3.17.6"
         val dotnev = "6.4.0"
+        val javaJwt = "4.2.1"
 
         // test
         val junit = "5.9.0"
@@ -40,6 +41,7 @@ object Dependencies {
     val jooqCodegen = "org.jooq:jooq-codegen:${Versions.jooq}"
     val jooqMeta = "org.jooq:jooq-meta:${Versions.jooq}"
     val dotenv = "io.github.cdimascio:dotenv-kotlin:${Versions.dotnev}"
+    val javaJwt = "com.auth0:java-jwt:${Versions.javaJwt}"
 
     // test
     val junitJupiter = "org.junit.jupiter:junit-jupiter:${Versions.junit}"

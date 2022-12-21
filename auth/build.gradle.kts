@@ -7,6 +7,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":schema"))
     implementation(Dependencies.jooq)
+    implementation(Dependencies.javaJwt)
 
     testImplementation(kotlin("test"))
 }
