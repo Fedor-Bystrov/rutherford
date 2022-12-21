@@ -4,15 +4,16 @@ import app.rutherford.auth.entity.AuthUser
 import app.rutherford.core.util.Checks.validateNotBlank
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm.HMAC256
+import com.auth0.jwt.exceptions.JWTVerificationException
 import java.time.Duration
 import java.time.Instant
 
-data class AccessToken(val accessToken: String) {
+data class AccessToken(val value: String) {
     init {
-        validateNotBlank("accessToken", accessToken)
+        validateNotBlank("value", value)
     }
 
-    override fun toString() = "AccessToken(accessToken=<masked_value>)"
+    override fun toString() = "AccessToken(<masked_value>)"
 }
 
 
@@ -39,6 +40,19 @@ class AccessTokenService {
     }
 
     fun verifyToken(accessToken: AccessToken) {
+        val verifier = JWT.require(algorithm)
+            .withIssuer("TODO issuer")
+            .withAudience("TODO issuer")
+            // TODO validate other claims
+            // TODO check that iat is validated
+            .build()
 
+        try {
+            val decodedJWT = verifier.verify(accessToken.value)
+            decodedJWT.subject // TODO use decodedJWT to get user details and fetch it from db
+        } catch (ex: JWTVerificationException) {
+            // TODO Handle invalid signature/claims
+            throw ex
+        }
     }
 }
