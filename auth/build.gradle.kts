@@ -8,6 +8,8 @@ dependencies {
     implementation(project(":schema"))
     implementation(Dependencies.jooq)
     implementation(Dependencies.javaJwt)
+    implementation(Dependencies.orgJson)
+    implementation(Dependencies.passay)
 
     testImplementation(kotlin("test"))
 }

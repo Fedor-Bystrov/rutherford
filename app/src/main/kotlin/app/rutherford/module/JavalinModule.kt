@@ -1,5 +1,6 @@
 package app.rutherford.module
 
+import app.rutherford.auth.exception.PasswordPolicyValidatorException
 import app.rutherford.core.exception.EntityNotFoundException
 import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL
 import com.fasterxml.jackson.core.JsonParseException
@@ -62,10 +63,11 @@ class JavalinModule {
         // Validators
         JavalinValidation.register(UUID::class.java) { UUID.fromString(it) }
 
-        // Exception Mappers
+        // Exception Mappers // TODO write tests on mappers
         exception(JsonParseException::class) { e, c -> nonCritical(e, c, BAD_REQUEST, "Malformed JSON") }
         exception(ValidationException::class) { e, c -> nonCritical(e, c, BAD_REQUEST, getMessage(e)) }
         exception(IllegalStateException::class) { e, c -> nonCritical(e, c, BAD_REQUEST, e.message) }
+        exception(PasswordPolicyValidatorException::class) { e, c -> nonCritical(e, c, NOT_FOUND, e.toJson()) }
         exception(EntityNotFoundException::class) { e, c -> nonCritical(e, c, NOT_FOUND, "Not Found") }
         exception(Exception::class) { e, c -> internalServerError(e, c) }
     }
@@ -81,15 +83,14 @@ class JavalinModule {
     private fun <E : Exception> exception(clazz: KClass<E>, exceptionHandler: ExceptionHandler<E>) =
         javalin.exception(clazz.java, exceptionHandler)
 
-    private fun <E : Exception> nonCritical(e: E, ctx: Context, httpStatus: HttpStatus, message: String?) {
+
+    private fun <E : Exception> nonCritical(e: E, ctx: Context, httpStatus: HttpStatus, message: String?) =
+        nonCritical(e, ctx, httpStatus, JSONObject().put("message", message))
+
+    private fun <E : Exception> nonCritical(e: E, ctx: Context, httpStatus: HttpStatus, json: JSONObject) {
         logger.info("An error occurred", e)
         ctx.status(httpStatus)
-        ctx.json(
-            JSONObject()
-                .put("message", message)
-                .put("code", httpStatus.code)
-                .toString()
-        )
+        ctx.json(json.put("code", httpStatus.code).toString())
     }
 
     private fun <E : Exception> internalServerError(e: E, ctx: Context) {
