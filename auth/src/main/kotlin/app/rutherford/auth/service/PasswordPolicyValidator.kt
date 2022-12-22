@@ -1,6 +1,6 @@
 package app.rutherford.auth.service
 
-import app.rutherford.auth.exception.PasswordPolicyValidatorException
+import app.rutherford.auth.exception.PasswordPolicyValidationException
 import org.passay.CharacterRule
 import org.passay.EnglishCharacterData.Digit
 import org.passay.EnglishCharacterData.LowerCase
@@ -22,7 +22,7 @@ class PasswordPolicyValidator { // TODO add test
     fun validate(password: String) {
         val result = passwordValidator.validate(PasswordData(password))
         if (!result.isValid) {
-            throw PasswordPolicyValidatorException(
+            throw PasswordPolicyValidationException(
                 passwordValidator.getMessages(result)
             )
         }
