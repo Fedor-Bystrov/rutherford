@@ -2,28 +2,35 @@ package app.rutherford.auth.manager
 
 import app.rutherford.auth.entity.AuthUser
 import app.rutherford.auth.entity.AuthUser.Builder.Companion.authUser
+import app.rutherford.auth.repository.AuthUserRepository
+import app.rutherford.auth.util.PasswordPolicyValidator
 import app.rutherford.core.ApplicationName
 import app.rutherford.core.util.Checks.validateNotBlank
 
 
 // TODO
-//  - validate password with https://www.passay.org
-//  - validate user given provided email and applicationName combination doesn't exist
-//    - check that necessary index exist in the db
-//  - generate password hash (use the same algo as in .net)
-//  - store user in the database
-//  - return created user
+//  1. Check (email, application_name) doesn't exist
+//  2. Create PasswordHasher + write tests
+//  3. Hash user's password
+//  4. Create user and store it in the db
+//  5. Return created user
 
-// TODO read https://auth0.com/blog/hashing-passwords-one-way-road-to-security/
+class UserManager(
+    private val passwordPolicyValidator: PasswordPolicyValidator,
+    private val authUserRepository: AuthUserRepository,
+) {
 
-class UserManager {
     fun create(
         email: String,
         applicationName: ApplicationName,
         password: String
     ): AuthUser {
         validateNotBlank("email", email)
-        validateNotBlank("password", password)
+        passwordPolicyValidator.validate(password)
+
+
+
+
         return authUser()
             .build()
     }
