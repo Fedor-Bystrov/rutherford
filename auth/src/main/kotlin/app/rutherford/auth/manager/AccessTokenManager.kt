@@ -1,4 +1,4 @@
-package app.rutherford.auth.service
+package app.rutherford.auth.manager
 
 import app.rutherford.auth.entity.AuthUser
 import app.rutherford.core.util.Checks.validateNotBlank
