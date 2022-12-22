@@ -1,8 +1,8 @@
 package app.rutherford.auth.repository
 
 import app.rutherford.FunctionalTest
-import app.rutherford.core.abstract.entity.Entity.Id
 import app.rutherford.auth.entity.AuthUser
+import app.rutherford.core.abstract.entity.Entity.Id
 import app.rutherford.core.exception.EntityNotFoundException
 import app.rutherford.core.transaction.transaction
 import app.rutherford.fixtures.anAuthUser
@@ -84,6 +84,18 @@ class AuthUserRepositoryTest : FunctionalTest() {
 
         // then
         assertThat(result).isEqualTo(expected)
+    }
+
+    @Test
+    fun `should return empty result when cannot find by id`() {
+        // given
+        val id = Id<AuthUser>(randomUUID())
+
+        // when
+        val result = authUserRepository.find(id = id)
+
+        // then
+        assertThat(result).isNull()
     }
 
     @Test
