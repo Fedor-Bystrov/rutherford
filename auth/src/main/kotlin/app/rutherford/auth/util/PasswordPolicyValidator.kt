@@ -10,7 +10,7 @@ import org.passay.PasswordData
 import org.passay.PasswordValidator
 import org.passay.PropertiesMessageResolver
 
-class PasswordPolicyValidator { // TODO add test
+class PasswordPolicyValidator {
     private val passwordValidator = PasswordValidator(
         PropertiesMessageResolver(),
         LengthRule(6, 50),
