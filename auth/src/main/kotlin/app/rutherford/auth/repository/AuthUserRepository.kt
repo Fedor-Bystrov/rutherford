@@ -27,8 +27,7 @@ class AuthUserRepository(
     fun insert(conf: Configuration, entities: Collection<AuthUser>) = insertBatch(conf, entities)
     fun update(conf: Configuration, entity: AuthUser): AuthUser = updateOne(conf, entity)
 
-    // TODO add test
-    fun findByEmailAndApplication(conf: Configuration? = null, email: String, application: ApplicationName) =
+    fun findBy(conf: Configuration? = null, email: String, application: ApplicationName) =
         findOneWhere(
             conf,
             AUTH_USER.EMAIL.eq(email)

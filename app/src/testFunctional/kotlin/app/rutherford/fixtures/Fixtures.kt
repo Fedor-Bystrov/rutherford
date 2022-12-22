@@ -1,6 +1,6 @@
 package app.rutherford.fixtures
 
-import app.rutherford.core.ApplicationName.TEST
+import app.rutherford.core.ApplicationName.TEST1
 import app.rutherford.core.abstract.entity.Entity.Id
 import app.rutherford.core.abstract.entity.Entity.State.CREATED
 import app.rutherford.auth.entity.AuthUser.Builder.Companion.authUser
@@ -15,7 +15,7 @@ fun anAuthUser() = authUser()
     .createdAt(now())
     .updatedAt(now())
     .lastLogin(now())
-    .applicationName(TEST)
+    .applicationName(TEST1)
     .email("${randomAlphabetic(10)}@test.com")
     .emailConfirmed(false)
     .passwordHash(randomAlphanumeric(50))

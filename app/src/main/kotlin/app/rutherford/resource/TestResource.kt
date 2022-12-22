@@ -1,6 +1,6 @@
 package app.rutherford.resource
 
-import app.rutherford.core.ApplicationName.TEST
+import app.rutherford.core.ApplicationName.TEST1
 import app.rutherford.core.abstract.entity.Entity.Id
 import app.rutherford.core.abstract.resource.Resource
 import app.rutherford.auth.entity.AuthUser
@@ -57,7 +57,7 @@ class TestResource(
         transaction { tx ->
             authUserRepository.insert(
                 tx, authUser()
-                    .applicationName(TEST)
+                    .applicationName(TEST1)
                     .email("pojo.email2")
                     .passwordHash("pojo.passwordHash")
                     .build()

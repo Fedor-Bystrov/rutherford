@@ -2,6 +2,8 @@ package app.rutherford.auth.repository
 
 import app.rutherford.FunctionalTest
 import app.rutherford.auth.entity.AuthUser
+import app.rutherford.core.ApplicationName.TEST1
+import app.rutherford.core.ApplicationName.TEST2
 import app.rutherford.core.abstract.entity.Entity.Id
 import app.rutherford.core.exception.EntityNotFoundException
 import app.rutherford.core.transaction.transaction
@@ -35,7 +37,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
     fun setUp() {
         userWithNotConfirmedEmail = anAuthUser().id(userId1).lastLogin(null).emailConfirmed(false).build()
         user2 = anAuthUser().id(userId2).emailConfirmed(true).build()
-        user3 = anAuthUser().id(userId3).build()
+        user3 = anAuthUser().id(userId3).applicationName(TEST2).build()
 
         transaction {
             authUserRepository.insert(
@@ -108,6 +110,35 @@ class AuthUserRepositoryTest : FunctionalTest() {
 
         // then
         assertThat(result).containsAll(users)
+    }
+
+    @Test
+    fun `should find correct auth_user by email and application`() {
+        // when
+        val result = authUserRepository.findBy(email = user3.email, application = user3.applicationName)
+
+        // then
+        assertThat(result).isEqualTo(user3)
+    }
+
+    @Test
+    fun `should find correct auth_user by email and application in transaction`() {
+        // when
+        val result = transaction {
+            authUserRepository.findBy(it, email = user3.email, application = TEST2)
+        }
+
+        // then
+        assertThat(result).isEqualTo(user3)
+    }
+
+    @Test
+    fun `should return empty result when cannot find by email and applicaiton`() {
+        // when
+        val result = authUserRepository.findBy(email = user3.email, application = TEST1)
+
+        // then
+        assertThat(result).isNull()
     }
 
     @Test

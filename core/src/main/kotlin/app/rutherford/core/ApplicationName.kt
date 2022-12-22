@@ -4,5 +4,6 @@ enum class ApplicationName {
     /**
      * Only for tests
      */
-    TEST
+    TEST1, // TODO delete
+    TEST2,  // TODO delete
 }
