@@ -1,9 +1,10 @@
 package app.rutherford.auth.repository
 
-import app.rutherford.core.abstract.entity.Entity.Id
-import app.rutherford.core.abstract.repository.JooqRepository
 import app.rutherford.auth.entity.AuthUser
 import app.rutherford.auth.entity.AuthUser.Builder.Companion.authUser
+import app.rutherford.core.ApplicationName
+import app.rutherford.core.abstract.entity.Entity.Id
+import app.rutherford.core.abstract.repository.JooqRepository
 import app.rutherford.schema.generated.tables.records.AuthUserRecord
 import app.rutherford.schema.generated.tables.references.AUTH_USER
 import org.jooq.Configuration
@@ -25,6 +26,16 @@ class AuthUserRepository(
     fun insert(conf: Configuration, entity: AuthUser): AuthUser = insertOne(conf, entity)
     fun insert(conf: Configuration, entities: Collection<AuthUser>) = insertBatch(conf, entities)
     fun update(conf: Configuration, entity: AuthUser): AuthUser = updateOne(conf, entity)
+
+    // TODO add test
+    fun findByEmailAndApplication(conf: Configuration? = null, email: String, application: ApplicationName) =
+        findOneWhere(
+            conf,
+            AUTH_USER.EMAIL.eq(email)
+                .and(
+                    AUTH_USER.APPLICATION_NAME.eq(application)
+                )
+        )
 
     override fun fromRecord(record: AuthUserRecord): AuthUser = authUser()
         .id(record.id!!)

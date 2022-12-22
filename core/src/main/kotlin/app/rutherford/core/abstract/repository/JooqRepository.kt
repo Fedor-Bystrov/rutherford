@@ -42,18 +42,18 @@ abstract class JooqRepository<R : UpdatableRecord<*>, E : Entity>(
     protected fun getById(conf: Configuration?, id: UUID): E =
         findById(conf, id) ?: throw EntityNotFoundException(table, id)
 
-    protected fun findByIdWhere(conf: Configuration?, id: UUID, condition: Condition): E? {
+    protected fun findOneWhere(conf: Configuration?, condition: Condition): E? {
         return findOne(
             (conf ?: defaultContext.configuration()).dsl().selectFrom(table),
-            byId(id).and(condition),
+            condition,
             this::fromRecord
         )
     }
 
-    protected fun findByIdsWhere(conf: Configuration?, id: Collection<UUID>, condition: Condition): Collection<E> {
+    protected fun findAllWhere(conf: Configuration?, condition: Condition): Collection<E> {
         return findAll(
             (conf ?: defaultContext.configuration()).dsl().selectFrom(table),
-            byIds(id).and(condition),
+            condition,
             this::fromRecord
         )
     }
