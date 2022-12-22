@@ -19,6 +19,9 @@ class PasswordPolicyValidator {
         CharacterRule(Digit),
     )
 
+    /**
+     * @throws PasswordPolicyValidationException
+     */
     fun validate(password: String) {
         val result = passwordValidator.validate(PasswordData(password))
         if (!result.isValid) {
