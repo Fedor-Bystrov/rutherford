@@ -1,6 +1,5 @@
 package app.rutherford.module
 
-import app.rutherford.auth.exception.PasswordPolicyValidationException
 import app.rutherford.core.exception.EntityNotFoundException
 import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL
 import com.fasterxml.jackson.core.JsonParseException
@@ -67,7 +66,6 @@ class JavalinModule {
         exception(JsonParseException::class) { e, c -> nonCritical(e, c, BAD_REQUEST, "Malformed JSON") }
         exception(ValidationException::class) { e, c -> nonCritical(e, c, BAD_REQUEST, getMessage(e)) }
         exception(IllegalStateException::class) { e, c -> nonCritical(e, c, BAD_REQUEST, e.message) }
-        exception(PasswordPolicyValidationException::class) { e, c -> nonCritical(e, c, NOT_FOUND, e.toJson()) }
         exception(EntityNotFoundException::class) { e, c -> nonCritical(e, c, NOT_FOUND, "Not Found") }
         exception(Exception::class) { e, c -> internalServerError(e, c) }
     }
