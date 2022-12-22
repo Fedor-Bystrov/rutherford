@@ -1,4 +1,4 @@
-package app.rutherford.auth.service
+package app.rutherford.auth.util
 
 import app.rutherford.auth.exception.PasswordPolicyValidationException
 import org.passay.CharacterRule
