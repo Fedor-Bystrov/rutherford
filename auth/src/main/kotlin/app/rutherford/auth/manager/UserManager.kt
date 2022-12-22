@@ -37,6 +37,8 @@ class UserManager(
             .findBy(email = email, application = applicationName)
             ?.let { throw UserAlreadyExistException() }
 
+        // TODO add Argon2id (bouncycastle)
+
 
         return authUser()
             .build()
