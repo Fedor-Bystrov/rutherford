@@ -23,7 +23,7 @@ class UserManager(
 
     /**
      * @throws app.rutherford.auth.exception.PasswordPolicyValidationException if user password is incorrect
-     * @throws app.rutherford.auth.exception.UserAlreadyExistException if email is already registered for applicationName
+     * @throws UserAlreadyExistException if email is already registered for applicationName
      */
     fun create(
         email: String,
