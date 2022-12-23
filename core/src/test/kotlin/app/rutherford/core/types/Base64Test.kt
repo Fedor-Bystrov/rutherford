@@ -17,9 +17,9 @@ class Base64Test {
             "YWRnYXNkZ2FzZ2FzdGhpcyBpcyBzdHJpbiEmQCUhKiVAJiMkISomKCFeQCkjIXNhZ3NkZmdhc2ZnTEhGS0pHRkpIR0ZLRkdKSGdnCg=="
         ]
     )
-    fun `should decode string`(value: String) {
+    fun `should create from base64 string`(value: String) {
         // when
-        val base64 = Base64.decode(value)
+        val base64 = Base64.of(value)
 
         // then
         assertThat(base64.toString()).isEqualTo(value)
@@ -33,12 +33,12 @@ class Base64Test {
             "adfasdglashdgasdhfoquwero811i &^$!#&^!$@*!%(@!%@!!%^@!",
         ]
     )
-    fun `should decode byte array`(value: String) {
+    fun `should create from base64 byte array`(value: String) {
         // given
         val base64Bytes = JavaBase64.getEncoder().encode(value.encodeToByteArray())
 
         // when
-        val base64 = Base64.decode(base64Bytes)
+        val base64 = Base64.of(base64Bytes)
 
         // then
         val base64String = JavaBase64.getEncoder().encodeToString(value.encodeToByteArray())
@@ -57,14 +57,14 @@ class Base64Test {
             "adfasdglashdgasdhfoquwero811i &^\$!#&^!\$@*!%(@!%@dhfoquwero811i &^\$!#&^!\$@*!%(@!%@!!%^@!",
         ]
     )
-    fun `should decode correctly`(value: String) {
+    fun `should create correctly`(value: String) {
         // given
         val base64Bytes = JavaBase64.getEncoder().encode(value.encodeToByteArray())
         val base64String = JavaBase64.getEncoder().encodeToString(value.encodeToByteArray())
 
         // when
-        val fromBytes = Base64.decode(base64Bytes)
-        val fromString = Base64.decode(base64String)
+        val fromBytes = Base64.of(base64Bytes)
+        val fromString = Base64.of(base64String)
 
         // then
         assertThat(fromBytes).isEqualTo(fromString)
@@ -107,7 +107,7 @@ class Base64Test {
     )
     fun `should throw on malformed string`(value: String) {
         // then
-        assertThatThrownBy { Base64.decode(value) }
+        assertThatThrownBy { Base64.of(value) }
             .isInstanceOf(IllegalArgumentException::class.java)
     }
 }
