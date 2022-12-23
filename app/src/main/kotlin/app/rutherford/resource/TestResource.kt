@@ -40,18 +40,12 @@ class TestResource(
 
     private fun argon2(): (Context) -> Unit = {
         val hasher = Argon2PasswordHasher(salt, key)
-
-        for (i in 0..1_000) {
-            hasher.hash(pass)
-        }
+        hasher.hash(pass)
     }
 
     private fun pbkdf2(): (Context) -> Unit = {
         val hasher = PBKDF2PasswordHasher(salt)
-
-        for (i in 0..1_000) {
-            hasher.hash(pass)
-        }
+        hasher.hash(pass)
     }
 
     private fun all(): (Context) -> Unit = {
