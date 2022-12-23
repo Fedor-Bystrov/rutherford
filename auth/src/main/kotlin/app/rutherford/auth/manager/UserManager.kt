@@ -1,35 +1,35 @@
 package app.rutherford.auth.manager
 
-import app.rutherford.auth.entity.AuthUser
 import app.rutherford.auth.entity.AuthUser.Builder.Companion.authUser
 import app.rutherford.auth.exception.UserAlreadyExistException
 import app.rutherford.auth.repository.AuthUserRepository
+import app.rutherford.auth.util.Argon2PasswordHasher
 import app.rutherford.auth.util.PasswordPolicyValidator
 import app.rutherford.core.ApplicationName
+import app.rutherford.core.transaction.transaction
 import app.rutherford.core.util.Checks.validateNotBlank
 
 
 // TODO
-//  1. Check (email, application_name) doesn't exist
-//  2. Create PasswordHasher + write tests
-//  3. Hash user's password
-//  4. Create user and store it in the db
-//  5. Return created user
+//  1. Add salt field to auth_user model
+//  2. Write tests on Argon2PasswordHasher
+//  3. Write tests on UserManager#create
 
 class UserManager(
     private val passwordPolicyValidator: PasswordPolicyValidator,
     private val authUserRepository: AuthUserRepository,
+    private val passwordHasher: Argon2PasswordHasher,
 ) {
 
     /**
      * @throws app.rutherford.auth.exception.PasswordPolicyValidationException if user password is incorrect
      * @throws UserAlreadyExistException if email is already registered for applicationName
      */
-    fun create(
+    fun create( // TODO test
         email: String,
         applicationName: ApplicationName,
         password: String
-    ): AuthUser {
+    ) {
         validateNotBlank("email", email)
         passwordPolicyValidator.validate(password)
 
@@ -37,10 +37,18 @@ class UserManager(
             .findBy(email = email, application = applicationName)
             ?.let { throw UserAlreadyExistException() }
 
-        // TODO add Argon2id (bouncycastle)
+        val (salt, passwordHash) = passwordHasher.hash(password)
 
-
-        return authUser()
-            .build()
+        transaction {
+            authUserRepository.insert(
+                it, authUser()
+                    .email(email)
+                    .applicationName(applicationName)
+                    .emailConfirmed(false)
+                    // TODO add salt to model
+                    .passwordHash(passwordHash.toString())
+                    .build()
+            )
+        }
     }
 }
