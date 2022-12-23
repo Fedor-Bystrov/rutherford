@@ -3,6 +3,7 @@ package app.rutherford.core.types
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.ValueSource
 import java.util.Base64 as JavaBase64
 
@@ -53,9 +54,10 @@ class Base64Test {
             "This is String",
             "This is String This is String 123",
             "adfasdglashdgasdhfoquwero811i &^$!#&^!$@*!%(@!%@!!%^@!",
+            "adfasdglashdgasdhfoquwero811i &^\$!#&^!\$@*!%(@!%@dhfoquwero811i &^\$!#&^!\$@*!%(@!%@!!%^@!",
         ]
     )
-    fun `should encode correctly`(value: String) {
+    fun `should decode correctly`(value: String) {
         // given
         val base64Bytes = JavaBase64.getEncoder().encode(value.encodeToByteArray())
         val base64String = JavaBase64.getEncoder().encodeToString(value.encodeToByteArray())
@@ -74,6 +76,24 @@ class Base64Test {
 
         assertThat(String(fromBytesDecoded)).isEqualTo(value)
         assertThat(String(fromStringDecoded)).isEqualTo(value)
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "1, MQ==",
+            "A, QQ==",
+            "This is String, VGhpcyBpcyBTdHJpbmc=",
+            "This is String This is String 123, VGhpcyBpcyBTdHJpbmcgVGhpcyBpcyBTdHJpbmcgMTIz",
+            "adfasdglashdgasdhfoquwero811i &^\$!#&^!\$@*!%(@!%@dhfoquwero811i &^\$!#&^!\$@*!%(@!%@!!%^@!, YWRmYXNkZ2xhc2hkZ2FzZGhmb3F1d2VybzgxMWkgJl4kISMmXiEkQCohJShAISVAZGhmb3F1d2VybzgxMWkgJl4kISMmXiEkQCohJShAISVAISElXkAh",
+        ]
+    )
+    fun `should encode correctly`(value: String, expected: String) {
+        // when
+        val base64 = Base64.encode(value.encodeToByteArray())
+
+        // then
+        assertThat(base64.toString()).isEqualTo(expected)
     }
 
     @ParameterizedTest
