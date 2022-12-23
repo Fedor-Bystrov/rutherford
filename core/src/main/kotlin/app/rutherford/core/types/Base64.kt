@@ -4,12 +4,12 @@ import java.util.Base64 as JavaBase64
 
 class Base64 private constructor(private val bytes: ByteArray) {
     companion object {
-        fun base64(value: String): Base64 {
+        fun decode(value: String): Base64 {
             val bytes = JavaBase64.getDecoder().decode(value)
             return Base64(bytes)
         }
 
-        fun base64(value: ByteArray): Base64 {
+        fun decode(value: ByteArray): Base64 {
             val bytes = JavaBase64.getDecoder().decode(value)
             return Base64(bytes)
         }
