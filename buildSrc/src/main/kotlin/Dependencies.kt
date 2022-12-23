@@ -20,6 +20,7 @@ object Dependencies {
         val dotnev = "6.4.0"
         val javaJwt = "4.2.1"
         val passay = "1.6.2"
+        val bcprov = "1.70"
 
         // test
         val junit = "5.9.0"
@@ -44,6 +45,7 @@ object Dependencies {
     val dotenv = "io.github.cdimascio:dotenv-kotlin:${Versions.dotnev}"
     val javaJwt = "com.auth0:java-jwt:${Versions.javaJwt}"
     val passay = "org.passay:passay:${Versions.passay}"
+    val bcprov = "org.bouncycastle:bcprov-jdk15on:${Versions.bcprov}"
 
     // test
     val junitJupiter = "org.junit.jupiter:junit-jupiter:${Versions.junit}"

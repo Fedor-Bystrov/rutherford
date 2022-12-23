@@ -10,6 +10,7 @@ dependencies {
     implementation(Dependencies.javaJwt)
     implementation(Dependencies.orgJson)
     implementation(Dependencies.passay)
+    implementation(Dependencies.bcprov)
 
     testImplementation(kotlin("test"))
     testImplementation(Dependencies.junitJupiter)
