@@ -1,12 +1,15 @@
 package app.rutherford.resource
 
-import app.rutherford.core.ApplicationName.TEST1
-import app.rutherford.core.abstract.entity.Entity.Id
-import app.rutherford.core.abstract.resource.Resource
 import app.rutherford.auth.entity.AuthUser
 import app.rutherford.auth.entity.AuthUser.Builder.Companion.authUser
 import app.rutherford.auth.repository.AuthUserRepository
+import app.rutherford.auth.util.Argon2PasswordHasher
+import app.rutherford.auth.util.PBKDF2PasswordHasher
+import app.rutherford.core.ApplicationName.TEST1
+import app.rutherford.core.abstract.entity.Entity.Id
+import app.rutherford.core.abstract.resource.Resource
 import app.rutherford.core.transaction.transaction
+import app.rutherford.core.types.Base64
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.get
 import io.javalin.apibuilder.ApiBuilder.path
@@ -23,9 +26,31 @@ class TestResource(
         javalin.routes {
             path("/test/users") {
                 get("/all", all())
+                get("/argon2", argon2())
+                get("/pbkdf2", pbkdf2())
                 get("/{id}", one())
                 post(createUser())
             }
+        }
+    }
+
+    private val salt = Base64.of("afo5hZL7oBUPwm5PPGQwnw==") // 16 byte
+    private val key = Base64.of("1ZzA+CxCCCVSxnsOaYdC4ZKkTvvx/oYw4ON0DwbNZFM=") // 32 byte
+    private val pass = "S2JTt%G%I#ugLGxrGwej*BwejrfjI64wLcd9Zcbe0\$sbcJZo@X"
+
+    private fun argon2(): (Context) -> Unit = {
+        val hasher = Argon2PasswordHasher(salt, key)
+
+        for (i in 0..1_000) {
+            hasher.hash(pass)
+        }
+    }
+
+    private fun pbkdf2(): (Context) -> Unit = {
+        val hasher = PBKDF2PasswordHasher(salt)
+
+        for (i in 0..1_000) {
+            hasher.hash(pass)
         }
     }
 

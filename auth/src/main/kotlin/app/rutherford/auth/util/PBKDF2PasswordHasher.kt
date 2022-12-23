@@ -4,7 +4,7 @@ import app.rutherford.core.types.Base64
 import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.PBEKeySpec
 
-const val PBKDF2_HMAC_SHA512: String = "PBKDF2WithHmacSHA512"
+private const val PBKDF2_HMAC_SHA512: String = "PBKDF2WithHmacSHA512"
 
 class PBKDF2PasswordHasher(private val salt: Base64) { // TODO test
     fun hash(password: String): Base64 {
