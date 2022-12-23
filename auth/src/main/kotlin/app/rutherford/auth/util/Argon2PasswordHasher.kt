@@ -12,8 +12,8 @@ class Argon2PasswordHasher(private val salt: Base64, private val key: Base64) { 
         val argon2Parameters = Argon2Parameters
             // Recommended min by OWASP
             .Builder(Argon2Parameters.ARGON2_id)
-            .withMemoryAsKB(37_000) // 37 MB // TODO use more memory?
-            .withIterations(1) // TODO use more iterations
+            .withMemoryAsKB(15_000) // 15 MB
+            .withIterations(10)
             .withParallelism(1)
             .withSalt(salt.decodeBytes())
             .withSecret(key.decodeBytes())
