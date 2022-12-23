@@ -37,6 +37,8 @@ class Base64 private constructor(decodedBytes: ByteArray) {
         }
     }
 
+    fun decodeBytes(): ByteArray = JavaBase64.getDecoder().decode(encodedValue)
+
     override fun toString(): String = encodedValue
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

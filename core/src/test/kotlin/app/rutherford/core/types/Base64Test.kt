@@ -23,6 +23,10 @@ class Base64Test {
 
         // then
         assertThat(base64.toString()).isEqualTo(value)
+
+        // and
+        val decoded = JavaBase64.getDecoder().decode(value)
+        assertThat(base64.decodeBytes()).isEqualTo(decoded)
     }
 
     @ParameterizedTest
@@ -43,6 +47,9 @@ class Base64Test {
         // then
         val base64String = JavaBase64.getEncoder().encodeToString(value.encodeToByteArray())
         assertThat(base64.toString()).isEqualTo(base64String)
+
+        // and
+        assertThat(base64.decodeBytes()).isEqualTo(value.encodeToByteArray())
     }
 
     @ParameterizedTest
@@ -76,6 +83,10 @@ class Base64Test {
 
         assertThat(String(fromBytesDecoded)).isEqualTo(value)
         assertThat(String(fromStringDecoded)).isEqualTo(value)
+
+        // and
+        assertThat(fromBytes.decodeBytes()).isEqualTo(value.encodeToByteArray())
+        assertThat(fromString.decodeBytes()).isEqualTo(value.encodeToByteArray())
     }
 
     @ParameterizedTest
