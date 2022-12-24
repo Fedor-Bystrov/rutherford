@@ -14,16 +14,9 @@ private const val ARGON_ITERATIONS = 10
 private const val ARGON_PARALLELISM = 1
 private const val HASH_SIZE_BYTES = 32
 
-data class HashingResult(val salt: Base64, val hash: Base64) {
-    override fun toString(): String = "HashingResult(<masked_data>)"
-}
-
 class Argon2PasswordHasher(encodedSecret: Base64) { // TODO test
-    private val secureRandom = SecureRandom()
-
-    // TODO keep encodedSecret in keystore and extract on each run?
     private val secret = encodedSecret.decodeBytes()
-
+    private val secureRandom = SecureRandom()
 
     fun hash(password: String): HashingResult {
         val salt = nextSalt()
@@ -32,7 +25,7 @@ class Argon2PasswordHasher(encodedSecret: Base64) { // TODO test
         val argon2Parameters = Argon2Parameters
             // Recommended min by OWASP
             .Builder(ARGON2_id)
-            .withMemoryAsKB(ARGON_MEMORY_KIB) // 15 MB
+            .withMemoryAsKB(ARGON_MEMORY_KIB)
             .withIterations(ARGON_ITERATIONS)
             .withParallelism(ARGON_PARALLELISM)
             .withSalt(salt)
@@ -55,4 +48,8 @@ class Argon2PasswordHasher(encodedSecret: Base64) { // TODO test
         secureRandom.nextBytes(salt)
         return salt
     }
+}
+
+data class HashingResult(val salt: Base64, val hash: Base64) {
+    override fun toString(): String = "HashingResult(<masked_data>)"
 }
