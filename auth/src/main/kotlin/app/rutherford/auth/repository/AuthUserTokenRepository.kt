@@ -17,9 +17,6 @@ class AuthUserTokenRepository(
     AUTH_USER_TOKEN,
     AUTH_USER_TOKEN.ID
 ) {
-
-    // TODO what password hashing algo to use? Use the same as in .net (or similar)?
-
     // TODO impl find by user_id and token_hash
     //  - can't just use token_hash since two users can have the same password
     //  - or use user-defined salt to generate token_hash?
@@ -36,6 +33,7 @@ class AuthUserTokenRepository(
         .updatedAt(record.updatedAt!!)
         .expiration(record.expiration)
         .state(record.state!!)
+        .salt(Base64.of(record.salt!!))
         .tokenHash(Base64.of(record.tokenHash!!))
         .userId(Id(record.userId!!))
         .build()
@@ -46,6 +44,7 @@ class AuthUserTokenRepository(
         updatedAt = entity.updatedAt,
         expiration = entity.expiration,
         state = entity.state,
+        salt = entity.salt.bytes(),
         tokenHash = entity.tokenHash.bytes(),
         userId = entity.userId.value
     )
