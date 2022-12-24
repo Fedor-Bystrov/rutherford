@@ -45,6 +45,7 @@ class AuthUserRepository(
         .applicationName(record.applicationName!!)
         .email(record.email!!)
         .emailConfirmed(record.emailConfirmed!!)
+        .salt(Base64.of(record.salt!!))
         .passwordHash(Base64.of(record.passwordHash!!))
         .build()
 
@@ -56,6 +57,7 @@ class AuthUserRepository(
         applicationName = entity.applicationName,
         email = entity.email,
         emailConfirmed = entity.emailConfirmed,
+        salt = entity.salt.bytes(),
         passwordHash = entity.passwordHash.bytes(),
     )
 }
