@@ -2,11 +2,11 @@ package app.rutherford.core.types
 
 import java.util.Base64 as JavaBase64
 
-class Base64 private constructor(decodedBytes: ByteArray) {
-    private val encodedValue: String
+class Base64 private constructor(rawBytes: ByteArray) {
+    private val encodedBytes: ByteArray
 
     init {
-        encodedValue = JavaBase64.getEncoder().encodeToString(decodedBytes)
+        encodedBytes = JavaBase64.getEncoder().encode(rawBytes)
     }
 
     companion object {
@@ -37,22 +37,22 @@ class Base64 private constructor(decodedBytes: ByteArray) {
         }
     }
 
-    fun decodeBytes(): ByteArray = JavaBase64.getDecoder().decode(encodedValue)
+    fun bytes(): ByteArray = encodedBytes
+    fun decodeBytes(): ByteArray = JavaBase64.getDecoder().decode(encodedBytes)
 
-    override fun toString(): String = encodedValue
-
+    override fun toString(): String = String(encodedBytes)
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
         other as Base64
 
-        if (encodedValue != other.encodedValue) return false
+        if (!encodedBytes.contentEquals(other.encodedBytes)) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        return encodedValue.hashCode()
+        return encodedBytes.contentHashCode()
     }
 }

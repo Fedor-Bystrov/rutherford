@@ -121,4 +121,21 @@ class Base64Test {
         assertThatThrownBy { Base64.of(value) }
             .isInstanceOf(IllegalArgumentException::class.java)
     }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = [
+            "dGhpcyBpcyBzdHJpbmcK",
+            "dGhpcyBpcyBzdHJpbmdnCg==",
+            "YWRnYXNkZ2FzZ2FzdGhpcyBpcyBzdHJpbmdnCg==",
+            "YWRnYXNkZ2FzZ2FzdGhpcyBpcyBzdHJpbiEmQCUhKiVAJiMkISomKCFeQCkjIXNhZ3NkZmdhc2ZnTEhGS0pHRkpIR0ZLRkdKSGdnCg=="
+        ]
+    )
+    fun `should return correct bytes`(value: String) {
+        // when
+        val base64 = Base64.of(value)
+
+        // then
+        assertThat(base64.bytes()).isEqualTo(value.encodeToByteArray())
+    }
 }
