@@ -14,9 +14,8 @@ private const val ARGON_ITERATIONS = 10
 private const val ARGON_PARALLELISM = 1
 private const val HASH_SIZE_BYTES = 32
 
-class Argon2PasswordHasher(secretBase64: Base64) {
+class Argon2PasswordHasher(secretBase64: Base64, private val secureRandom: SecureRandom) {
     private val secret = secretBase64.decodeBytes()
-    private val secureRandom = SecureRandom()
 
     fun hash(password: String): HashingResult {
         val salt = nextSalt()
