@@ -1,9 +1,10 @@
 package app.rutherford.auth.repository
 
-import app.rutherford.core.abstract.entity.Entity.Id
-import app.rutherford.core.abstract.repository.JooqRepository
 import app.rutherford.auth.entity.AuthUserToken
 import app.rutherford.auth.entity.AuthUserToken.Builder.Companion.authUserToken
+import app.rutherford.core.abstract.entity.Entity.Id
+import app.rutherford.core.abstract.repository.JooqRepository
+import app.rutherford.core.types.Base64
 import app.rutherford.schema.generated.tables.records.AuthUserTokenRecord
 import app.rutherford.schema.generated.tables.references.AUTH_USER_TOKEN
 import org.jooq.Configuration
@@ -35,7 +36,7 @@ class AuthUserTokenRepository(
         .updatedAt(record.updatedAt!!)
         .expiration(record.expiration)
         .state(record.state!!)
-        .tokenHash(record.tokenHash!!)
+        .tokenHash(Base64.of(record.tokenHash!!))
         .userId(Id(record.userId!!))
         .build()
 
@@ -45,7 +46,7 @@ class AuthUserTokenRepository(
         updatedAt = entity.updatedAt,
         expiration = entity.expiration,
         state = entity.state,
-        tokenHash = entity.tokenHash,
+        tokenHash = entity.tokenHash.bytes(),
         userId = entity.userId.value
     )
 }
