@@ -41,10 +41,10 @@ class UserManager(
         transaction {
             authUserRepository.insert(
                 it, authUser()
-                    .email(email)
                     .applicationName(applicationName)
+                    .email(email)
                     .emailConfirmed(false)
-                    // TODO add salt to model
+                    .salt(salt)
                     .passwordHash(passwordHash)
                     .build()
             )
