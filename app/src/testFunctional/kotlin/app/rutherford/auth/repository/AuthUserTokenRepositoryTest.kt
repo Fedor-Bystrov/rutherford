@@ -1,14 +1,16 @@
 package app.rutherford.auth.repository
 
 import app.rutherford.FunctionalTest
-import app.rutherford.core.abstract.entity.Entity.Id
 import app.rutherford.auth.entity.AuthUser
 import app.rutherford.auth.entity.AuthUserToken
+import app.rutherford.core.abstract.entity.Entity.Id
 import app.rutherford.core.exception.EntityNotFoundException
 import app.rutherford.core.transaction.transaction
+import app.rutherford.core.types.Base64
 import app.rutherford.fixtures.anAuthUser
 import app.rutherford.fixtures.anAuthUserToken
-import org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
+import app.rutherford.fixtures.randomBase64
+import org.apache.commons.lang3.RandomUtils.nextBytes
 import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -166,7 +168,7 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
     @Test
     fun `should update single entity`() {
         // given
-        val tokenHash = randomAlphanumeric(50)
+        val tokenHash = Base64.encode(nextBytes(32))
         val token = token1.withTokenHash(tokenHash)
 
         // when
@@ -186,7 +188,7 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
     @Test
     fun `should update single entity and see changes in the same transaction`() {
         // given
-        val tokenHash = randomAlphanumeric(55)
+        val tokenHash = randomBase64(32)
 
         // when
         transaction {
