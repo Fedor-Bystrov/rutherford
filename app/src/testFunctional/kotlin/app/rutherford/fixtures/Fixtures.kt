@@ -28,6 +28,7 @@ fun anAuthUserToken() = authUserToken()
     .updatedAt(now())
     .expiration(now())
     .state(CREATED)
+    .salt(randomBase64(32))
     .tokenHash(randomBase64(32))
     .userId(Id(randomUUID()))
 
