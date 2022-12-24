@@ -3,11 +3,12 @@ package app.rutherford.auth.entity
 import app.rutherford.core.ApplicationName
 import app.rutherford.core.abstract.entity.Entity
 import app.rutherford.auth.entity.AuthUser.Builder.Companion.authUser
+import app.rutherford.core.types.Base64
 import app.rutherford.core.util.Checks.validateNotBlank
 import app.rutherford.core.util.Checks.validateNotNull
 import java.time.Instant
 import java.time.Instant.now
-import java.util.*
+import java.util.UUID
 import java.util.UUID.randomUUID
 
 class AuthUser private constructor(builder: Builder) : Entity() {
@@ -18,7 +19,7 @@ class AuthUser private constructor(builder: Builder) : Entity() {
     val applicationName: ApplicationName
     val email: String
     val emailConfirmed: Boolean
-    val passwordHash: String
+    val passwordHash: Base64
 
     init {
         id = validateNotNull("id", builder.id)
@@ -28,7 +29,7 @@ class AuthUser private constructor(builder: Builder) : Entity() {
         applicationName = validateNotNull("applicationName", builder.applicationName)
         email = validateNotBlank("email", builder.email)
         emailConfirmed = validateNotNull("emailConfirmed", builder.emailConfirmed)
-        passwordHash = validateNotBlank("passwordHash", builder.passwordHash)
+        passwordHash = validateNotNull("passwordHash", builder.passwordHash)
     }
 
     override fun id(): Id<AuthUser> = Id(this.id)
@@ -56,7 +57,7 @@ class AuthUser private constructor(builder: Builder) : Entity() {
         internal var applicationName: ApplicationName? = null
         internal var email: String? = null
         internal var emailConfirmed: Boolean? = false
-        internal var passwordHash: String? = null
+        internal var passwordHash: Base64? = null
 
         companion object {
             fun authUser(): Builder {
@@ -76,7 +77,7 @@ class AuthUser private constructor(builder: Builder) : Entity() {
         fun applicationName(applicationName: ApplicationName?) = apply { this.applicationName = applicationName }
         fun email(email: String?) = apply { this.email = email }
         fun emailConfirmed(emailConfirmed: Boolean?) = apply { this.emailConfirmed = emailConfirmed }
-        fun passwordHash(passwordHash: String?) = apply { this.passwordHash = passwordHash }
+        fun passwordHash(passwordHash: Base64?) = apply { this.passwordHash = passwordHash }
         fun build(): AuthUser = AuthUser(this)
     }
 
