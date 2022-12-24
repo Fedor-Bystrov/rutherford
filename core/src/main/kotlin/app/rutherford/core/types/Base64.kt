@@ -14,7 +14,7 @@ class Base64 private constructor(rawBytes: ByteArray) {
          * Creates a new Base64 object from base64-encoded string
          * @param base64 base64-encoded string
          */
-        fun of(base64: String): Base64 {
+        fun base64(base64: String): Base64 {
             val bytes = JavaBase64.getDecoder().decode(base64)
             return Base64(bytes)
         }
@@ -23,7 +23,7 @@ class Base64 private constructor(rawBytes: ByteArray) {
          * Creates a new Base64 object from base64 encoded byte array
          * @param base64 base64-encoded byte array
          */
-        fun of(base64: ByteArray): Base64 {
+        fun base64(base64: ByteArray): Base64 {
             val bytes = JavaBase64.getDecoder().decode(base64)
             return Base64(bytes)
         }

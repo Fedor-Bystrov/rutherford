@@ -6,6 +6,7 @@ import app.rutherford.core.ApplicationName
 import app.rutherford.core.abstract.entity.Entity.Id
 import app.rutherford.core.abstract.repository.JooqRepository
 import app.rutherford.core.types.Base64
+import app.rutherford.core.types.Base64.Companion.base64
 import app.rutherford.schema.generated.tables.records.AuthUserRecord
 import app.rutherford.schema.generated.tables.references.AUTH_USER
 import org.jooq.Configuration
@@ -45,8 +46,8 @@ class AuthUserRepository(
         .applicationName(record.applicationName!!)
         .email(record.email!!)
         .emailConfirmed(record.emailConfirmed!!)
-        .salt(Base64.of(record.salt!!))
-        .passwordHash(Base64.of(record.passwordHash!!))
+        .salt(base64(record.salt!!))
+        .passwordHash(base64(record.passwordHash!!))
         .build()
 
     override fun toRecord(entity: AuthUser): AuthUserRecord = AuthUserRecord(

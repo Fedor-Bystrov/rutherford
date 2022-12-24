@@ -1,5 +1,6 @@
 package app.rutherford.core.types
 
+import app.rutherford.core.types.Base64.Companion.base64
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.params.ParameterizedTest
@@ -19,7 +20,7 @@ class Base64Test {
     )
     fun `should create from base64 string`(value: String) {
         // when
-        val base64 = Base64.of(value)
+        val base64 = base64(value)
 
         // then
         assertThat(base64.toString()).isEqualTo(value)
@@ -42,7 +43,7 @@ class Base64Test {
         val base64Bytes = JavaBase64.getEncoder().encode(value.encodeToByteArray())
 
         // when
-        val base64 = Base64.of(base64Bytes)
+        val base64 = base64(base64Bytes)
 
         // then
         val base64String = JavaBase64.getEncoder().encodeToString(value.encodeToByteArray())
@@ -70,8 +71,8 @@ class Base64Test {
         val base64String = JavaBase64.getEncoder().encodeToString(value.encodeToByteArray())
 
         // when
-        val fromBytes = Base64.of(base64Bytes)
-        val fromString = Base64.of(base64String)
+        val fromBytes = base64(base64Bytes)
+        val fromString = base64(base64String)
 
         // then
         assertThat(fromBytes).isEqualTo(fromString)
@@ -118,7 +119,7 @@ class Base64Test {
     )
     fun `should throw on malformed string`(value: String) {
         // then
-        assertThatThrownBy { Base64.of(value) }
+        assertThatThrownBy { base64(value) }
             .isInstanceOf(IllegalArgumentException::class.java)
     }
 
@@ -133,7 +134,7 @@ class Base64Test {
     )
     fun `should return correct bytes`(value: String) {
         // when
-        val base64 = Base64.of(value)
+        val base64 = base64(value)
 
         // then
         assertThat(base64.bytes()).isEqualTo(value.encodeToByteArray())
