@@ -69,6 +69,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
         assertThat(result.applicationName).isEqualTo(expected.applicationName)
         assertThat(result.email).isEqualTo(expected.email)
         assertThat(result.emailConfirmed).isEqualTo(expected.emailConfirmed)
+        assertThat(result.salt).isEqualTo(expected.salt)
         assertThat(result.passwordHash).isEqualTo(expected.passwordHash)
         assertThat(result).isEqualTo(expected)
     }
