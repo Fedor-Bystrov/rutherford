@@ -13,7 +13,7 @@ class Argon2PasswordHasherTest {
 
     @BeforeEach
     fun setUp() {
-        secureRandom.setSeed(12345L) // TODO doesn't work, it's idiot-proof
+        secureRandom.setSeed(12345L) // TODO doesn't work, it's idiot-proof?
     }
 
     @ParameterizedTest
