@@ -46,7 +46,7 @@ class UserManager(
                     .applicationName(applicationName)
                     .emailConfirmed(false)
                     // TODO add salt to model
-                    .passwordHash(passwordHash.toString())
+                    .passwordHash(passwordHash)
                     .build()
             )
         }
