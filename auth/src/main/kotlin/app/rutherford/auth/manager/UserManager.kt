@@ -11,9 +11,8 @@ import app.rutherford.core.util.Checks.validateNotBlank
 
 
 // TODO
-//  1. Add salt field to auth_user model
-//  2. Write tests on Argon2PasswordHasher
-//  3. Write tests on UserManager#create
+//  - Write tests on Argon2PasswordHasher
+//  - Write tests on UserManager#create
 
 class UserManager(
     private val passwordPolicyValidator: PasswordPolicyValidator,
