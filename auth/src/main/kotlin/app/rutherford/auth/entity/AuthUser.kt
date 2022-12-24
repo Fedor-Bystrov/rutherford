@@ -19,6 +19,7 @@ class AuthUser private constructor(builder: Builder) : Entity() {
     val applicationName: ApplicationName
     val email: String
     val emailConfirmed: Boolean
+    val salt: Base64
     val passwordHash: Base64
 
     init {
@@ -29,6 +30,7 @@ class AuthUser private constructor(builder: Builder) : Entity() {
         applicationName = validateNotNull("applicationName", builder.applicationName)
         email = validateNotBlank("email", builder.email)
         emailConfirmed = validateNotNull("emailConfirmed", builder.emailConfirmed)
+        salt = validateNotNull("salt", builder.salt)
         passwordHash = validateNotNull("passwordHash", builder.passwordHash)
     }
 
@@ -42,6 +44,7 @@ class AuthUser private constructor(builder: Builder) : Entity() {
         .applicationName(this.applicationName)
         .email(this.email)
         .emailConfirmed(this.emailConfirmed)
+        .salt(this.salt)
         .passwordHash(this.passwordHash)
 
     fun confirmEmail(): AuthUser = copy()
@@ -57,6 +60,7 @@ class AuthUser private constructor(builder: Builder) : Entity() {
         internal var applicationName: ApplicationName? = null
         internal var email: String? = null
         internal var emailConfirmed: Boolean? = false
+        internal var salt: Base64? = null
         internal var passwordHash: Base64? = null
 
         companion object {
@@ -77,6 +81,7 @@ class AuthUser private constructor(builder: Builder) : Entity() {
         fun applicationName(applicationName: ApplicationName?) = apply { this.applicationName = applicationName }
         fun email(email: String?) = apply { this.email = email }
         fun emailConfirmed(emailConfirmed: Boolean?) = apply { this.emailConfirmed = emailConfirmed }
+        fun salt(salt: Base64?) = apply { this.salt = salt }
         fun passwordHash(passwordHash: Base64?) = apply { this.passwordHash = passwordHash }
         fun build(): AuthUser = AuthUser(this)
     }
@@ -94,6 +99,7 @@ class AuthUser private constructor(builder: Builder) : Entity() {
         if (applicationName != other.applicationName) return false
         if (email != other.email) return false
         if (emailConfirmed != other.emailConfirmed) return false
+        if (salt != other.salt) return false
         if (passwordHash != other.passwordHash) return false
 
         return true
@@ -107,6 +113,7 @@ class AuthUser private constructor(builder: Builder) : Entity() {
         result = 31 * result + applicationName.hashCode()
         result = 31 * result + email.hashCode()
         result = 31 * result + emailConfirmed.hashCode()
+        result = 31 * result + salt.hashCode()
         result = 31 * result + passwordHash.hashCode()
         return result
     }
