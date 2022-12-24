@@ -16,4 +16,5 @@ dependencies {
     testImplementation(Dependencies.junitJupiter)
     testImplementation(Dependencies.assertjCore)
     testImplementation(Dependencies.commonsLang3)
+    testImplementation(Dependencies.mockitoCore)
 }
