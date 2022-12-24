@@ -1,9 +1,9 @@
 package app.rutherford.auth.entity
 
-import app.rutherford.core.abstract.entity.Entity
 import app.rutherford.auth.entity.AuthUserToken.Builder.Companion.authUserToken
+import app.rutherford.core.abstract.entity.Entity
 import app.rutherford.core.abstract.entity.Entity.State.CREATED
-import app.rutherford.core.util.Checks.validateNotBlank
+import app.rutherford.core.types.Base64
 import app.rutherford.core.util.Checks.validateNotNull
 import java.time.Instant
 import java.time.Instant.now
@@ -16,7 +16,7 @@ class AuthUserToken private constructor(builder: Builder) : Entity() {
     val updatedAt: Instant
     val expiration: Instant?
     val state: State
-    val tokenHash: String
+    val tokenHash: Base64
     val userId: Id<AuthUser>
 
     init {
@@ -25,7 +25,7 @@ class AuthUserToken private constructor(builder: Builder) : Entity() {
         updatedAt = validateNotNull("updatedAt", builder.updatedAt)
         expiration = builder.expiration
         state = validateNotNull("state", builder.state)
-        tokenHash = validateNotBlank("tokenHash", builder.tokenHash)
+        tokenHash = validateNotNull("tokenHash", builder.tokenHash)
         userId = validateNotNull("userId", builder.userId)
     }
 
@@ -40,7 +40,7 @@ class AuthUserToken private constructor(builder: Builder) : Entity() {
         .tokenHash(this.tokenHash)
         .userId(this.userId)
 
-    fun withTokenHash(tokenHash: String): AuthUserToken = copy()
+    fun withTokenHash(tokenHash: Base64): AuthUserToken = copy()
         .updatedAt(now())
         .tokenHash(tokenHash)
         .build()
@@ -51,7 +51,7 @@ class AuthUserToken private constructor(builder: Builder) : Entity() {
         internal var updatedAt: Instant? = null
         internal var expiration: Instant? = null
         internal var state: State? = CREATED
-        internal var tokenHash: String? = null
+        internal var tokenHash: Base64? = null
         internal var userId: Id<AuthUser>? = null
 
         companion object {
@@ -70,7 +70,7 @@ class AuthUserToken private constructor(builder: Builder) : Entity() {
         fun updatedAt(updatedAt: Instant?) = apply { this.updatedAt = updatedAt }
         fun expiration(expiration: Instant?) = apply { this.expiration = expiration }
         fun state(state: State?) = apply { this.state = state }
-        fun tokenHash(tokenHash: String?) = apply { this.tokenHash = tokenHash }
+        fun tokenHash(tokenHash: Base64?) = apply { this.tokenHash = tokenHash }
         fun userId(userId: Id<AuthUser>?) = apply { this.userId = userId }
         fun build(): AuthUserToken = AuthUserToken(this)
     }
