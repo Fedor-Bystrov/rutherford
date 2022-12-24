@@ -16,6 +16,7 @@ class AuthUserToken private constructor(builder: Builder) : Entity() {
     val updatedAt: Instant
     val expiration: Instant?
     val state: State
+    val salt: Base64
     val tokenHash: Base64
     val userId: Id<AuthUser>
 
@@ -25,6 +26,7 @@ class AuthUserToken private constructor(builder: Builder) : Entity() {
         updatedAt = validateNotNull("updatedAt", builder.updatedAt)
         expiration = builder.expiration
         state = validateNotNull("state", builder.state)
+        salt = validateNotNull("salt", builder.salt)
         tokenHash = validateNotNull("tokenHash", builder.tokenHash)
         userId = validateNotNull("userId", builder.userId)
     }
@@ -37,6 +39,7 @@ class AuthUserToken private constructor(builder: Builder) : Entity() {
         .updatedAt(this.updatedAt)
         .expiration(this.expiration)
         .state(this.state)
+        .salt(this.salt)
         .tokenHash(this.tokenHash)
         .userId(this.userId)
 
@@ -51,6 +54,7 @@ class AuthUserToken private constructor(builder: Builder) : Entity() {
         internal var updatedAt: Instant? = null
         internal var expiration: Instant? = null
         internal var state: State? = CREATED
+        internal var salt: Base64? = null
         internal var tokenHash: Base64? = null
         internal var userId: Id<AuthUser>? = null
 
@@ -70,6 +74,7 @@ class AuthUserToken private constructor(builder: Builder) : Entity() {
         fun updatedAt(updatedAt: Instant?) = apply { this.updatedAt = updatedAt }
         fun expiration(expiration: Instant?) = apply { this.expiration = expiration }
         fun state(state: State?) = apply { this.state = state }
+        fun salt(salt: Base64?) = apply { this.salt = salt }
         fun tokenHash(tokenHash: Base64?) = apply { this.tokenHash = tokenHash }
         fun userId(userId: Id<AuthUser>?) = apply { this.userId = userId }
         fun build(): AuthUserToken = AuthUserToken(this)
@@ -86,6 +91,7 @@ class AuthUserToken private constructor(builder: Builder) : Entity() {
         if (updatedAt != other.updatedAt) return false
         if (expiration != other.expiration) return false
         if (state != other.state) return false
+        if (salt != other.salt) return false
         if (tokenHash != other.tokenHash) return false
         if (userId != other.userId) return false
 
@@ -98,6 +104,7 @@ class AuthUserToken private constructor(builder: Builder) : Entity() {
         result = 31 * result + updatedAt.hashCode()
         result = 31 * result + (expiration?.hashCode() ?: 0)
         result = 31 * result + state.hashCode()
+        result = 31 * result + salt.hashCode()
         result = 31 * result + tokenHash.hashCode()
         result = 31 * result + userId.hashCode()
         return result
