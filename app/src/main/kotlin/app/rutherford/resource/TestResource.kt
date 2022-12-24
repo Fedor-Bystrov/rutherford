@@ -7,6 +7,7 @@ import app.rutherford.core.ApplicationName.TEST1
 import app.rutherford.core.abstract.entity.Entity.Id
 import app.rutherford.core.abstract.resource.Resource
 import app.rutherford.core.transaction.transaction
+import app.rutherford.core.types.Base64
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.get
 import io.javalin.apibuilder.ApiBuilder.path
@@ -59,7 +60,7 @@ class TestResource(
                 tx, authUser()
                     .applicationName(TEST1)
                     .email("pojo.email2")
-                    .passwordHash("pojo.passwordHash")
+                    .passwordHash(Base64.encode("pojo.passwordHash".encodeToByteArray()))
                     .build()
             )
         }
