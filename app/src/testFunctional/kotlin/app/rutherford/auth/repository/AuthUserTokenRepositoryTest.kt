@@ -84,6 +84,7 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
         assertThat(result.updatedAt).isEqualTo(expected.updatedAt)
         assertThat(result.expiration).isEqualTo(expected.expiration)
         assertThat(result.state).isEqualTo(expected.state)
+        assertThat(result.salt).isEqualTo(expected.salt)
         assertThat(result.tokenHash).isEqualTo(expected.tokenHash)
         assertThat(result.userId).isEqualTo(expected.userId)
         assertThat(result).isEqualTo(expected)
