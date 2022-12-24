@@ -24,7 +24,7 @@ import org.jooq.Index
 import org.jooq.Name
 import org.jooq.Record
 import org.jooq.Records
-import org.jooq.Row7
+import org.jooq.Row8
 import org.jooq.Schema
 import org.jooq.SelectField
 import org.jooq.Table
@@ -97,9 +97,14 @@ open class AuthUserToken(
     val STATE: TableField<AuthUserTokenRecord, State?> = createField(DSL.name("state"), SQLDataType.VARCHAR(32).nullable(false), this, "", EnumConverter<String, State>(String::class.java, State::class.java))
 
     /**
+     * The column <code>public.auth_user_token.salt</code>.
+     */
+    val SALT: TableField<AuthUserTokenRecord, ByteArray?> = createField(DSL.name("salt"), SQLDataType.BLOB.nullable(false), this, "")
+
+    /**
      * The column <code>public.auth_user_token.token_hash</code>.
      */
-    val TOKEN_HASH: TableField<AuthUserTokenRecord, String?> = createField(DSL.name("token_hash"), SQLDataType.CLOB.nullable(false), this, "")
+    val TOKEN_HASH: TableField<AuthUserTokenRecord, ByteArray?> = createField(DSL.name("token_hash"), SQLDataType.BLOB.nullable(false), this, "")
 
     /**
      * The column <code>public.auth_user_token.user_id</code>.
@@ -164,18 +169,18 @@ open class AuthUserToken(
     override fun rename(name: Table<*>): AuthUserToken = AuthUserToken(name.getQualifiedName(), null)
 
     // -------------------------------------------------------------------------
-    // Row7 type methods
+    // Row8 type methods
     // -------------------------------------------------------------------------
-    override fun fieldsRow(): Row7<UUID?, Instant?, Instant?, Instant?, State?, String?, UUID?> = super.fieldsRow() as Row7<UUID?, Instant?, Instant?, Instant?, State?, String?, UUID?>
+    override fun fieldsRow(): Row8<UUID?, Instant?, Instant?, Instant?, State?, ByteArray?, ByteArray?, UUID?> = super.fieldsRow() as Row8<UUID?, Instant?, Instant?, Instant?, State?, ByteArray?, ByteArray?, UUID?>
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    fun <U> mapping(from: (UUID?, Instant?, Instant?, Instant?, State?, String?, UUID?) -> U): SelectField<U> = convertFrom(Records.mapping(from))
+    fun <U> mapping(from: (UUID?, Instant?, Instant?, Instant?, State?, ByteArray?, ByteArray?, UUID?) -> U): SelectField<U> = convertFrom(Records.mapping(from))
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    fun <U> mapping(toType: Class<U>, from: (UUID?, Instant?, Instant?, Instant?, State?, String?, UUID?) -> U): SelectField<U> = convertFrom(toType, Records.mapping(from))
+    fun <U> mapping(toType: Class<U>, from: (UUID?, Instant?, Instant?, Instant?, State?, ByteArray?, ByteArray?, UUID?) -> U): SelectField<U> = convertFrom(toType, Records.mapping(from))
 }

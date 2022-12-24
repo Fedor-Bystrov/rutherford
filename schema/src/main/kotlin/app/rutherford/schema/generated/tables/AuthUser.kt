@@ -19,7 +19,7 @@ import org.jooq.ForeignKey
 import org.jooq.Name
 import org.jooq.Record
 import org.jooq.Records
-import org.jooq.Row8
+import org.jooq.Row9
 import org.jooq.Schema
 import org.jooq.SelectField
 import org.jooq.Table
@@ -102,9 +102,14 @@ open class AuthUser(
     val EMAIL_CONFIRMED: TableField<AuthUserRecord, Boolean?> = createField(DSL.name("email_confirmed"), SQLDataType.BOOLEAN.nullable(false).defaultValue(DSL.field("false", SQLDataType.BOOLEAN)), this, "")
 
     /**
+     * The column <code>public.auth_user.salt</code>.
+     */
+    val SALT: TableField<AuthUserRecord, ByteArray?> = createField(DSL.name("salt"), SQLDataType.BLOB.nullable(false), this, "")
+
+    /**
      * The column <code>public.auth_user.password_hash</code>.
      */
-    val PASSWORD_HASH: TableField<AuthUserRecord, String?> = createField(DSL.name("password_hash"), SQLDataType.CLOB.nullable(false), this, "")
+    val PASSWORD_HASH: TableField<AuthUserRecord, ByteArray?> = createField(DSL.name("password_hash"), SQLDataType.BLOB.nullable(false), this, "")
 
     private constructor(alias: Name, aliased: Table<AuthUserRecord>?): this(alias, null, null, aliased, null)
     private constructor(alias: Name, aliased: Table<AuthUserRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, aliased, parameters)
@@ -147,18 +152,18 @@ open class AuthUser(
     override fun rename(name: Table<*>): AuthUser = AuthUser(name.getQualifiedName(), null)
 
     // -------------------------------------------------------------------------
-    // Row8 type methods
+    // Row9 type methods
     // -------------------------------------------------------------------------
-    override fun fieldsRow(): Row8<UUID?, Instant?, Instant?, Instant?, ApplicationName?, String?, Boolean?, String?> = super.fieldsRow() as Row8<UUID?, Instant?, Instant?, Instant?, ApplicationName?, String?, Boolean?, String?>
+    override fun fieldsRow(): Row9<UUID?, Instant?, Instant?, Instant?, ApplicationName?, String?, Boolean?, ByteArray?, ByteArray?> = super.fieldsRow() as Row9<UUID?, Instant?, Instant?, Instant?, ApplicationName?, String?, Boolean?, ByteArray?, ByteArray?>
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    fun <U> mapping(from: (UUID?, Instant?, Instant?, Instant?, ApplicationName?, String?, Boolean?, String?) -> U): SelectField<U> = convertFrom(Records.mapping(from))
+    fun <U> mapping(from: (UUID?, Instant?, Instant?, Instant?, ApplicationName?, String?, Boolean?, ByteArray?, ByteArray?) -> U): SelectField<U> = convertFrom(Records.mapping(from))
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    fun <U> mapping(toType: Class<U>, from: (UUID?, Instant?, Instant?, Instant?, ApplicationName?, String?, Boolean?, String?) -> U): SelectField<U> = convertFrom(toType, Records.mapping(from))
+    fun <U> mapping(toType: Class<U>, from: (UUID?, Instant?, Instant?, Instant?, ApplicationName?, String?, Boolean?, ByteArray?, ByteArray?) -> U): SelectField<U> = convertFrom(toType, Records.mapping(from))
 }
