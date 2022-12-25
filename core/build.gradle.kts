@@ -6,6 +6,7 @@ plugins {
 dependencies {
     implementation(Dependencies.jooq)
     implementation(Dependencies.dotenv)
+    implementation(Dependencies.commonsValidator)
 
     testImplementation(kotlin("test"))
     testImplementation(Dependencies.junitJupiter)
