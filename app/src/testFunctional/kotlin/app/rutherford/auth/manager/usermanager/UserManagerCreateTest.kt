@@ -7,19 +7,22 @@ import app.rutherford.auth.exception.UserAlreadyExistException
 import app.rutherford.core.ApplicationName.TEST1
 import app.rutherford.core.transaction.transaction
 import app.rutherford.fixtures.anAuthUser
+import org.apache.commons.lang3.RandomStringUtils.randomAlphabetic
+import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
+import java.time.Instant
 
 class UserManagerCreateTest : FunctionalTest() {
 
-    private lateinit var user: AuthUser
+    private lateinit var test1User: AuthUser
 
     @BeforeEach
     fun setUp() {
-        user = transaction {
+        test1User = transaction {
             authUserRepository.insert(
                 this, anAuthUser()
                     .emailConfirmed(true)
@@ -65,8 +68,8 @@ class UserManagerCreateTest : FunctionalTest() {
     @Test
     fun `should throw when email and application combination already exist`() {
         // given
-        val email = user.email
-        val applicationName = user.applicationName
+        val email = test1User.email
+        val applicationName = test1User.applicationName
 
         // then
         assertThatThrownBy { userManager.create(email, applicationName, "Passw0rd") }
@@ -76,7 +79,32 @@ class UserManagerCreateTest : FunctionalTest() {
 
     @Test
     fun `should create user`() {
-        TODO("implement")
+        // given
+        val email = "${randomAlphabetic(10)}@test.com"
+        val applicationName = TEST1
+        val password = "Passw0rd"
+
+        // when
+        val result = userManager.create(email, applicationName, password)
+
+        // then
+        val minuteAgo = Instant.now().minusSeconds(60)
+        assertThat(result.createdAt).isAfter(minuteAgo)
+        assertThat(result.updatedAt).isAfter(minuteAgo)
+        assertThat(result.lastLogin).isNull()
+        assertThat(result.applicationName).isEqualTo(applicationName)
+        assertThat(result.email).isEqualTo(email)
+        assertThat(result.emailConfirmed).isFalse
+        assertThat(result.salt.decodeBytes().size).isEqualTo(16)
+        assertThat(result.passwordHash.decodeBytes().size).isEqualTo(32)
+
+        // and
+        val createdUser1 = authUserRepository.findBy(email = email, application = applicationName)
+        assertThat(result).isEqualTo(createdUser1)
+
+        // and
+        val createdUser2 = authUserRepository.get(id = result.id())
+        assertThat(result).isEqualTo(createdUser2)
     }
 
     @Test
