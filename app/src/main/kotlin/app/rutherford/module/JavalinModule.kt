@@ -88,14 +88,14 @@ class JavalinModule {
     private fun <E : Exception> nonCritical(e: E, ctx: Context, httpStatus: HttpStatus, json: JSONObject) {
         logger.info("An error occurred", e)
         ctx.status(httpStatus)
-        ctx.json(json.put("code", httpStatus.code).toString())
+        ctx.json(json.put("code", httpStatus.code).toString())  // TODO extract to common error object
     }
 
     private fun <E : Exception> internalServerError(e: E, ctx: Context) {
         logger.error("An error occurred", e)
         ctx.status(INTERNAL_SERVER_ERROR)
         ctx.json(
-            JSONObject()
+            JSONObject() // TODO extract to common error object
                 .put("message", "Internal Server Error")
                 .put("code", INTERNAL_SERVER_ERROR.code)
                 .toString()
