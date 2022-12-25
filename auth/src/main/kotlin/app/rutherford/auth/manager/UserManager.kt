@@ -17,6 +17,7 @@ class UserManager(
 ) {
 
     /**
+     * @throws IllegalStateException if email is blank
      * @throws app.rutherford.auth.exception.PasswordPolicyValidationException if user password is incorrect
      * @throws UserAlreadyExistException if email is already registered for applicationName
      */
