@@ -21,17 +21,13 @@ annotation class TransactionMarker
 //  2. improve add repositories available inside transaction
 
 @TransactionMarker
-class Transaction {
-    fun <E> apply(block: Transaction.(Configuration) -> E?): E? {
-        var e: E? = null
-        TransactionManager.dslContext.transaction { tx ->
-            e = block.invoke(this, tx)
-        }
-        return e
-    }
-}
+class Transaction(val tx: Configuration)
 
 @TransactionMarker
-fun <E> transaction(init: Transaction.(Configuration) -> E?): E? {
-    return Transaction().apply(init)
+fun <E> transaction(init: Transaction.() -> E?): E? {
+    var e: E? = null
+    TransactionManager.dslContext.transaction { tx ->
+        e = Transaction(tx).init()
+    }
+    return e
 }

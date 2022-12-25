@@ -39,7 +39,7 @@ class UserManager(
 
         transaction {
             authUserRepository.insert(
-                it, authUser()
+                this.tx, authUser()
                     .applicationName(applicationName)
                     .email(email)
                     .emailConfirmed(false)

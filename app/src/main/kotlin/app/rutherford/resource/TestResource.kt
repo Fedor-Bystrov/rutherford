@@ -55,9 +55,9 @@ class TestResource(
 
 
     private fun createUser(): (Context) -> Unit = {
-        transaction { tx ->
+        transaction {
             authUserRepository.insert(
-                tx, authUser()
+                this.tx, authUser()
                     .applicationName(TEST1)
                     .email("pojo.email2")
                     .passwordHash(Base64.encode("pojo.passwordHash".encodeToByteArray()))

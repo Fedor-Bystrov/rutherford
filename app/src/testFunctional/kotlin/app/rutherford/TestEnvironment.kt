@@ -39,8 +39,8 @@ class TestEnvironment : AutoCloseable {
 
     fun reset() {
         transaction {
-            it.dsl().deleteFrom(AUTH_USER_TOKEN).execute()
-            it.dsl().deleteFrom(AUTH_USER).execute()
+            this.tx.dsl().deleteFrom(AUTH_USER_TOKEN).execute()
+            this.tx.dsl().deleteFrom(AUTH_USER).execute()
         }
     }
 
