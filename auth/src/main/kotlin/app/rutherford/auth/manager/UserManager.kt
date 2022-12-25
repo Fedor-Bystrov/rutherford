@@ -11,7 +11,6 @@ import app.rutherford.core.util.Checks.validateNotBlank
 
 
 // TODO
-//  - Write tests on Argon2PasswordHasher
 //  - Write tests on UserManager#create
 
 class UserManager(
@@ -24,7 +23,7 @@ class UserManager(
      * @throws app.rutherford.auth.exception.PasswordPolicyValidationException if user password is incorrect
      * @throws UserAlreadyExistException if email is already registered for applicationName
      */
-    fun create( // TODO test
+    fun create(
         email: String,
         applicationName: ApplicationName,
         password: String
