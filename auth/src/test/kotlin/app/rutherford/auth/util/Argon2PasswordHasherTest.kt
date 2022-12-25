@@ -3,12 +3,14 @@ package app.rutherford.auth.util
 import app.rutherford.core.types.Base64.Companion.base64
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.mockito.Mockito
 import org.mockito.Mockito.any
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.withSettings
+import java.io.File
 import java.security.SecureRandom
 
 class Argon2PasswordHasherTest {
@@ -61,5 +63,21 @@ class Argon2PasswordHasherTest {
         // then
         assertThat(resultSalt).isEqualTo(salt)
         assertThat(resultHash).isEqualTo(base64(expectedHash))
+    }
+
+    @Test
+    fun `should generate correct hashes for most common passwords`() {
+        // given
+        val passwords = File("src/test/resources/password_hasher_test_data.csv").readLines()
+
+        // when
+        passwords.parallelStream().forEach {
+            val (password, expectedHash) = it.split('\t')
+            val (resultSalt, resultHash) = passwordHasher.hash(password)
+
+            // then
+            assertThat(resultSalt).isEqualTo(salt)
+            assertThat(resultHash).isEqualTo(base64(expectedHash))
+        }
     }
 }
