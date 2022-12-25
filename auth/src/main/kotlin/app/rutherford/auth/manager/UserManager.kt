@@ -30,7 +30,7 @@ class UserManager(
 
         authUserRepository
             .findBy(email = email, application = applicationName)
-            ?.let { throw UserAlreadyExistException() }
+            ?.let { throw UserAlreadyExistException(email, applicationName) }
 
         val (salt, passwordHash) = passwordHasher.hash(password)
 

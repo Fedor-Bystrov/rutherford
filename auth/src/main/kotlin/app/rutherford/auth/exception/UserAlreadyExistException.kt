@@ -1,3 +1,6 @@
 package app.rutherford.auth.exception
 
-class UserAlreadyExistException : RuntimeException()
+import app.rutherford.core.ApplicationName
+
+class UserAlreadyExistException(email: String, applicationName: ApplicationName) :
+    RuntimeException("User with $email and $applicationName already exist")

@@ -3,6 +3,7 @@ package app.rutherford.auth.manager.usermanager
 import app.rutherford.FunctionalTest
 import app.rutherford.auth.entity.AuthUser
 import app.rutherford.auth.exception.PasswordPolicyValidationException
+import app.rutherford.auth.exception.UserAlreadyExistException
 import app.rutherford.core.ApplicationName.TEST1
 import app.rutherford.core.transaction.transaction
 import app.rutherford.fixtures.anAuthUser
@@ -63,7 +64,14 @@ class UserManagerCreateTest : FunctionalTest() {
 
     @Test
     fun `should throw when email and application combination already exist`() {
-        TODO("implement")
+        // given
+        val email = user.email
+        val applicationName = user.applicationName
+
+        // then
+        assertThatThrownBy { userManager.create(email, applicationName, "Passw0rd") }
+            .isInstanceOf(UserAlreadyExistException::class.java)
+            .hasMessage("User with $email and $applicationName already exist")
     }
 
     @Test
