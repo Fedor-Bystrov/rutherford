@@ -39,8 +39,11 @@ class AuthResource(
             it.status(CREATED)
         } catch (e: RuntimeException) {
             val message = when (e) {
+                // TODO
+                //  - return exception codes (INCORRECT_PASSWORD, USER_ALREADY_EXIST) instead of messages
+                //  - return exception codes in ErrorReponse as well
                 PasswordPolicyValidationException::class -> "TODO 1"
-                UserAlreadyExistException::class -> "TODO 2"
+                UserAlreadyExistException::class -> "TODO 2" // TODO (don't return applicationName)
                 // TODO other exception?
                 else -> throw e
             }
