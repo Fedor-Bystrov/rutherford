@@ -21,6 +21,7 @@ jib {
             "DB_USER" to "rutherford_app",
             "DB_PASS" to "123",
             "PORT" to "7070",
+            "AUTH_USER_SECRET" to "nX278YBYkZyLu9CKaqj8xFr8Vq/OILVlbkJ0C+tF08g=",
         )
         ports = listOf("7070")
     }
