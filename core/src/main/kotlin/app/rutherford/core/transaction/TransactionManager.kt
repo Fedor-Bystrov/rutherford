@@ -7,7 +7,7 @@ object TransactionManager {
     lateinit var dslContext: DSLContext
         private set
 
-    fun of(dslContext: DSLContext): TransactionManager {
+    fun create(dslContext: DSLContext): TransactionManager {
         TransactionManager.dslContext = dslContext
         return this
     }

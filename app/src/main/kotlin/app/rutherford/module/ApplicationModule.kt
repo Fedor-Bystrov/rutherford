@@ -31,7 +31,7 @@ class ApplicationModule(
         )
         database = DatabaseModule(databaseConfig, overrides)
         repository = RepositoryModule(database.dslContext)
-        transactionManager = TransactionManager.of(database.dslContext)
+        transactionManager = TransactionManager.create(database.dslContext)
         javalinModule = JavalinModule()
         resources = ResourceModule(javalinModule.javalin, repository)
     }
