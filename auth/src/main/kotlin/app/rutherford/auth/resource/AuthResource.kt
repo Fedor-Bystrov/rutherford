@@ -6,10 +6,12 @@ import app.rutherford.auth.manager.UserManager
 import app.rutherford.auth.resource.request.SignUpRequest
 import app.rutherford.core.ApplicationName.TEST1
 import app.rutherford.core.abstract.resource.Resource
+import app.rutherford.core.response.ErrorResponse
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.path
 import io.javalin.apibuilder.ApiBuilder.post
 import io.javalin.http.Context
+import io.javalin.http.HttpStatus.BAD_REQUEST
 import io.javalin.http.HttpStatus.CREATED
 
 class AuthResource(
@@ -24,6 +26,8 @@ class AuthResource(
         }
     }
 
+    // TODO implement + write tests
+
     private fun signUp(): (Context) -> Unit = {
         val request = it.bodyAsClass(SignUpRequest::class.java)
         try {
@@ -33,10 +37,21 @@ class AuthResource(
                 password = request.password1
             )
             it.status(CREATED)
-        } catch (e: PasswordPolicyValidationException) {
-            // TODO return bad request with message
-        } catch (e: UserAlreadyExistException) {
-            // TODO return bad request with message
+        } catch (e: RuntimeException) {
+            val message = when (e) {
+                PasswordPolicyValidationException::class -> "TODO 1"
+                UserAlreadyExistException::class -> "TODO 2"
+                // TODO other exception?
+                else -> throw e
+            }
+            it.status(BAD_REQUEST)
+            it.json(
+                ErrorResponse(
+                    message = message,
+                    httpStatus = BAD_REQUEST.code
+                )
+            )
+
         }
     }
 }
