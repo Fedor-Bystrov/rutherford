@@ -34,6 +34,36 @@ class UserManagerCreateTest : FunctionalTest() {
         }!!
     }
 
+    @Test
+    fun `should create user`() {
+        // given
+        val email = "${randomAlphabetic(10)}@test.com"
+        val applicationName = TEST1
+        val password = "Passw0rd"
+
+        // when
+        val result = userManager.create(email, applicationName, password)
+
+        // then
+        val minuteAgo = Instant.now().minusSeconds(60)
+        assertThat(result.createdAt).isAfter(minuteAgo)
+        assertThat(result.updatedAt).isAfter(minuteAgo)
+        assertThat(result.lastLogin).isNull()
+        assertThat(result.applicationName).isEqualTo(applicationName)
+        assertThat(result.email).isEqualTo(email)
+        assertThat(result.emailConfirmed).isFalse
+        assertThat(result.salt.decodeBytes().size).isEqualTo(16)
+        assertThat(result.passwordHash.decodeBytes().size).isEqualTo(32)
+
+        // and
+        val createdUser1 = authUserRepository.findBy(email = email, application = applicationName)
+        assertThat(result).isEqualTo(createdUser1)
+
+        // and
+        val createdUser2 = authUserRepository.get(id = result.id())
+        assertThat(result).isEqualTo(createdUser2)
+    }
+
     @ParameterizedTest
     @ValueSource(
         strings = [
@@ -79,36 +109,6 @@ class UserManagerCreateTest : FunctionalTest() {
     }
 
     @Test
-    fun `should create user`() {
-        // given
-        val email = "${randomAlphabetic(10)}@test.com"
-        val applicationName = TEST1
-        val password = "Passw0rd"
-
-        // when
-        val result = userManager.create(email, applicationName, password)
-
-        // then
-        val minuteAgo = Instant.now().minusSeconds(60)
-        assertThat(result.createdAt).isAfter(minuteAgo)
-        assertThat(result.updatedAt).isAfter(minuteAgo)
-        assertThat(result.lastLogin).isNull()
-        assertThat(result.applicationName).isEqualTo(applicationName)
-        assertThat(result.email).isEqualTo(email)
-        assertThat(result.emailConfirmed).isFalse
-        assertThat(result.salt.decodeBytes().size).isEqualTo(16)
-        assertThat(result.passwordHash.decodeBytes().size).isEqualTo(32)
-
-        // and
-        val createdUser1 = authUserRepository.findBy(email = email, application = applicationName)
-        assertThat(result).isEqualTo(createdUser1)
-
-        // and
-        val createdUser2 = authUserRepository.get(id = result.id())
-        assertThat(result).isEqualTo(createdUser2)
-    }
-
-    @Test
     fun `should create user with different application_name`() {
         // given
         val email = test1User.email
@@ -124,7 +124,7 @@ class UserManagerCreateTest : FunctionalTest() {
         assertThat(result.updatedAt).isAfter(minuteAgo)
         assertThat(result.lastLogin).isNull()
         assertThat(result.applicationName).isEqualTo(applicationName)
-        assertThat(result.email).isEqualTo(email)
+        assertThat(result.email).isEqualTo(test1User.email)
         assertThat(result.emailConfirmed).isFalse
         assertThat(result.salt.decodeBytes().size).isEqualTo(16)
         assertThat(result.passwordHash.decodeBytes().size).isEqualTo(32)
@@ -134,7 +134,7 @@ class UserManagerCreateTest : FunctionalTest() {
         assertThat(result).isEqualTo(createdUser)
 
         // and
-        assertThat(result.salt).isNotEqualTo(test1User.salt)
-        assertThat(result.passwordHash).isNotEqualTo(test1User.passwordHash)
+        assertThat(createdUser.salt).isNotEqualTo(test1User.salt)
+        assertThat(createdUser.passwordHash).isNotEqualTo(test1User.passwordHash)
     }
 }
