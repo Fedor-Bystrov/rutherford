@@ -59,7 +59,7 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
                 )
             )
             authUserTokenRepository.insert(
-                this.configuration, listOf(
+                this, listOf(
                     token1,
                     token2,
                     token3
@@ -136,7 +136,7 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
 
         // when
         val result = transaction {
-            authUserTokenRepository.insert(this.configuration, token)
+            authUserTokenRepository.insert(this, token)
         }
 
         // then
@@ -154,10 +154,10 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
 
         // when
         transaction {
-            authUserTokenRepository.insert(this.configuration, token)
+            authUserTokenRepository.insert(this, token)
 
             // then
-            val result = authUserTokenRepository.find(this.configuration, token.id())
+            val result = authUserTokenRepository.find(this, token.id())
             assertThat(result).isEqualTo(token)
         }
 
@@ -174,7 +174,7 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
 
         // when
         val result = transaction {
-            authUserTokenRepository.update(this.configuration, token)
+            authUserTokenRepository.update(this, token)
         }
 
         // then
@@ -193,10 +193,10 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
 
         // when
         transaction {
-            authUserTokenRepository.update(this.configuration, token3.withTokenHash(tokenHash))
+            authUserTokenRepository.update(this, token3.withTokenHash(tokenHash))
 
             // then
-            val updated = authUserTokenRepository.get(this.configuration, token3.id())
+            val updated = authUserTokenRepository.get(this, token3.id())
             assertThat(updated.tokenHash).isEqualTo(tokenHash)
         }
 

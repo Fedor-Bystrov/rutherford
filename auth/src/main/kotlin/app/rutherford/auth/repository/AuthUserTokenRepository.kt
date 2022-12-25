@@ -4,11 +4,10 @@ import app.rutherford.auth.entity.AuthUserToken
 import app.rutherford.auth.entity.AuthUserToken.Builder.Companion.authUserToken
 import app.rutherford.core.abstract.entity.Entity.Id
 import app.rutherford.core.abstract.repository.JooqRepository
-import app.rutherford.core.types.Base64
+import app.rutherford.core.transaction.TransactionContext
 import app.rutherford.core.types.Base64.Companion.base64
 import app.rutherford.schema.generated.tables.records.AuthUserTokenRecord
 import app.rutherford.schema.generated.tables.references.AUTH_USER_TOKEN
-import org.jooq.Configuration
 import org.jooq.DSLContext
 
 class AuthUserTokenRepository(
@@ -22,11 +21,21 @@ class AuthUserTokenRepository(
     //  - can't just use token_hash since two users can have the same password
     //  - or use user-defined salt to generate token_hash?
     // TODO fix auth_user_token index
-    fun get(conf: Configuration? = null, id: Id<AuthUserToken>): AuthUserToken = getById(conf, id.value)
-    fun find(conf: Configuration? = null, id: Id<AuthUserToken>): AuthUserToken? = findById(conf, id.value)
-    fun insert(conf: Configuration, entity: AuthUserToken): AuthUserToken = insertOne(conf, entity)
-    fun insert(conf: Configuration, entities: Collection<AuthUserToken>) = insertBatch(conf, entities)
-    fun update(conf: Configuration, entity: AuthUserToken): AuthUserToken = updateOne(conf, entity)
+
+    fun get(ctx: TransactionContext? = null, id: Id<AuthUserToken>): AuthUserToken =
+        getById(ctx?.configuration, id.value)
+
+    fun find(ctx: TransactionContext? = null, id: Id<AuthUserToken>): AuthUserToken? =
+        findById(ctx?.configuration, id.value)
+
+    fun insert(ctx: TransactionContext, entity: AuthUserToken): AuthUserToken =
+        insertOne(ctx.configuration, entity)
+
+    fun insert(ctx: TransactionContext, entities: Collection<AuthUserToken>) =
+        insertBatch(ctx.configuration, entities)
+
+    fun update(ctx: TransactionContext, entity: AuthUserToken): AuthUserToken =
+        updateOne(ctx.configuration, entity)
 
     override fun fromRecord(record: AuthUserTokenRecord): AuthUserToken = authUserToken()
         .id(record.id!!)
