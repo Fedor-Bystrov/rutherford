@@ -5,11 +5,10 @@ import app.rutherford.auth.entity.AuthUser.Builder.Companion.authUser
 import app.rutherford.core.ApplicationName
 import app.rutherford.core.abstract.entity.Entity.Id
 import app.rutherford.core.abstract.repository.JooqRepository
-import app.rutherford.core.types.Base64
+import app.rutherford.core.transaction.TransactionContext
 import app.rutherford.core.types.Base64.Companion.base64
 import app.rutherford.schema.generated.tables.records.AuthUserRecord
 import app.rutherford.schema.generated.tables.references.AUTH_USER
-import org.jooq.Configuration
 import org.jooq.DSLContext
 
 class AuthUserRepository(
@@ -20,18 +19,18 @@ class AuthUserRepository(
     AUTH_USER.ID
 ) {
 
-    fun get(conf: Configuration? = null, id: Id<AuthUser>): AuthUser = getById(conf, id.value)
-    fun find(conf: Configuration? = null, id: Id<AuthUser>): AuthUser? = findById(conf, id.value)
-    fun find(conf: Configuration? = null, ids: Collection<Id<AuthUser>>): Collection<AuthUser> =
-        findByIds(conf, ids.map { it.value })
+    fun get(ctx: TransactionContext? = null, id: Id<AuthUser>): AuthUser = getById(ctx?.configuration, id.value)
+    fun find(ctx: TransactionContext? = null, id: Id<AuthUser>): AuthUser? = findById(ctx?.configuration, id.value)
+    fun find(ctx: TransactionContext? = null, ids: Collection<Id<AuthUser>>): Collection<AuthUser> =
+        findByIds(ctx?.configuration, ids.map { it.value })
 
-    fun insert(conf: Configuration, entity: AuthUser): AuthUser = insertOne(conf, entity)
-    fun insert(conf: Configuration, entities: Collection<AuthUser>) = insertBatch(conf, entities)
-    fun update(conf: Configuration, entity: AuthUser): AuthUser = updateOne(conf, entity)
+    fun insert(ctx: TransactionContext, entity: AuthUser): AuthUser = insertOne(ctx.configuration, entity)
+    fun insert(ctx: TransactionContext, entities: Collection<AuthUser>) = insertBatch(ctx.configuration, entities)
+    fun update(ctx: TransactionContext, entity: AuthUser): AuthUser = updateOne(ctx.configuration, entity)
 
-    fun findBy(conf: Configuration? = null, email: String, application: ApplicationName) =
+    fun findBy(ctx: TransactionContext? = null, email: String, application: ApplicationName) =
         findOneWhere(
-            conf,
+            ctx?.configuration,
             AUTH_USER.EMAIL.eq(email)
                 .and(
                     AUTH_USER.APPLICATION_NAME.eq(application)

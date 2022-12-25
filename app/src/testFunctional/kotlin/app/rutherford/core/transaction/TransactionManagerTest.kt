@@ -13,7 +13,7 @@ class TransactionManagerTest : FunctionalTest() {
 
         // when
         val result = transaction {
-            authUserRepository.insert(this.tx, user)
+            authUserRepository.insert(this, user)
         }
 
         // then
@@ -33,7 +33,7 @@ class TransactionManagerTest : FunctionalTest() {
         // when
         try {
             transaction {
-                authUserRepository.insert(this.tx, user)
+                authUserRepository.insert(this, user)
                 throw RuntimeException("should revert transaction")
             }
         } catch (_: RuntimeException) {
@@ -50,14 +50,14 @@ class TransactionManagerTest : FunctionalTest() {
 
         // when
         transaction {
-            authUserRepository.insert(this.tx, user)
+            authUserRepository.insert(this, user)
 
             // then
             val findOutside = authUserRepository.find(id = user.id())
             assertThat(findOutside).isNull()
 
             // and
-            val created = authUserRepository.find(this.tx, id = user.id())
+            val created = authUserRepository.find(this, id = user.id())
             assertNotNull(created)
             assertThat(user).isEqualTo(user)
         }

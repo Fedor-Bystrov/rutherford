@@ -13,7 +13,7 @@ object TransactionManager {
     }
 }
 
-class TransactionContext(val tx: Configuration)
+class TransactionContext(val configuration: Configuration)
 
 @DslMarker
 annotation class TransactionMarker

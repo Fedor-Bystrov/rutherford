@@ -52,14 +52,14 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
 
         transaction {
             authUserRepository.insert(
-                this.tx, listOf(
+                this, listOf(
                     user1,
                     user2,
                     user3
                 )
             )
             authUserTokenRepository.insert(
-                this.tx, listOf(
+                this.configuration, listOf(
                     token1,
                     token2,
                     token3
@@ -136,7 +136,7 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
 
         // when
         val result = transaction {
-            authUserTokenRepository.insert(this.tx, token)
+            authUserTokenRepository.insert(this.configuration, token)
         }
 
         // then
@@ -154,10 +154,10 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
 
         // when
         transaction {
-            authUserTokenRepository.insert(this.tx, token)
+            authUserTokenRepository.insert(this.configuration, token)
 
             // then
-            val result = authUserTokenRepository.find(this.tx, token.id())
+            val result = authUserTokenRepository.find(this.configuration, token.id())
             assertThat(result).isEqualTo(token)
         }
 
@@ -174,7 +174,7 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
 
         // when
         val result = transaction {
-            authUserTokenRepository.update(this.tx, token)
+            authUserTokenRepository.update(this.configuration, token)
         }
 
         // then
@@ -193,10 +193,10 @@ class AuthUserTokenRepositoryTest : FunctionalTest() {
 
         // when
         transaction {
-            authUserTokenRepository.update(this.tx, token3.withTokenHash(tokenHash))
+            authUserTokenRepository.update(this.configuration, token3.withTokenHash(tokenHash))
 
             // then
-            val updated = authUserTokenRepository.get(this.tx, token3.id())
+            val updated = authUserTokenRepository.get(this.configuration, token3.id())
             assertThat(updated.tokenHash).isEqualTo(tokenHash)
         }
 

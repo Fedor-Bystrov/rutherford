@@ -41,7 +41,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
 
         transaction {
             authUserRepository.insert(
-                this.tx, listOf(
+                this, listOf(
                     userWithNotConfirmedEmail,
                     user2,
                     user3
@@ -82,7 +82,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
 
         // when
         val result = transaction {
-            authUserRepository.find(this.tx, id = userId)
+            authUserRepository.find(this, id = userId)
         }
 
         // then
@@ -126,7 +126,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
     fun `should find correct auth_user by email and application in transaction`() {
         // when
         val result = transaction {
-            authUserRepository.findBy(this.tx, email = user3.email, application = TEST2)
+            authUserRepository.findBy(this, email = user3.email, application = TEST2)
         }
 
         // then
@@ -149,7 +149,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
 
         // when
         val result = transaction {
-            authUserRepository.find(this.tx, ids = users.map { it.id() })
+            authUserRepository.find(this, ids = users.map { it.id() })
         }
 
         // then
@@ -189,7 +189,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
 
         // when
         val result = transaction {
-            authUserRepository.insert(this.tx, user)
+            authUserRepository.insert(this, user)
         }
 
         // then
@@ -207,9 +207,9 @@ class AuthUserRepositoryTest : FunctionalTest() {
 
         // when
         transaction {
-            authUserRepository.insert(this.tx, user)
+            authUserRepository.insert(this, user)
 
-            val result = authUserRepository.find(this.tx, user.id())
+            val result = authUserRepository.find(this, user.id())
             assertThat(result).isEqualTo(user)
         }
 
@@ -225,7 +225,7 @@ class AuthUserRepositoryTest : FunctionalTest() {
 
         // when
         val result = transaction {
-            authUserRepository.update(this.tx, updatedUser)
+            authUserRepository.update(this, updatedUser)
         }
 
         // then
@@ -241,10 +241,10 @@ class AuthUserRepositoryTest : FunctionalTest() {
     fun `should update single entity and see changes in the same transaction`() {
         // when
         transaction {
-            authUserRepository.update(this.tx, userWithNotConfirmedEmail.confirmEmail())
+            authUserRepository.update(this, userWithNotConfirmedEmail.confirmEmail())
 
             // then
-            val updated = authUserRepository.get(this.tx, userWithNotConfirmedEmail.id())
+            val updated = authUserRepository.get(this, userWithNotConfirmedEmail.id())
             assertThat(updated.emailConfirmed).isTrue
         }
 
