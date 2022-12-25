@@ -11,6 +11,7 @@ dependencies {
     implementation(Dependencies.orgJson)
     implementation(Dependencies.passay)
     implementation(Dependencies.bcprov)
+    implementation(Dependencies.javalin)
 
     testImplementation(kotlin("test"))
     testImplementation(Dependencies.junitJupiter)
