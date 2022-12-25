@@ -35,16 +35,17 @@ class UserManager(
 
         val (salt, passwordHash) = passwordHasher.hash(password)
 
-        return requireNotNull(transaction {
-            authUserRepository.insert(
-                this, authUser()
-                    .applicationName(applicationName)
-                    .email(email)
-                    .emailConfirmed(false)
-                    .salt(salt)
-                    .passwordHash(passwordHash)
-                    .build()
-            )
-        }) { "Error creating AuthUser. Transaction returned empty result" }
+        return requireNotNull(
+            transaction {
+                authUserRepository.insert(
+                    this, authUser()
+                        .applicationName(applicationName)
+                        .email(email)
+                        .emailConfirmed(false)
+                        .salt(salt)
+                        .passwordHash(passwordHash)
+                        .build()
+                )
+            }) { "Error creating AuthUser. Transaction returned empty result" }
     }
 }
