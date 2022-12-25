@@ -2,6 +2,7 @@ package app.rutherford.auth.manager.usermanager
 
 import app.rutherford.FunctionalTest
 import app.rutherford.auth.entity.AuthUser
+import app.rutherford.auth.exception.PasswordPolicyValidationException
 import app.rutherford.core.ApplicationName.TEST1
 import app.rutherford.core.transaction.transaction
 import app.rutherford.fixtures.anAuthUser
@@ -22,7 +23,7 @@ class UserManagerCreateTest : FunctionalTest() {
                 this, anAuthUser()
                     .emailConfirmed(true)
                     .applicationName(TEST1)
-                    .email("test@test.com")
+                    .email("test@email.com")
                     .build()
             )
         }!!
@@ -44,9 +45,20 @@ class UserManagerCreateTest : FunctionalTest() {
             .hasMessage("email is null or blank")
     }
 
-    @Test
-    fun `should throw when password don't satisfy policy`() {
-        TODO("implement")
+    @ParameterizedTest
+    @ValueSource(
+        strings = [
+            "",
+            " ",
+            "pass",
+            "password",
+            "Password"
+        ]
+    )
+    fun `should throw when password don't satisfy policy`(password: String) {
+        // then
+        assertThatThrownBy { userManager.create("test@email.com", TEST1, password) }
+            .isInstanceOf(PasswordPolicyValidationException::class.java)
     }
 
     @Test
