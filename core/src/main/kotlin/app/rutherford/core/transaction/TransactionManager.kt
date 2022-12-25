@@ -37,5 +37,5 @@ fun <E> transactionResult(init: TransactionContext.() -> E): E {
     TransactionManager.dslContext.transactionResult { tx ->
         e = TransactionContext(tx).init()
     }
-    return requireNotNull(e)
+    return requireNotNull(e) { "Transaction returned null" }
 }
