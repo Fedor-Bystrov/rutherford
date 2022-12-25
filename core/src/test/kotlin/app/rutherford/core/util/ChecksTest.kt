@@ -1,5 +1,6 @@
 package app.rutherford.core.util
 
+import app.rutherford.core.util.Checks.validateEmailFormat
 import app.rutherford.core.util.Checks.validateNotBlank
 import app.rutherford.core.util.Checks.validateNotNull
 import org.assertj.core.api.Assertions.assertThat
@@ -41,5 +42,71 @@ class ChecksTest {
         assertThatThrownBy { validateNotBlank("param123", value) }
             .isInstanceOf(IllegalStateException::class.java)
             .hasMessage("param123 is null or blank")
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = [
+            "Leviblack@mail.com",
+            "handsomeKelsey85@virgilio.it",
+            "giftedLouis@facebook.com",
+            "Billyuptight@comcast.net",
+            "disturbedShannon@bol.com.br",
+            "Wendyhurt@frontiernet.net",
+            "aggressiveAnna@earthlink.net",
+            "defeatedShannon16@live.it",
+            "illAlison@live.fr",
+            "pleasantTeresa@yahoo.com.br",
+            "openMichael4@att.net",
+            "mysteriousJonathon1@rediffmail.com",
+            "uglyJay8@yahoo.co.uk",
+            "aliveLogan48@frontiernet.net",
+            "gloriousMarco@hotmail.fr",
+            "Cristinablushing@tiscali.it",
+            "Garrettoutrageous@googlemail.com",
+            "terribleKimberly@qq.com",
+            "splendidCody62@earthlink.net",
+            "blushingRuth@hotmail.com",
+            "a+_-_1@a.com"
+        ]
+    )
+    fun `should validate email format`(value: String) {
+        assertThat(validateEmailFormat(value)).isEqualTo(value)
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = [
+            "",
+            " ",
+            "   ",
+            "             "
+        ]
+    )
+    fun `should throw if email is blank`(value: String) {
+        assertThatThrownBy { validateEmailFormat(value) }
+            .isInstanceOf(IllegalStateException::class.java)
+            .hasMessage("email is null or blank")
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = [
+            "a",
+            "a@",
+            "a@a",
+            "a@@a",
+            "test@@test.com",
+            "@test.com",
+            "test@com@test.com",
+            "test@com@test..com",
+            "test@com@test,com",
+            "---@---",
+        ]
+    )
+    fun `should throw if email format is not valid`(value: String) {
+        assertThatThrownBy { validateEmailFormat(value) }
+            .isInstanceOf(IllegalStateException::class.java)
+            .hasMessage("email is not valid")
     }
 }
