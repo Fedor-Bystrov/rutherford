@@ -1,5 +1,6 @@
 package app.rutherford.auth.manager
 
+import app.rutherford.auth.entity.AuthUser
 import app.rutherford.auth.entity.AuthUser.Builder.Companion.authUser
 import app.rutherford.auth.exception.UserAlreadyExistException
 import app.rutherford.auth.repository.AuthUserRepository
@@ -8,10 +9,6 @@ import app.rutherford.auth.util.PasswordPolicyValidator
 import app.rutherford.core.ApplicationName
 import app.rutherford.core.transaction.transaction
 import app.rutherford.core.util.Checks.validateNotBlank
-
-
-// TODO
-//  - Write tests on UserManager#create
 
 class UserManager(
     private val passwordPolicyValidator: PasswordPolicyValidator,
@@ -27,7 +24,7 @@ class UserManager(
         email: String,
         applicationName: ApplicationName,
         password: String
-    ) {
+    ): AuthUser {
         validateNotBlank("email", email)
         passwordPolicyValidator.validate(password)
 
@@ -37,7 +34,7 @@ class UserManager(
 
         val (salt, passwordHash) = passwordHasher.hash(password)
 
-        transaction {
+        return requireNotNull(transaction {
             authUserRepository.insert(
                 this, authUser()
                     .applicationName(applicationName)
@@ -47,6 +44,6 @@ class UserManager(
                     .passwordHash(passwordHash)
                     .build()
             )
-        }
+        }) { "Error creating AuthUser. Transaction returned empty result" }
     }
 }
