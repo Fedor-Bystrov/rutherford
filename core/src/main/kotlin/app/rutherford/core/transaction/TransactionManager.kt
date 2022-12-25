@@ -20,14 +20,13 @@ annotation class TransactionMarker
 //  1. Make two separate transaction creators: transaction and transaction_with_result
 //  2. improve add repositories available inside transaction
 
-@TransactionMarker
-class Transaction(val tx: Configuration)
+class TransactionContext(val tx: Configuration)
 
 @TransactionMarker
-fun <E> transaction(init: Transaction.() -> E?): E? {
+fun <E> transaction(init: TransactionContext.() -> E?): E? {
     var e: E? = null
     TransactionManager.dslContext.transaction { tx ->
-        e = Transaction(tx).init()
+        e = TransactionContext(tx).init()
     }
     return e
 }
