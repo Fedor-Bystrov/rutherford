@@ -5,6 +5,7 @@ import app.rutherford.schema.generated.tables.references.AUTH_USER
 import app.rutherford.schema.generated.tables.references.AUTH_USER_TOKEN
 import app.rutherford.core.transaction.transaction
 import app.rutherford.module.ApplicationModule
+import app.rutherford.module.ManagerModule
 import app.rutherford.module.RepositoryModule
 import org.jooq.conf.Settings
 import org.testcontainers.containers.PostgreSQLContainer
@@ -14,6 +15,7 @@ class TestEnvironment : AutoCloseable {
     private val application: ApplicationModule
 
     val repository: RepositoryModule
+    val managerModule: ManagerModule
 
     init {
         postgresContainer.start()
@@ -31,6 +33,7 @@ class TestEnvironment : AutoCloseable {
         )
 
         repository = application.repository
+        managerModule = application.managerModule
 
         addShutdownHook(Thread(postgresContainer::stop))
         addShutdownHook(Thread(application::stop))
