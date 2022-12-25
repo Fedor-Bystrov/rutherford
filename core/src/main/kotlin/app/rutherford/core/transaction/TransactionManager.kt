@@ -30,3 +30,12 @@ fun <E> transaction(init: TransactionContext.() -> E?): E? {
     }
     return e
 }
+
+@TransactionMarker
+fun <E> transactionResult(init: TransactionContext.() -> E): E {
+    var e: E? = null
+    TransactionManager.dslContext.transactionResult { tx ->
+        e = TransactionContext(tx).init()
+    }
+    return requireNotNull(e)
+}
