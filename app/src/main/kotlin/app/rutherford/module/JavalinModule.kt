@@ -1,6 +1,7 @@
 package app.rutherford.module
 
 import app.rutherford.core.exception.EntityNotFoundException
+import app.rutherford.core.response.ErrorResponse
 import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL
 import com.fasterxml.jackson.core.JsonParseException
 import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
@@ -17,7 +18,6 @@ import io.javalin.http.HttpStatus.NOT_FOUND
 import io.javalin.json.JavalinJackson
 import io.javalin.validation.JavalinValidation
 import io.javalin.validation.ValidationException
-import org.json.JSONObject
 import org.slf4j.LoggerFactory
 import org.slf4j.MDC
 import java.util.*
@@ -81,24 +81,25 @@ class JavalinModule {
     private fun <E : Exception> exception(clazz: KClass<E>, exceptionHandler: ExceptionHandler<E>) =
         javalin.exception(clazz.java, exceptionHandler)
 
-
-    private fun <E : Exception> nonCritical(e: E, ctx: Context, httpStatus: HttpStatus, message: String?) =
-        nonCritical(e, ctx, httpStatus, JSONObject().put("message", message))
-
-    private fun <E : Exception> nonCritical(e: E, ctx: Context, httpStatus: HttpStatus, json: JSONObject) {
+    private fun <E : Exception> nonCritical(e: E, ctx: Context, httpStatus: HttpStatus, message: String?) {
         logger.info("An error occurred", e)
         ctx.status(httpStatus)
-        ctx.json(json.put("code", httpStatus.code).toString())  // TODO extract to common error object
+        ctx.json(
+            ErrorResponse(
+                message = message,
+                httpStatus = httpStatus.code
+            )
+        )
     }
 
     private fun <E : Exception> internalServerError(e: E, ctx: Context) {
         logger.error("An error occurred", e)
         ctx.status(INTERNAL_SERVER_ERROR)
         ctx.json(
-            JSONObject() // TODO extract to common error object
-                .put("message", "Internal Server Error")
-                .put("code", INTERNAL_SERVER_ERROR.code)
-                .toString()
+            ErrorResponse(
+                message = INTERNAL_SERVER_ERROR.name,
+                httpStatus = INTERNAL_SERVER_ERROR.code
+            )
         )
 
         when (e) {

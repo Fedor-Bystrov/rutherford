@@ -18,7 +18,6 @@ dependencies {
     implementation(Dependencies.javalin)
     implementation(Dependencies.jacksonModuleKotlin)
     implementation(Dependencies.jacksonJsr310)
-    implementation(Dependencies.orgJson)
     implementation(Dependencies.logbackCore)
     implementation(Dependencies.logbackClassic)
     implementation(Dependencies.slf4jApi)
