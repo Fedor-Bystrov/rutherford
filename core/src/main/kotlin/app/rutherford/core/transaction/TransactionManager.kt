@@ -3,7 +3,6 @@ package app.rutherford.core.transaction
 import org.jooq.Configuration
 import org.jooq.DSLContext
 
-
 object TransactionManager {
     lateinit var dslContext: DSLContext
         private set
@@ -16,6 +15,10 @@ object TransactionManager {
 
 @DslMarker
 annotation class TransactionMarker
+
+// TODO
+//  1. Make two separate transaction creators: transaction and transaction_with_result
+//  2. improve add repositories available inside transaction
 
 @TransactionMarker
 class Transaction {
@@ -32,4 +35,3 @@ class Transaction {
 fun <E> transaction(init: Transaction.(Configuration) -> E?): E? {
     return Transaction().apply(init)
 }
-
