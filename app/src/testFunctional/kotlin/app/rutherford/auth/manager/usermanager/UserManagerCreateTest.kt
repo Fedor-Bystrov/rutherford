@@ -5,6 +5,7 @@ import app.rutherford.auth.entity.AuthUser
 import app.rutherford.auth.exception.PasswordPolicyValidationException
 import app.rutherford.auth.exception.UserAlreadyExistException
 import app.rutherford.core.ApplicationName.TEST1
+import app.rutherford.core.ApplicationName.TEST2
 import app.rutherford.core.transaction.transaction
 import app.rutherford.fixtures.anAuthUser
 import org.apache.commons.lang3.RandomStringUtils.randomAlphabetic
@@ -109,6 +110,31 @@ class UserManagerCreateTest : FunctionalTest() {
 
     @Test
     fun `should create user with different application_name`() {
-        TODO("implement")
+        // given
+        val email = test1User.email
+        val applicationName = TEST2
+        val password = "Passw0rd"
+
+        // when
+        val result = userManager.create(email, applicationName, password)
+
+        // then
+        val minuteAgo = Instant.now().minusSeconds(60)
+        assertThat(result.createdAt).isAfter(minuteAgo)
+        assertThat(result.updatedAt).isAfter(minuteAgo)
+        assertThat(result.lastLogin).isNull()
+        assertThat(result.applicationName).isEqualTo(applicationName)
+        assertThat(result.email).isEqualTo(email)
+        assertThat(result.emailConfirmed).isFalse
+        assertThat(result.salt.decodeBytes().size).isEqualTo(16)
+        assertThat(result.passwordHash.decodeBytes().size).isEqualTo(32)
+
+        // and
+        val createdUser = authUserRepository.get(id = result.id())
+        assertThat(result).isEqualTo(createdUser)
+
+        // and
+        assertThat(result.salt).isNotEqualTo(test1User.salt)
+        assertThat(result.passwordHash).isNotEqualTo(test1User.passwordHash)
     }
 }
