@@ -11,9 +11,9 @@ import app.rutherford.core.transaction.transaction
 import app.rutherford.core.util.Checks.validateNotBlank
 
 class UserManager(
+    private val passwordHasher: Argon2PasswordHasher,
     private val passwordPolicyValidator: PasswordPolicyValidator,
     private val authUserRepository: AuthUserRepository,
-    private val passwordHasher: Argon2PasswordHasher,
 ) {
 
     /**

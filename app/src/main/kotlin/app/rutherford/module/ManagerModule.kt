@@ -3,16 +3,16 @@ package app.rutherford.module
 import app.rutherford.auth.manager.UserManager
 import app.rutherford.auth.util.Argon2PasswordHasher
 import app.rutherford.auth.util.PasswordPolicyValidator
-import app.rutherford.core.types.Base64.Companion.base64
+import app.rutherford.core.types.Base64
 import java.security.SecureRandom
 
-class ManagerModule(repositoryModule: RepositoryModule) {
+class ManagerModule(repositoryModule: RepositoryModule, authUserSecret: Base64) {
     val userManager: UserManager
 
     init {
         val passwordPolicyValidator = PasswordPolicyValidator()
         val passwordHasher = Argon2PasswordHasher(
-            base64(""), // TODO secret
+            authUserSecret,
             SecureRandom()
         )
 
