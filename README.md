@@ -32,5 +32,9 @@ and then:
 2. `docker network connect postgres-dev-network <postgresql-contaner-name>`
 3. `docker run --network postgres-dev-network <app-container-name>`
 
+## Notes
+- secret length is 32 bytes
+- salt length is 16 bytes
+
 ## Apache Bench
 `ab -k -c 50 -n 150 "localhost:7070/test/users/argon2"`
