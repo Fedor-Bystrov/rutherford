@@ -4,6 +4,7 @@ plugins {
 }
 
 dependencies {
+    implementation(Dependencies.javalin)
     implementation(Dependencies.jooq)
     implementation(Dependencies.dotenv)
     implementation(Dependencies.commonsValidator)

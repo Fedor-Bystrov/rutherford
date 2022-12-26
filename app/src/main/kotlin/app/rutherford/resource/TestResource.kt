@@ -19,7 +19,7 @@ import java.util.*
 class TestResource(
     private val javalin: Javalin,
     private val authUserRepository: AuthUserRepository
-) : Resource {
+) : Resource() {
     override fun bindRoutes() {
         javalin.routes {
             path("/test/users") {
