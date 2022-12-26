@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL
 import com.fasterxml.jackson.core.JsonParseException
 import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
 import com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS
+import com.fasterxml.jackson.databind.exc.ValueInstantiationException
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.javalin.Javalin
@@ -71,6 +72,9 @@ class JavalinModule {
 
         // Exception Mappers // TODO write tests on mappers
         exception(JsonParseException::class) { e, c -> nonCritical(e, c, BAD_REQUEST, MALFORMED_JSON) }
+        exception(ValueInstantiationException::class) { e, c ->
+            nonCritical(e, c, BAD_REQUEST, MALFORMED_JSON, listOf(e.cause?.message ?: ""))
+        }
         exception(ValidationException::class) { e, c ->
             nonCritical(e, c, BAD_REQUEST, VALIDATION_ERROR, listOf(getMessage(e)))
         }
