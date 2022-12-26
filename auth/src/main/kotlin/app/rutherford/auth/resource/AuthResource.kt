@@ -28,7 +28,7 @@ class AuthResource(
     // TODO Create E2E tests on /api/auth/sign-up
 
     private fun signUp(): (Context) -> Unit = {
-        val request = it.bodyAsClass(SignUpRequest::class.java)
+        val request = it.bodyAsClass(SignUpRequest::class.java) // TODO write tests on request validation
         try {
             userManager.create(
                 email = request.email,
