@@ -3,7 +3,7 @@ package app.rutherford.module
 import app.rutherford.core.ErrorCode
 import app.rutherford.core.ErrorCode.MALFORMED_JSON
 import app.rutherford.core.ErrorCode.VALIDATION_ERROR
-import app.rutherford.core.exception.ApplicationNotFoundException
+import app.rutherford.core.exception.UnknownOriginException
 import app.rutherford.core.exception.EntityNotFoundException
 import app.rutherford.core.exception.RutherfordException
 import app.rutherford.core.response.ErrorResponse
@@ -76,7 +76,7 @@ class JavalinModule {
         exception(IllegalStateException::class) { e, c ->
             nonCritical(e, c, BAD_REQUEST, VALIDATION_ERROR, listOf(e.message ?: ""))
         }
-        exception(ApplicationNotFoundException::class) { e, c -> nonCritical(e, c, NOT_ACCEPTABLE, VALIDATION_ERROR) }
+        exception(UnknownOriginException::class) { e, c -> nonCritical(e, c, NOT_ACCEPTABLE) }
         exception(EntityNotFoundException::class) { e, c -> nonCritical(e, c, NOT_FOUND) }
         exception(Exception::class) { e, c -> internalServerError(e, c) }
     }

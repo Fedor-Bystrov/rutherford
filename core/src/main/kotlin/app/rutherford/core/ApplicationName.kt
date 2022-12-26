@@ -1,6 +1,6 @@
 package app.rutherford.core
 
-import app.rutherford.core.exception.ApplicationNotFoundException
+import app.rutherford.core.exception.UnknownOriginException
 import java.net.URL
 
 enum class ApplicationName(private val allowedHost: URL) {
@@ -14,6 +14,6 @@ enum class ApplicationName(private val allowedHost: URL) {
         fun getForOrigin(originURL: URL): ApplicationName = ApplicationName
             .values()
             .find { it.allowedHost == originURL }
-            ?: throw ApplicationNotFoundException(originURL.toString())
+            ?: throw UnknownOriginException(originURL.toString())
     }
 }

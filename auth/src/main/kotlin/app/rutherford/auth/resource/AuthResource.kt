@@ -6,7 +6,7 @@ import app.rutherford.auth.manager.UserManager
 import app.rutherford.auth.resource.request.SignUpRequest
 import app.rutherford.core.ApplicationName
 import app.rutherford.core.abstract.resource.Resource
-import app.rutherford.core.exception.ApplicationNotFoundException
+import app.rutherford.core.exception.UnknownOriginException
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.path
 import io.javalin.apibuilder.ApiBuilder.post
@@ -54,7 +54,7 @@ class AuthResource(
         try {
             return ApplicationName.getForOrigin(URL(origin))
         } catch (e: MalformedURLException) {
-            throw ApplicationNotFoundException(origin) // TODO add test
+            throw UnknownOriginException(origin) // TODO add test
         }
     }
 }
