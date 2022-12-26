@@ -38,6 +38,7 @@ class JavalinModule {
     val javalin: Javalin = Javalin.create { config ->
         config.showJavalinBanner = false
         config.http.asyncTimeout = MINUTES.toMillis(1)
+        config.compression.gzipOnly()
         config.jsonMapper(
             JavalinJackson(
                 jacksonObjectMapper()
