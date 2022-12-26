@@ -38,7 +38,7 @@ class ApplicationModule(
         managerModule = ManagerModule(repository, authUserSecret)
         transactionManager = TransactionManager.create(database.dslContext)
         javalinModule = JavalinModule()
-        resources = ResourceModule(javalinModule.javalin, repository)
+        resources = ResourceModule(javalinModule.javalin, repository, managerModule)
     }
 
     fun start() {
