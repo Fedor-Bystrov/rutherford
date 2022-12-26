@@ -6,6 +6,7 @@ import app.rutherford.auth.exception.PasswordPolicyValidationException
 import app.rutherford.auth.exception.UserAlreadyExistException
 import app.rutherford.core.ApplicationName.TEST1
 import app.rutherford.core.ApplicationName.TEST2
+import app.rutherford.core.ErrorCode.USER_ALREADY_EXISTS
 import app.rutherford.core.transaction.transaction
 import app.rutherford.fixtures.anAuthUser
 import org.apache.commons.lang3.RandomStringUtils.randomAlphabetic
@@ -104,7 +105,9 @@ class UserManagerCreateTest : FunctionalTest() {
 
         // then
         assertThatThrownBy { userManager.create(email, applicationName, "Passw0rd") }
-            .isInstanceOf(UserAlreadyExistException::class.java)
+            .isInstanceOfSatisfying(UserAlreadyExistException::class.java) {
+                assertThat(it.errorCode()).isEqualTo(USER_ALREADY_EXISTS)
+            }
     }
 
     @Test
