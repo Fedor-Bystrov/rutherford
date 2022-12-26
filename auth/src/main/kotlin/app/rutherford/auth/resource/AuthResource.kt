@@ -25,14 +25,14 @@ class AuthResource(
         }
     }
 
-    // TODO Create E2E tests on /api/auth/sign-u
+    // TODO Create E2E tests on /api/auth/sign-up
 
     private fun signUp(): (Context) -> Unit = {
         val request = it.bodyAsClass(SignUpRequest::class.java)
         try {
             userManager.create(
                 email = request.email,
-                applicationName = TEST1, // read from request's origin address. Create a map: origin -> appName
+                applicationName = TEST1, // TODO read from request's origin address. Create a map: origin -> appName
                 password = request.password1
             )
             it.status(CREATED)
