@@ -8,6 +8,6 @@ data class SignUpRequest(val email: String, val password1: String, val password2
         validateEmailFormat(email)
         validateNotBlank("password1", email)
         validateNotBlank("password2", email)
-        check(password1 == password2) { "passwords do not match" } // TODO write test + check response is correct
+        check(password1 == password2) { "PASSWORDS_MISMATCH" } // TODO write test + check response is correct
     }
 }
