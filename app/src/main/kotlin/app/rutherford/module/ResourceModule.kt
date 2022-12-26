@@ -9,7 +9,7 @@ class ResourceModule(
     javalin: Javalin,
     repositoryModule: RepositoryModule,
     managerModule: ManagerModule,
-    ) {
+) {
     private val resources: List<Resource>
 
     init {
