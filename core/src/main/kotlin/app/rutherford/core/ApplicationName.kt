@@ -14,6 +14,6 @@ enum class ApplicationName(private val allowedHost: URL) {
         fun getForOrigin(originURL: URL): ApplicationName = ApplicationName
             .values()
             .find { it.allowedHost == originURL }
-            ?: throw ApplicationNotFoundException(originURL)
+            ?: throw ApplicationNotFoundException(originURL.toString())
     }
 }
