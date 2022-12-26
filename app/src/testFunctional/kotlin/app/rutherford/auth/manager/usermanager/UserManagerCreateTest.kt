@@ -105,7 +105,6 @@ class UserManagerCreateTest : FunctionalTest() {
         // then
         assertThatThrownBy { userManager.create(email, applicationName, "Passw0rd") }
             .isInstanceOf(UserAlreadyExistException::class.java)
-            .hasMessage("User with $email and $applicationName already exist")
     }
 
     @Test
