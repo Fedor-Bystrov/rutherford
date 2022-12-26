@@ -2,6 +2,7 @@ package app.rutherford.module
 
 import app.rutherford.core.ErrorCode
 import app.rutherford.core.ErrorCode.MALFORMED_JSON
+import app.rutherford.core.ErrorCode.VALIDATION_ERROR
 import app.rutherford.core.exception.EntityNotFoundException
 import app.rutherford.core.exception.RutherfordException
 import app.rutherford.core.response.ErrorResponse
@@ -67,8 +68,12 @@ class JavalinModule {
 
         // Exception Mappers // TODO write tests on mappers
         exception(JsonParseException::class) { e, c -> nonCritical(e, c, BAD_REQUEST, MALFORMED_JSON) }
-        exception(ValidationException::class) { e, c -> nonCritical(e, c, BAD_REQUEST) } // TODO return details
-        exception(IllegalStateException::class) { e, c -> nonCritical(e, c, BAD_REQUEST) } // TODO return details
+        exception(ValidationException::class) { e, c ->
+            nonCritical(e, c, BAD_REQUEST, VALIDATION_ERROR, listOf(getMessage(e)))
+        }
+        exception(IllegalStateException::class) { e, c ->
+            nonCritical(e, c, BAD_REQUEST, VALIDATION_ERROR, listOf(e.message ?: ""))
+        }
         exception(EntityNotFoundException::class) { e, c -> nonCritical(e, c, NOT_FOUND) }
         exception(Exception::class) { e, c -> internalServerError(e, c) }
     }
@@ -88,7 +93,8 @@ class JavalinModule {
         e: E,
         ctx: Context,
         httpStatus: HttpStatus,
-        errorCode: ErrorCode? = null
+        errorCode: ErrorCode? = null,
+        errors: Collection<String>? = null
     ) {
         logger.info("An error occurred", e)
         ctx.status(httpStatus)
@@ -98,13 +104,15 @@ class JavalinModule {
                 ErrorResponse(
                     httpStatus = httpStatus.code,
                     code = e.errorCode(),
+                    errors = errors,
                 )
             )
         } else {
             ctx.json(
                 ErrorResponse(
                     httpStatus = httpStatus.code,
-                    code = errorCode
+                    code = errorCode,
+                    errors = errors,
                 )
             )
         }
