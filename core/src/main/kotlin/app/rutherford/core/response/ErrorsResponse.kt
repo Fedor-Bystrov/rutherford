@@ -1,3 +1,9 @@
 package app.rutherford.core.response
 
-data class ErrorResponse(val message: String?, val httpStatus: Int)
+import app.rutherford.core.ErrorCode
+
+data class ErrorResponse(
+    val httpStatus: Int,
+    val code: ErrorCode? = null,
+    val errors: Collection<String>? = null
+)
