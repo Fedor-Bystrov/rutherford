@@ -8,7 +8,6 @@ dependencies {
     implementation(project(":schema"))
     implementation(Dependencies.jooq)
     implementation(Dependencies.javaJwt)
-    implementation(Dependencies.orgJson)
     implementation(Dependencies.passay)
     implementation(Dependencies.bcprov)
     implementation(Dependencies.javalin)

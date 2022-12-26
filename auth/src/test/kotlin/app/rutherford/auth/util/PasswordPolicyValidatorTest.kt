@@ -3,7 +3,6 @@ package app.rutherford.auth.util
 import app.rutherford.auth.exception.PasswordPolicyValidationException
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
-import org.json.JSONObject
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
@@ -59,13 +58,7 @@ class PasswordPolicyValidatorTest {
         // then
         assertThatThrownBy { validator.validate(password) }
             .isInstanceOfSatisfying(PasswordPolicyValidationException::class.java) {
-                assertThat(it.toJson().toString()).isEqualTo(
-                    JSONObject().put(
-                        "errors", listOf(
-                            "TOO_SHORT:min=6"
-                        )
-                    ).toString()
-                )
+                assertThat(it.errors).containsExactly("TOO_SHORT:min=6")
             }
     }
 
@@ -83,13 +76,7 @@ class PasswordPolicyValidatorTest {
         // then
         assertThatThrownBy { validator.validate(password) }
             .isInstanceOfSatisfying(PasswordPolicyValidationException::class.java) {
-                assertThat(it.toJson().toString()).isEqualTo(
-                    JSONObject().put(
-                        "errors", listOf(
-                            "TOO_LONG:max=50"
-                        )
-                    ).toString()
-                )
+                assertThat(it.errors).containsExactly("TOO_LONG:max=50")
             }
     }
 
@@ -107,13 +94,7 @@ class PasswordPolicyValidatorTest {
         // then
         assertThatThrownBy { validator.validate(password) }
             .isInstanceOfSatisfying(PasswordPolicyValidationException::class.java) {
-                assertThat(it.toJson().toString()).isEqualTo(
-                    JSONObject().put(
-                        "errors", listOf(
-                            "INSUFFICIENT_LOWERCASE:min=1"
-                        )
-                    ).toString()
-                )
+                assertThat(it.errors).containsExactly("INSUFFICIENT_LOWERCASE:min=1")
             }
     }
 
@@ -132,13 +113,7 @@ class PasswordPolicyValidatorTest {
         // then
         assertThatThrownBy { validator.validate(password) }
             .isInstanceOfSatisfying(PasswordPolicyValidationException::class.java) {
-                assertThat(it.toJson().toString()).isEqualTo(
-                    JSONObject().put(
-                        "errors", listOf(
-                            "INSUFFICIENT_UPPERCASE:min=1"
-                        )
-                    ).toString()
-                )
+                assertThat(it.errors).containsExactly("INSUFFICIENT_UPPERCASE:min=1")
             }
     }
 
@@ -157,39 +132,32 @@ class PasswordPolicyValidatorTest {
         // then
         assertThatThrownBy { validator.validate(password) }
             .isInstanceOfSatisfying(PasswordPolicyValidationException::class.java) {
-                assertThat(it.toJson().toString()).isEqualTo(
-                    JSONObject().put(
-                        "errors", listOf(
-                            "INSUFFICIENT_DIGIT:min=1"
-                        )
-                    ).toString()
-                )
+                assertThat(it.errors).containsExactly("INSUFFICIENT_DIGIT:min=1")
             }
     }
 
     @ParameterizedTest
     @CsvSource(
         value = [
-            "aaa, TOO_SHORT+INSUFFICIENT_UPPERCASE+INSUFFICIENT_DIGIT",
-            "ZZZ, TOO_SHORT+INSUFFICIENT_LOWERCASE+INSUFFICIENT_DIGIT",
-            "111, TOO_SHORT+INSUFFICIENT_LOWERCASE+INSUFFICIENT_UPPERCASE",
-            "!!!, TOO_SHORT+INSUFFICIENT_LOWERCASE+INSUFFICIENT_UPPERCASE+INSUFFICIENT_DIGIT",
-            "aaaaaa, INSUFFICIENT_UPPERCASE+INSUFFICIENT_DIGIT",
-            "ZZZZZZ, INSUFFICIENT_LOWERCASE+INSUFFICIENT_DIGIT",
-            "111111, INSUFFICIENT_LOWERCASE+INSUFFICIENT_UPPERCASE",
-            "!!!!!!, INSUFFICIENT_LOWERCASE+INSUFFICIENT_UPPERCASE+INSUFFICIENT_DIGIT",
-            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa, TOO_LONG+INSUFFICIENT_UPPERCASE+INSUFFICIENT_DIGIT",
-            "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ, TOO_LONG+INSUFFICIENT_LOWERCASE+INSUFFICIENT_DIGIT",
-            "111111111111111111111111111111111111111111111111111, TOO_LONG+INSUFFICIENT_LOWERCASE+INSUFFICIENT_UPPERCASE",
-            "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!, TOO_LONG+INSUFFICIENT_LOWERCASE+INSUFFICIENT_UPPERCASE+INSUFFICIENT_DIGIT",
+            "aaa, TOO_SHORT:min=6+INSUFFICIENT_UPPERCASE:min=1+INSUFFICIENT_DIGIT:min=1",
+            "ZZZ, TOO_SHORT:min=6+INSUFFICIENT_LOWERCASE:min=1+INSUFFICIENT_DIGIT:min=1",
+            "111, TOO_SHORT:min=6+INSUFFICIENT_LOWERCASE:min=1+INSUFFICIENT_UPPERCASE:min=1",
+            "!!!, TOO_SHORT:min=6+INSUFFICIENT_LOWERCASE:min=1+INSUFFICIENT_UPPERCASE:min=1+INSUFFICIENT_DIGIT:min=1",
+            "aaaaaa, INSUFFICIENT_UPPERCASE:min=1+INSUFFICIENT_DIGIT:min=1",
+            "ZZZZZZ, INSUFFICIENT_LOWERCASE:min=1+INSUFFICIENT_DIGIT:min=1",
+            "111111, INSUFFICIENT_LOWERCASE:min=1+INSUFFICIENT_UPPERCASE:min=1",
+            "!!!!!!, INSUFFICIENT_LOWERCASE:min=1+INSUFFICIENT_UPPERCASE:min=1+INSUFFICIENT_DIGIT:min=1",
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa, TOO_LONG:max=50+INSUFFICIENT_UPPERCASE:min=1+INSUFFICIENT_DIGIT:min=1",
+            "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ, TOO_LONG:max=50+INSUFFICIENT_LOWERCASE:min=1+INSUFFICIENT_DIGIT:min=1",
+            "111111111111111111111111111111111111111111111111111, TOO_LONG:max=50+INSUFFICIENT_LOWERCASE:min=1+INSUFFICIENT_UPPERCASE:min=1",
+            "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!, TOO_LONG:max=50+INSUFFICIENT_LOWERCASE:min=1+INSUFFICIENT_UPPERCASE:min=1+INSUFFICIENT_DIGIT:min=1",
         ]
     )
     fun `should throw multiple validation errors at one`(password: String, errorsCodes: String) {
         // then
         assertThatThrownBy { validator.validate(password) }
             .isInstanceOfSatisfying(PasswordPolicyValidationException::class.java) {
-                assertThat(it.toJson().toString())
-                    .contains(errorsCodes.split("+"))
+                assertThat(it.errors).containsAll(errorsCodes.split("+"))
             }
     }
 }
