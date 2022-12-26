@@ -25,7 +25,7 @@ class AuthResource(
         }
     }
 
-    // TODO implement + write tests
+    // TODO Create E2E tests on /api/auth/sign-u
 
     private fun signUp(): (Context) -> Unit = {
         val request = it.bodyAsClass(SignUpRequest::class.java)
@@ -39,7 +39,7 @@ class AuthResource(
         } catch (e: UserAlreadyExistException) {
             errorResponse(it, BAD_REQUEST, e.errorCode())
         } catch (e: PasswordPolicyValidationException) {
-            errorResponse(it, BAD_REQUEST, e.errorCode() /*TODO return error details */)
+            errorResponse(it, BAD_REQUEST, e.errorCode(), e.errors)
         }
     }
 }
