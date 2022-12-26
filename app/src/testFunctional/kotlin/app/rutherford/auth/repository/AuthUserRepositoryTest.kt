@@ -4,6 +4,7 @@ import app.rutherford.FunctionalTest
 import app.rutherford.auth.entity.AuthUser
 import app.rutherford.core.ApplicationName.TEST1
 import app.rutherford.core.ApplicationName.TEST2
+import app.rutherford.core.ErrorCode.ENTITY_NOT_FOUND
 import app.rutherford.core.abstract.entity.Entity.Id
 import app.rutherford.core.exception.EntityNotFoundException
 import app.rutherford.core.transaction.transaction
@@ -178,8 +179,10 @@ class AuthUserRepositoryTest : FunctionalTest() {
 
         // then
         assertThatThrownBy { authUserRepository.get(id = id) }
-            .isInstanceOf(EntityNotFoundException::class.java)
-            .hasMessage("auth_user with id: ${id.value} not found")
+            .isInstanceOfSatisfying(EntityNotFoundException::class.java) {
+                assertThat(it.errorCode()).isEqualTo(ENTITY_NOT_FOUND)
+                assertThat(it.message).isEqualTo("auth_user with id: ${id.value} not found")
+            }
     }
 
     @Test
