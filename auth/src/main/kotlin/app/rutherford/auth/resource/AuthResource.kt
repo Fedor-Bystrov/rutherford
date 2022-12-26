@@ -6,7 +6,6 @@ import app.rutherford.auth.manager.UserManager
 import app.rutherford.auth.resource.request.SignUpRequest
 import app.rutherford.core.ApplicationName.TEST1
 import app.rutherford.core.abstract.resource.Resource
-import app.rutherford.core.response.ErrorResponse
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.path
 import io.javalin.apibuilder.ApiBuilder.post
@@ -17,7 +16,7 @@ import io.javalin.http.HttpStatus.CREATED
 class AuthResource(
     private val javalin: Javalin,
     private val userManager: UserManager
-) : Resource {
+) : Resource() {
     override fun bindRoutes() {
         javalin.routes {
             path("/api/auth") {
@@ -33,28 +32,14 @@ class AuthResource(
         try {
             userManager.create(
                 email = request.email,
-                applicationName = TEST1,
+                applicationName = TEST1, // read from request's origin address. Create a map: origin -> appName
                 password = request.password1
             )
             it.status(CREATED)
-        } catch (e: RuntimeException) {
-            val message = when (e) {
-                // TODO
-                //  - return exception codes (INCORRECT_PASSWORD, USER_ALREADY_EXIST) instead of messages
-                //  - return exception codes in ErrorReponse as well
-                PasswordPolicyValidationException::class -> "TODO 1"
-                UserAlreadyExistException::class -> "TODO 2" // TODO (don't return applicationName)
-                // TODO other exception?
-                else -> throw e
-            }
-            it.status(BAD_REQUEST)
-            it.json(
-                ErrorResponse(
-                    message = message,
-                    httpStatus = BAD_REQUEST.code
-                )
-            )
-
+        } catch (e: UserAlreadyExistException) {
+            errorResponse(it, BAD_REQUEST, e.errorCode())
+        } catch (e: PasswordPolicyValidationException) {
+            errorResponse(it, BAD_REQUEST, e.errorCode() /*TODO return error details */)
         }
     }
 }
