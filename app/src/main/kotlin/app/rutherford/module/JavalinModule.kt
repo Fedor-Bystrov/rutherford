@@ -84,6 +84,9 @@ class JavalinModule {
 
         // Exception Mappers // TODO write tests on mappers
         exception(JsonParseException::class) { e, c -> nonCritical(e, c, BAD_REQUEST, MALFORMED_JSON) }
+        exception(MissingKotlinParameterException::class) { e, c ->
+            nonCritical(e, c, BAD_REQUEST, MALFORMED_JSON, listOf("MISSING_PARAMETER: ${e.parameter.name}"))
+        }
         exception(ValueInstantiationException::class) { e, c ->
             nonCritical(e, c, BAD_REQUEST, MALFORMED_JSON, listOf(e.cause?.message ?: ""))
         }
