@@ -52,8 +52,8 @@ class AuthResource(
     private fun getApplicationName(ctx: Context): ApplicationName {
         val origin = ctx.header(ORIGIN.asString())
         try {
-            return ApplicationName.getForOrigin(URL(origin))
-        } catch (e: MalformedURLException) {
+            return ApplicationName.getForOrigin(URI.create(origin))
+        } catch (e: IllegalArgumentException) {
             throw UnknownOriginException(origin) // TODO add test
         }
     }
