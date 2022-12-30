@@ -1,5 +1,6 @@
 package app.rutherford
 
+import TestHttpClient
 import org.junit.jupiter.api.AfterEach
 
 open class FunctionalTest {
@@ -11,6 +12,8 @@ open class FunctionalTest {
     protected val authUserTokenRepository = testEnvironment.repository.authUserTokenRepository
 
     protected val userManager = testEnvironment.managerModule.userManager
+
+    protected val http = TestHttpClient(testEnvironment.applicationPort)
 
     @AfterEach
     fun afterEach() {
