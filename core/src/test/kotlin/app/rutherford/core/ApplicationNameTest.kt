@@ -6,7 +6,7 @@ import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.ValueSource
-import java.net.URL
+import java.net.URI
 
 class ApplicationNameTest {
     @ParameterizedTest
@@ -16,7 +16,7 @@ class ApplicationNameTest {
             "http://localhost2:7070/, TEST2"
         ]
     )
-    fun `should return correct applicationName by URL`(origin: URL, expected: ApplicationName) {
+    fun `should return correct applicationName by URL`(origin: URI, expected: ApplicationName) {
         // when
         val result = ApplicationName.getForOrigin(origin)
 
@@ -34,7 +34,7 @@ class ApplicationNameTest {
             "https://youtube.com/",
         ]
     )
-    fun `should throw UnknownOriginException when applicationName was not found`(origin: URL) {
+    fun `should throw UnknownOriginException when applicationName was not found`(origin: URI) {
         // then
         assertThatThrownBy { ApplicationName.getForOrigin(origin) }
             .isInstanceOf(UnknownOriginException::class.java)
