@@ -18,9 +18,9 @@ class ChecksTest {
 
     @Test
     fun `should throw if value is null`() {
-        assertThatThrownBy { validateNotNull("param123", null) }
+        assertThatThrownBy { validateNotNull("param1234", null) }
             .isInstanceOf(IllegalStateException::class.java)
-            .hasMessage("param123 is null")
+            .hasMessage("NULL_PARAM: param1234")
     }
 
     @ParameterizedTest
@@ -31,17 +31,17 @@ class ChecksTest {
 
     @Test
     fun `should throw from validateNotBlank if value is null`() {
-        assertThatThrownBy { validateNotBlank("param123", null) }
+        assertThatThrownBy { validateNotBlank("param12345", null) }
             .isInstanceOf(IllegalStateException::class.java)
-            .hasMessage("param123 is null or blank")
+            .hasMessage("NULL_OR_BLANK_PARAM: param12345")
     }
 
     @ParameterizedTest
     @ValueSource(strings = ["", "  ", "   ", "        "])
     fun `should throw if value is blank`(value: String) {
-        assertThatThrownBy { validateNotBlank("param123", value) }
+        assertThatThrownBy { validateNotBlank("param12345", value) }
             .isInstanceOf(IllegalStateException::class.java)
-            .hasMessage("param123 is null or blank")
+            .hasMessage("NULL_OR_BLANK_PARAM: param12345")
     }
 
     @ParameterizedTest
@@ -86,7 +86,7 @@ class ChecksTest {
     fun `should throw if email is blank`(value: String) {
         assertThatThrownBy { validateEmailFormat(value) }
             .isInstanceOf(IllegalStateException::class.java)
-            .hasMessage("email is null or blank")
+            .hasMessage("NULL_OR_BLANK_PARAM: email")
     }
 
     @ParameterizedTest
@@ -107,6 +107,6 @@ class ChecksTest {
     fun `should throw if email format is not valid`(value: String) {
         assertThatThrownBy { validateEmailFormat(value) }
             .isInstanceOf(IllegalStateException::class.java)
-            .hasMessage("email is not valid")
+            .hasMessage("MALFORMED_EMAIL")
     }
 }
