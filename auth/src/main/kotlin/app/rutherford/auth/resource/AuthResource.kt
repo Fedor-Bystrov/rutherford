@@ -47,7 +47,6 @@ class AuthResource(
         }
     }
 
-    // TODO write test on ApplicationName#getForOrigin
     private fun getApplicationName(ctx: Context): ApplicationName {
         val origin = ctx.header(ORIGIN.asString()) ?: throw UnknownOriginException()
         try {
