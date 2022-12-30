@@ -6,6 +6,8 @@ import app.rutherford.module.ApplicationModule
 //  - Create AuthManger it should implement following functionalities
 //      - sign_up (create user)
 //      - sign_in (issue access and refresh tokens given correct user details)
+//          - Use asymmetric encryption for JWT
+//          - Expose JWT public key list endpoint
 //      - log_out (remove refresh_token i.e. move refresh_token to deleted state)
 //      - change_password
 //      - anything else (check .net identity)
