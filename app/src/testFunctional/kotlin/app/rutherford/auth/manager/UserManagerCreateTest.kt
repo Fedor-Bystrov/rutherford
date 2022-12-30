@@ -1,4 +1,4 @@
-package app.rutherford.auth.manager.usermanager
+package app.rutherford.auth.manager
 
 import app.rutherford.FunctionalTest
 import app.rutherford.auth.entity.AuthUser
