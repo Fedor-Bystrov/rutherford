@@ -13,6 +13,7 @@ import io.javalin.apibuilder.ApiBuilder.post
 import io.javalin.http.Context
 import io.javalin.http.HttpStatus.BAD_REQUEST
 import io.javalin.http.HttpStatus.CREATED
+import io.javalin.http.bodyValidator
 import org.eclipse.jetty.http.HttpHeader.ORIGIN
 import java.net.URI
 
@@ -31,7 +32,20 @@ class AuthResource(
     // TODO Create E2E tests on /api/auth/sign-up
 
     private fun signUp(ctx: Context) {
-        val request = ctx.bodyAsClass(SignUpRequest::class.java) // TODO write tests on request validation
+        // TODO write tests on request validation
+
+        //     init {
+        //        validateEmailFormat(email)
+        //        validateNotBlank("password1", email)
+        //        validateNotBlank("password2", email)
+        //        check(password1 == password2) { "PASSWORDS_MISMATCH" }
+        //    }
+
+        // TODO move validation from SignUpRequest constructor here
+        val request = ctx.bodyValidator<SignUpRequest>()
+            .check({ it.email == "zaaz" }, "EMAIL AZAZA") // TODO
+            .get()
+
         val applicationName = getApplicationName(ctx)
         try {
             userManager.create(
