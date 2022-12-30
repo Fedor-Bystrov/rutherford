@@ -23,27 +23,27 @@ class AuthResource(
     override fun bindRoutes() {
         javalin.routes {
             path("/api/auth") {
-                post("/sign-up", signUp())
+                post("/sign-up", this::signUp)
             }
         }
     }
 
     // TODO Create E2E tests on /api/auth/sign-up
 
-    private fun signUp(): (Context) -> Unit = {
-        val request = it.bodyAsClass(SignUpRequest::class.java) // TODO write tests on request validation
-        val applicationName = getApplicationName(it)
+    private fun signUp(ctx: Context) {
+        val request = ctx.bodyAsClass(SignUpRequest::class.java) // TODO write tests on request validation
+        val applicationName = getApplicationName(ctx)
         try {
             userManager.create(
                 email = request.email,
                 password = request.password1,
                 applicationName = applicationName,
             )
-            it.status(CREATED)
+            ctx.status(CREATED)
         } catch (e: UserAlreadyExistException) {
-            errorResponse(it, BAD_REQUEST, e.errorCode())
+            errorResponse(ctx, BAD_REQUEST, e.errorCode())
         } catch (e: PasswordPolicyValidationException) {
-            errorResponse(it, BAD_REQUEST, e.errorCode(), e.errors)
+            errorResponse(ctx, BAD_REQUEST, e.errorCode(), e.errors)
         }
     }
 
