@@ -1,12 +1,12 @@
 package app.rutherford
 
 import app.rutherford.configuration.DatabaseConfig
-import app.rutherford.schema.generated.tables.references.AUTH_USER
-import app.rutherford.schema.generated.tables.references.AUTH_USER_TOKEN
 import app.rutherford.core.transaction.transaction
 import app.rutherford.module.ApplicationModule
 import app.rutherford.module.ManagerModule
 import app.rutherford.module.RepositoryModule
+import app.rutherford.schema.generated.tables.references.AUTH_USER
+import app.rutherford.schema.generated.tables.references.AUTH_USER_TOKEN
 import org.jooq.conf.Settings
 import org.testcontainers.containers.PostgreSQLContainer
 
@@ -14,6 +14,7 @@ class TestEnvironment : AutoCloseable {
     private val postgresContainer = PostgreSQLContainer("postgres:15.1")
     private val application: ApplicationModule
 
+    val applicationPort: Int
     val repository: RepositoryModule
     val managerModule: ManagerModule
 
@@ -32,6 +33,7 @@ class TestEnvironment : AutoCloseable {
             )
         )
 
+        applicationPort = application.applicationPort
         repository = application.repository
         managerModule = application.managerModule
 

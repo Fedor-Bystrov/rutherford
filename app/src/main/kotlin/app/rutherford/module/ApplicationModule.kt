@@ -10,13 +10,13 @@ import app.rutherford.schema.tool.FlywayMigrator.migrate
 class ApplicationModule(
     overrides: Overrides
 ) {
-    private val applicationPort: Int
     private val databaseConfig: DatabaseConfig
     private val database: DatabaseModule
     private val transactionManager: TransactionManager
     private val javalinModule: JavalinModule
     private val resources: ResourceModule
 
+    val applicationPort: Int
     val repository: RepositoryModule
     val managerModule: ManagerModule
 
