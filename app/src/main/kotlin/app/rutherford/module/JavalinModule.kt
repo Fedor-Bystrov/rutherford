@@ -3,9 +3,9 @@ package app.rutherford.module
 import app.rutherford.core.ErrorCode
 import app.rutherford.core.ErrorCode.MALFORMED_JSON
 import app.rutherford.core.ErrorCode.VALIDATION_ERROR
-import app.rutherford.core.exception.UnknownOriginException
 import app.rutherford.core.exception.EntityNotFoundException
 import app.rutherford.core.exception.RutherfordException
+import app.rutherford.core.exception.UnknownOriginException
 import app.rutherford.core.response.ErrorResponse
 import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL
 import com.fasterxml.jackson.core.JsonParseException
@@ -13,6 +13,11 @@ import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PRO
 import com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS
 import com.fasterxml.jackson.databind.exc.ValueInstantiationException
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinFeature.NullToEmptyCollection
+import com.fasterxml.jackson.module.kotlin.KotlinFeature.NullToEmptyMap
+import com.fasterxml.jackson.module.kotlin.KotlinFeature.StrictNullChecks
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.javalin.Javalin
 import io.javalin.http.Context
@@ -44,6 +49,13 @@ class JavalinModule {
             JavalinJackson(
                 jacksonObjectMapper()
                     .registerModule(JavaTimeModule())
+                    .registerModule(
+                        KotlinModule.Builder()
+                            .configure(StrictNullChecks, true)
+                            .configure(NullToEmptyCollection, true)
+                            .configure(NullToEmptyMap, true)
+                            .build()
+                    )
                     .configure(WRITE_DATES_AS_TIMESTAMPS, false)
                     .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
                     .setSerializationInclusion(NON_NULL)
