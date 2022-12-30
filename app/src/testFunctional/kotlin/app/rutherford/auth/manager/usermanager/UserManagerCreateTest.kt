@@ -78,7 +78,7 @@ class UserManagerCreateTest : FunctionalTest() {
         // then
         assertThatThrownBy { userManager.create(email, TEST1, "Passw0rd") }
             .isInstanceOf(IllegalStateException::class.java)
-            .hasMessage("email is null or blank")
+            .hasMessage("NULL_OR_BLANK_PARAM: email")
     }
 
     @ParameterizedTest
