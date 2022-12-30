@@ -14,8 +14,7 @@ import io.javalin.http.Context
 import io.javalin.http.HttpStatus.BAD_REQUEST
 import io.javalin.http.HttpStatus.CREATED
 import org.eclipse.jetty.http.HttpHeader.ORIGIN
-import java.net.MalformedURLException
-import java.net.URL
+import java.net.URI
 
 class AuthResource(
     private val javalin: Javalin,
