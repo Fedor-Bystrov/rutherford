@@ -33,7 +33,6 @@ class AuthResource(
     // TODO Create E2E tests on /api/auth/sign-up
 
     private fun signUp(ctx: Context) {
-        // TODO write tests on request validation
         val request = ctx.bodyValidator<SignUpRequest>()
             .check({ isValidEmail(it.email) }, "MALFORMED_EMAIL")
             .check({ it.password1.isNotBlank() }, "NULL_OR_BLANK_PARAM: password1")
