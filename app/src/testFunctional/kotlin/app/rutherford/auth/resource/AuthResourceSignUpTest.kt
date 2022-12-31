@@ -125,11 +125,45 @@ class AuthResourceSignUpTest : FunctionalTest() {
     @ParameterizedTest
     @ValueSource(
         strings = [
-            ""
+            "",
+            " ",
+            "   ",
+            "             ",
+            "a",
+            "a@",
+            "a@a",
+            "a@@a",
+            "test@@test.com",
+            "@test.com",
+            "test@com@test.com",
+            "test@com@test..com",
+            "test@com@test,com",
+            "---@---",
+
         ]
     )
     fun `should validate email format`(email: String) {
-        TODO("impl")
+        // given
+        val body = JSONObject()
+            .put("email", email)
+            .put("password1", "password")
+            .put("password2", "password")
+
+        // when
+        val response = http.post("/api/auth/sign-up", body)
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(BAD_REQUEST.code)
+        assertJsonEquals(
+            """{
+                    "httpStatus": ${BAD_REQUEST.code},
+                    "code": "VALIDATION_ERROR",
+                    "errors": [
+                       "MALFORMED_EMAIL"
+                    ]
+                }""",
+            response.body(), true
+        )
     }
 
     // TODO add more tests
