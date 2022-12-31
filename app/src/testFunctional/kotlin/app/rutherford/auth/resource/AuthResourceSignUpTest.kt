@@ -3,6 +3,7 @@ package app.rutherford.auth.resource
 import app.rutherford.FunctionalTest
 import app.rutherford.core.ApplicationName
 import io.javalin.http.HttpStatus.BAD_REQUEST
+import io.javalin.http.HttpStatus.CREATED
 import io.javalin.http.HttpStatus.NOT_ACCEPTABLE
 import org.assertj.core.api.Assertions.assertThat
 import org.eclipse.jetty.http.HttpHeader.ORIGIN
@@ -15,6 +16,7 @@ import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.EnumSource
 import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
+import java.time.Instant
 import java.util.stream.Stream
 import org.skyscreamer.jsonassert.JSONAssert.assertEquals as assertJsonEquals
 
@@ -243,8 +245,34 @@ class AuthResourceSignUpTest : FunctionalTest() {
 
     @ParameterizedTest
     @EnumSource(value = ApplicationName::class)
-    fun `should create user for each registered applicationName`(applicationName: ApplicationName) {
-        TODO("impl")
+    fun `should create user for each registered applicationName`(appName: ApplicationName) {
+        // given
+        val now = Instant.now()
+        val email = "${appName.name.lowercase()}@email.com"
+        val body = JSONObject()
+            .put("email", email)
+            .put("password1", "Passw0rd")
+            .put("password2", "Passw0rd")
+
+        // when
+        val response = http.post("/api/auth/sign-up", body, mapOf(ORIGIN to appName.allowedHost.toString()))
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(CREATED.code)
+        assertThat(response.body()).isEmpty()
+
+        // and
+        val createdUser = authUserRepository.findBy(email = email, application = appName)
+        assertThat(createdUser).isNotNull
+        assertThat(createdUser?.id).isNotNull
+        assertThat(createdUser?.createdAt).isAfter(now)
+        assertThat(createdUser?.updatedAt).isAfter(now)
+        assertThat(createdUser?.lastLogin).isNull()
+        assertThat(createdUser?.applicationName).isEqualTo(appName)
+        assertThat(createdUser?.email).isEqualTo(email)
+        assertThat(createdUser?.emailConfirmed).isFalse
+        assertThat(createdUser?.salt).isNotNull
+        assertThat(createdUser?.passwordHash).isNotNull
     }
 
     @Test

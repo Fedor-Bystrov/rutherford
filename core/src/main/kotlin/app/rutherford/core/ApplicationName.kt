@@ -3,7 +3,7 @@ package app.rutherford.core
 import app.rutherford.core.exception.UnknownOriginException
 import java.net.URI
 
-enum class ApplicationName(private val allowedHost: URI) {
+enum class ApplicationName(val allowedHost: URI) {
     /**
      * Only for tests
      */
