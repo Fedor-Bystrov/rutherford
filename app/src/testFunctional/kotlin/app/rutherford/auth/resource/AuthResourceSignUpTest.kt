@@ -62,6 +62,20 @@ class AuthResourceSignUpTest : FunctionalTest() {
                     .put("password2", "password2"),
                 listOf("NULL_OR_BLANK_PARAM: password1", "PASSWORDS_MISMATCH")
             ),
+            arguments(
+                JSONObject()
+                    .put("email", "test@test.com")
+                    .put("password1", "password1")
+                    .put("password2", "password2"),
+                listOf("PASSWORDS_MISMATCH")
+            ),
+            arguments(
+                JSONObject()
+                    .put("email", "")
+                    .put("password1", "password1")
+                    .put("password2", "password2"),
+                listOf("MALFORMED_EMAIL", "PASSWORDS_MISMATCH")
+            ),
         )
     }
 
