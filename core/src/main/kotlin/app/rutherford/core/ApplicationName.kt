@@ -13,7 +13,17 @@ enum class ApplicationName(private val allowedHost: URI) {
     companion object {
         fun getForOrigin(originURI: URI): ApplicationName = ApplicationName
             .values()
-            .find { it.allowedHost == originURI }
+            .find { it.allowedHost == formatUri(originURI) }
             ?: throw UnknownOriginException(originURI.toString())
+
+        private fun formatUri(originURI: URI): URI {
+            var stringUri = originURI.toString().trim()
+
+            if (!stringUri.endsWith('/')) {
+                stringUri += '/'
+            }
+
+            return URI.create(stringUri)
+        }
     }
 }

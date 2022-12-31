@@ -12,8 +12,10 @@ class ApplicationNameTest {
     @ParameterizedTest
     @CsvSource(
         value = [
+            "http://localhost, TEST1",
             "http://localhost/, TEST1",
-            "http://localhost2/, TEST2"
+            "http://localhost2, TEST2",
+            "http://localhost2/, TEST2",
         ]
     )
     fun `should return correct applicationName by URL`(origin: URI, expected: ApplicationName) {
@@ -28,10 +30,15 @@ class ApplicationNameTest {
     @ValueSource(
         strings = [
             "http://localhost:7171/",
+            "http://localhost:7171",
             "http://localhost12:7070/",
+            "http://localhost12:7070",
             "http://test.localhost:7070/",
+            "http://test.localhost:7070",
             "https://google.com/",
+            "https://google.com",
             "https://youtube.com/",
+            "https://youtube.com",
         ]
     )
     fun `should throw UnknownOriginException when applicationName was not found`(origin: URI) {
