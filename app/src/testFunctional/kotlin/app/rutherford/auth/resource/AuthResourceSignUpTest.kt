@@ -40,7 +40,28 @@ class AuthResourceSignUpTest : FunctionalTest() {
                     .put("password1", "")
                     .put("password2", ""),
                 listOf("MALFORMED_EMAIL", "NULL_OR_BLANK_PARAM: password1", "NULL_OR_BLANK_PARAM: password2")
-            )
+            ),
+            arguments(
+                JSONObject()
+                    .put("email", "test@test.com")
+                    .put("password1", "")
+                    .put("password2", ""),
+                listOf("NULL_OR_BLANK_PARAM: password1", "NULL_OR_BLANK_PARAM: password2")
+            ),
+            arguments(
+                JSONObject()
+                    .put("email", "test@test.com")
+                    .put("password1", "password1")
+                    .put("password2", ""),
+                listOf("NULL_OR_BLANK_PARAM: password2", "PASSWORDS_MISMATCH")
+            ),
+            arguments(
+                JSONObject()
+                    .put("email", "test@test.com")
+                    .put("password1", "")
+                    .put("password2", "password2"),
+                listOf("NULL_OR_BLANK_PARAM: password1", "PASSWORDS_MISMATCH")
+            ),
         )
     }
 
@@ -66,9 +87,9 @@ class AuthResourceSignUpTest : FunctionalTest() {
 
     @ParameterizedTest
     @MethodSource("emptyOrBlankBodies")
-    fun `should return errors when parameters in request body are empty or blank`(
+    fun `should validate request body`(
         body: JSONObject,
-        errors: Collection<String>
+        expectedErrors: Collection<String>
     ) {
         // when
         val response = http.post("/api/auth/sign-up", body)
@@ -80,7 +101,7 @@ class AuthResourceSignUpTest : FunctionalTest() {
                     "httpStatus": ${BAD_REQUEST.code},
                     "code": "VALIDATION_ERROR",
                     "errors": [
-                       ${errors.joinToString { "\"$it\"" }}
+                       ${expectedErrors.joinToString { "\"$it\"" }}
                     ]
                 }""",
             response.body(), true
