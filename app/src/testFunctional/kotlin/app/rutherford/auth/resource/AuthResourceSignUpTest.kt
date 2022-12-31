@@ -212,7 +212,7 @@ class AuthResourceSignUpTest : FunctionalTest() {
     }
 
     @Test
-    fun `should return error when email is already registered for applicationName `(email: String) {
+    fun `should return error when email is already registered for applicationName `() {
         TODO("impl")
     }
 
