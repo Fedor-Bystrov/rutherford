@@ -3,7 +3,7 @@ package app.rutherford
 import app.rutherford.module.ApplicationModule
 
 // TODO 1. Basic Auth Functionality
-//  - Create AuthManger it should implement following functionalities
+//  - Implement AuthResource it should have following functionalities:
 //      - sign_in (issue access and refresh tokens given correct user details)
 //          - Use asymmetric encryption for JWT
 //          - Expose JWT public key list endpoint
