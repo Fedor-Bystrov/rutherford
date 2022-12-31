@@ -4,11 +4,11 @@ import app.rutherford.FunctionalTest
 import io.javalin.http.HttpStatus.BAD_REQUEST
 import org.assertj.core.api.Assertions.assertThat
 import org.json.JSONObject
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.Arguments.arguments
 import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ValueSource
 import java.util.stream.Stream
 import org.skyscreamer.jsonassert.JSONAssert.assertEquals as assertJsonEquals
 
@@ -108,43 +108,13 @@ class AuthResourceSignUpTest : FunctionalTest() {
         )
     }
 
-    @Test
-    fun `should validate email is not null`() {
-        TODO("impl")
-    }
-
-    @Test
-    fun `should validate email is not blank`() {
-        TODO("impl")
-    }
-
-    @Test
-    fun `should validate email format`() {
-        TODO("impl")
-    }
-
-    @Test
-    fun `should validate password1 is not null`() {
-        TODO("impl")
-    }
-
-    @Test
-    fun `should validate password1 is not blank`() {
-        TODO("impl")
-    }
-
-    @Test
-    fun `should validate password2 is not null`() {
-        TODO("impl")
-    }
-
-    @Test
-    fun `should validate password2 is not blank`() {
-        TODO("impl")
-    }
-
-    @Test
-    fun `should validate passwords match`() {
+    @ParameterizedTest
+    @ValueSource(
+        strings = [
+            ""
+        ]
+    )
+    fun `should validate email format`(email: String) {
         TODO("impl")
     }
 
