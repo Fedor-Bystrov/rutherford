@@ -29,6 +29,7 @@ import io.javalin.http.HttpStatus.NOT_ACCEPTABLE
 import io.javalin.http.HttpStatus.NOT_FOUND
 import io.javalin.json.JavalinJackson
 import io.javalin.validation.JavalinValidation
+import io.javalin.validation.ValidationError
 import io.javalin.validation.ValidationException
 import org.slf4j.LoggerFactory
 import org.slf4j.MDC
@@ -51,7 +52,7 @@ class JavalinModule {
                     .registerModule(JavaTimeModule())
                     .registerModule(
                         KotlinModule.Builder()
-                            .configure(StrictNullChecks, true)
+                            .configure(StrictNullChecks, false)
                             .configure(NullToEmptyCollection, true)
                             .configure(NullToEmptyMap, true)
                             .build()
@@ -91,7 +92,7 @@ class JavalinModule {
             nonCritical(e, c, BAD_REQUEST, MALFORMED_JSON, listOf(e.cause?.message ?: ""))
         }
         exception(ValidationException::class) { e, c ->
-            nonCritical(e, c, BAD_REQUEST, VALIDATION_ERROR, e.errors.keys)
+            nonCritical(e, c, BAD_REQUEST, VALIDATION_ERROR, toMessage(e.errors.values.first()))
         }
         exception(IllegalStateException::class) { e, c ->
             nonCritical(e, c, BAD_REQUEST, VALIDATION_ERROR, listOf(e.message ?: ""))
@@ -157,4 +158,6 @@ class JavalinModule {
             }
         }
     }
+
+    private fun toMessage(errors: Collection<ValidationError<Any>>): Collection<String> = errors.map { it.message }
 }
