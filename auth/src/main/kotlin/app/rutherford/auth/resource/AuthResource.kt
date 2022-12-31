@@ -7,6 +7,7 @@ import app.rutherford.auth.resource.request.SignUpRequest
 import app.rutherford.core.ApplicationName
 import app.rutherford.core.abstract.resource.Resource
 import app.rutherford.core.exception.UnknownOriginException
+import app.rutherford.core.util.Checks.isValidEmail
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.path
 import io.javalin.apibuilder.ApiBuilder.post
@@ -33,17 +34,11 @@ class AuthResource(
 
     private fun signUp(ctx: Context) {
         // TODO write tests on request validation
-
-        //     init {
-        //        validateEmailFormat(email)
-        //        validateNotBlank("password1", email)
-        //        validateNotBlank("password2", email)
-        //        check(password1 == password2) { "PASSWORDS_MISMATCH" }
-        //    }
-
-        // TODO move validation from SignUpRequest constructor here
         val request = ctx.bodyValidator<SignUpRequest>()
-            .check({ it.email == "zaaz" }, "EMAIL AZAZA") // TODO
+            .check({ isValidEmail(it.email) }, "MALFORMED_EMAIL")
+            .check({ it.password1.isNotBlank() }, "NULL_OR_BLANK_PARAM: password1")
+            .check({ it.password2.isNotBlank() }, "NULL_OR_BLANK_PARAM: password2")
+            .check({ it.password1 == it.password2 }, "PASSWORDS_MISMATCH")
             .get()
 
         val applicationName = getApplicationName(ctx)
