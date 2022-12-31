@@ -2,6 +2,8 @@ package app.rutherford.auth.resource
 
 import app.rutherford.FunctionalTest
 import app.rutherford.core.ApplicationName
+import app.rutherford.core.transaction.transaction
+import app.rutherford.fixtures.anAuthUser
 import io.javalin.http.HttpStatus.BAD_REQUEST
 import io.javalin.http.HttpStatus.CREATED
 import io.javalin.http.HttpStatus.NOT_ACCEPTABLE
@@ -275,8 +277,43 @@ class AuthResourceSignUpTest : FunctionalTest() {
         assertThat(createdUser?.passwordHash).isNotNull
     }
 
+    @ParameterizedTest
+    @EnumSource(value = ApplicationName::class)
+    fun `should return error when email is already registered for applicationName`(appName: ApplicationName) {
+        // given
+        val existingUser = transaction {
+            authUserRepository.insert(
+                this, anAuthUser()
+                    .emailConfirmed(true)
+                    .applicationName(appName)
+                    .email("${appName.name.lowercase()}@email.com")
+                    .build()
+            )
+        }!!
+        val body = JSONObject()
+            .put("email", existingUser.email)
+            .put("password1", "Passw0rd")
+            .put("password2", "Passw0rd")
+
+        // when
+        val response = http.post(
+            "/api/auth/sign-up",
+            body,
+            mapOf(ORIGIN to existingUser.applicationName.allowedHost.toString())
+        )
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(BAD_REQUEST.code)
+        assertJsonEquals(
+            """{
+                    "code": "USER_ALREADY_EXIST"
+                }""",
+            response.body(), true
+        )
+    }
+
     @Test
-    fun `should return error when email is already registered for applicationName `() {
+    fun `should create user with same email but different applicationName`() {
         TODO("impl")
     }
 }
