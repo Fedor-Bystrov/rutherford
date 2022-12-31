@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.Arguments.arguments
+import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.EnumSource
 import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
@@ -201,13 +202,43 @@ class AuthResourceSignUpTest : FunctionalTest() {
     }
 
     @ParameterizedTest
-    @ValueSource(
-        strings = [
-            ""
-        ]
+    @CsvSource(
+        value = [
+            "aaa, TOO_SHORT:min=6+INSUFFICIENT_UPPERCASE:min=1+INSUFFICIENT_DIGIT:min=1",
+            "ZZZ, TOO_SHORT:min=6+INSUFFICIENT_LOWERCASE:min=1+INSUFFICIENT_DIGIT:min=1",
+            "111, TOO_SHORT:min=6+INSUFFICIENT_LOWERCASE:min=1+INSUFFICIENT_UPPERCASE:min=1",
+            "!!!, TOO_SHORT:min=6+INSUFFICIENT_LOWERCASE:min=1+INSUFFICIENT_UPPERCASE:min=1+INSUFFICIENT_DIGIT:min=1",
+            "aaaaaa, INSUFFICIENT_UPPERCASE:min=1+INSUFFICIENT_DIGIT:min=1",
+            "ZZZZZZ, INSUFFICIENT_LOWERCASE:min=1+INSUFFICIENT_DIGIT:min=1",
+            "111111, INSUFFICIENT_LOWERCASE:min=1+INSUFFICIENT_UPPERCASE:min=1",
+            "!!!!!!, INSUFFICIENT_LOWERCASE:min=1+INSUFFICIENT_UPPERCASE:min=1+INSUFFICIENT_DIGIT:min=1",
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa, TOO_LONG:max=50+INSUFFICIENT_UPPERCASE:min=1+INSUFFICIENT_DIGIT:min=1",
+            "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ, TOO_LONG:max=50+INSUFFICIENT_LOWERCASE:min=1+INSUFFICIENT_DIGIT:min=1",
+            "111111111111111111111111111111111111111111111111111, TOO_LONG:max=50+INSUFFICIENT_LOWERCASE:min=1+INSUFFICIENT_UPPERCASE:min=1",
+            "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!, TOO_LONG:max=50+INSUFFICIENT_LOWERCASE:min=1+INSUFFICIENT_UPPERCASE:min=1+INSUFFICIENT_DIGIT:min=1",
+        ],
     )
-    fun `should validate password policy`(email: String) {
-        TODO("impl")
+    fun `should validate password policy`(password: String, expectedErrors: String) {
+        // given
+        val body = JSONObject()
+            .put("email", "test@email.com")
+            .put("password1", password)
+            .put("password2", password)
+
+        // when
+        val response = http.post("/api/auth/sign-up", body, LOCALHOST_ORIGIN)
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(BAD_REQUEST.code)
+        assertJsonEquals(
+            """{
+                    "code": "PASSWORD_POLICY_VIOLATION",
+                    "errors": [
+                        ${expectedErrors.split('+').joinToString { "\"$it\"" }}
+                    ]
+                }""",
+            response.body(), true
+        )
     }
 
     @ParameterizedTest
