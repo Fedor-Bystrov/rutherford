@@ -171,6 +171,9 @@ class AuthResourceSignUpTest : FunctionalTest() {
     @ParameterizedTest
     @ValueSource(
         strings = [
+            "",
+            "http:/:7171/",
+            "htasdtp:/:7171/",
             "http://localhost:7171/",
             "http://localhost12:7070/",
             "http://test.localhost:7070/",
