@@ -2,7 +2,9 @@ package app.rutherford.auth.resource
 
 import app.rutherford.FunctionalTest
 import io.javalin.http.HttpStatus.BAD_REQUEST
+import io.javalin.http.HttpStatus.NOT_ACCEPTABLE
 import org.assertj.core.api.Assertions.assertThat
+import org.eclipse.jetty.http.HttpHeader.ORIGIN
 import org.json.JSONObject
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -164,6 +166,47 @@ class AuthResourceSignUpTest : FunctionalTest() {
                 }""",
             response.body(), true
         )
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = [
+            "http://localhost:7171/",
+            "http://localhost12:7070/",
+            "http://test.localhost:7070/",
+            "https://google.com/",
+            "https://youtube.com/",
+        ]
+    )
+    fun `should validate origin`(origin: String) {
+        // given
+        val body = JSONObject()
+            .put("email", "test@email.com")
+            .put("password1", "Passw0rd")
+            .put("password2", "Passw0rd")
+
+        // when
+        val response = http.post("/api/auth/sign-up", body, mapOf(ORIGIN to origin))
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(NOT_ACCEPTABLE.code)
+        assertJsonEquals(
+            """{
+                    "httpStatus": ${NOT_ACCEPTABLE.code},
+                    "code": "UNKNOWN_ORIGIN",
+                }""",
+            response.body(), true
+        )
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = [
+            ""
+        ]
+    )
+    fun `should validate password policy`(email: String) {
+        TODO("impl")
     }
 
     // TODO add more tests
