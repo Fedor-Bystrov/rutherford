@@ -28,7 +28,8 @@ object Dependencies {
         val assertJ = "3.23.1"
         val testContainersPg = "1.17.6"
         val commonsLang3 = "3.12.0"
-        val mockitoCore =     "4.10.0"
+        val mockitoCore = "4.10.0"
+        val jsonAssert = "1.5.1"
     }
 
     val javalin = "io.javalin:javalin:${Versions.javalin}"
@@ -56,4 +57,5 @@ object Dependencies {
     val testContainersPg = "org.testcontainers:postgresql:${Versions.testContainersPg}"
     val commonsLang3 = "org.apache.commons:commons-lang3:${Versions.commonsLang3}"
     val mockitoCore = "org.mockito:mockito-core:${Versions.mockitoCore}"
+    val jsonAssert = "org.skyscreamer:jsonassert:${Versions.jsonAssert}"
 }

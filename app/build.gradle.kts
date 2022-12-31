@@ -33,6 +33,7 @@ dependencies {
     testImplementation(Dependencies.testContainersPg)
     testImplementation(Dependencies.commonsLang3)
     testImplementation(Dependencies.orgJson)
+    testImplementation(Dependencies.jsonAssert)
 }
 
 val rutherfordJvmArgs = listOf(
