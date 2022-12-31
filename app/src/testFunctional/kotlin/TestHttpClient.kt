@@ -1,3 +1,4 @@
+import org.eclipse.jetty.http.HttpHeader
 import org.json.JSONObject
 import java.net.URI
 import java.net.http.HttpClient
@@ -14,19 +15,26 @@ class TestHttpClient(applicationPort: Int) {
         .connectTimeout(Duration.ofMinutes(1))
         .build()
 
-    fun post(uri: String, body: JSONObject? = null): HttpResponse<String> {
-        val request = newRequest()
+    fun post(
+        uri: String,
+        body: JSONObject? = null,
+        headers: Map<HttpHeader, String>? = null
+    ): HttpResponse<String> {
+        val request = newRequest(headers)
             .uri(URI.create(baseURI + uri))
             .POST(
                 if (body == null) BodyPublishers.noBody()
                 else BodyPublishers.ofString(body.toString(1))
             )
-            .build()
 
-        return httpClient.send(request, BodyHandlers.ofString())
+        return httpClient.send(request.build(), BodyHandlers.ofString())
     }
 
-    private fun newRequest(): HttpRequest.Builder = HttpRequest
-        .newBuilder()
-        .timeout(Duration.ofMinutes(1))
+    private fun newRequest(headers: Map<HttpHeader, String>? = null): HttpRequest.Builder {
+        val requestBuilder = HttpRequest
+            .newBuilder()
+            .timeout(Duration.ofMinutes(1))
+        headers?.forEach { requestBuilder.setHeader(it.key.asString(), it.value) }
+        return requestBuilder
+    }
 }
