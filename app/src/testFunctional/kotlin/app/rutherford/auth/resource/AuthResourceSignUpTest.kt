@@ -2,6 +2,8 @@ package app.rutherford.auth.resource
 
 import app.rutherford.FunctionalTest
 import app.rutherford.core.ApplicationName
+import app.rutherford.core.ApplicationName.TEST1
+import app.rutherford.core.ApplicationName.TEST2
 import app.rutherford.core.transaction.transaction
 import app.rutherford.fixtures.anAuthUser
 import io.javalin.http.HttpStatus.BAD_REQUEST
@@ -314,6 +316,36 @@ class AuthResourceSignUpTest : FunctionalTest() {
 
     @Test
     fun `should create user with same email but different applicationName`() {
-        TODO("impl")
+        // given
+        val existingUser = transaction {
+            authUserRepository.insert(
+                this, anAuthUser()
+                    .emailConfirmed(true)
+                    .applicationName(TEST1)
+                    .build()
+            )
+        }!!
+        val body = JSONObject()
+            .put("email", existingUser.email)
+            .put("password1", "Passw0rd")
+            .put("password2", "Passw0rd")
+
+        // when
+        val response = http.post("/api/auth/sign-up", body, mapOf(ORIGIN to TEST2.allowedHost.toString()))
+
+        // then
+        assertThat(response.statusCode()).isEqualTo(CREATED.code)
+        assertThat(response.body()).isEmpty()
+
+        // and
+        val createdUser = authUserRepository.findBy(email = existingUser.email, application = TEST2)
+        assertThat(createdUser).isNotNull
+
+        // and
+        assertThat(createdUser).isNotEqualTo(existingUser)
+        assertThat(createdUser?.email).isEqualTo(existingUser.email)
+        assertThat(createdUser?.applicationName).isEqualTo(TEST2)
+        assertThat(createdUser?.salt).isNotEqualTo(existingUser.salt)
+        assertThat(createdUser?.passwordHash).isNotEqualTo(existingUser.passwordHash)
     }
 }
