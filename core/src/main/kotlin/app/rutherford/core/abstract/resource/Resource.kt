@@ -18,7 +18,6 @@ abstract class Resource {
         ctx.json(
             ErrorResponse(
                 code = errorCode,
-                httpStatus = httpStatus.code,
                 errors = errors
             )
         )

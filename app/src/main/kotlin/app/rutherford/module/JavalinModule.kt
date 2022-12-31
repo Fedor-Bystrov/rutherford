@@ -126,7 +126,6 @@ class JavalinModule {
         if (e is RutherfordException) {
             ctx.json(
                 ErrorResponse(
-                    httpStatus = httpStatus.code,
                     code = e.errorCode(),
                     errors = errors,
                 )
@@ -134,7 +133,6 @@ class JavalinModule {
         } else {
             ctx.json(
                 ErrorResponse(
-                    httpStatus = httpStatus.code,
                     code = errorCode,
                     errors = errors,
                 )
@@ -148,7 +146,6 @@ class JavalinModule {
         ctx.json(
             ErrorResponse(
                 code = ErrorCode.INTERNAL_SERVER_ERROR,
-                httpStatus = INTERNAL_SERVER_ERROR.code,
             )
         )
 

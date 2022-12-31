@@ -91,7 +91,6 @@ class AuthResourceSignUpTest : FunctionalTest() {
         assertThat(response.statusCode()).isEqualTo(BAD_REQUEST.code)
         assertJsonEquals(
             """{
-                    "httpStatus": ${BAD_REQUEST.code},
                     "code": "VALIDATION_ERROR",
                     "errors": [
                         "DESERIALIZATION_FAILED"
@@ -114,7 +113,6 @@ class AuthResourceSignUpTest : FunctionalTest() {
         assertThat(response.statusCode()).isEqualTo(BAD_REQUEST.code)
         assertJsonEquals(
             """{
-                    "httpStatus": ${BAD_REQUEST.code},
                     "code": "VALIDATION_ERROR",
                     "errors": [
                        ${expectedErrors.joinToString { "\"$it\"" }}
@@ -158,7 +156,6 @@ class AuthResourceSignUpTest : FunctionalTest() {
         assertThat(response.statusCode()).isEqualTo(BAD_REQUEST.code)
         assertJsonEquals(
             """{
-                    "httpStatus": ${BAD_REQUEST.code},
                     "code": "VALIDATION_ERROR",
                     "errors": [
                        "MALFORMED_EMAIL"
@@ -192,7 +189,6 @@ class AuthResourceSignUpTest : FunctionalTest() {
         assertThat(response.statusCode()).isEqualTo(NOT_ACCEPTABLE.code)
         assertJsonEquals(
             """{
-                    "httpStatus": ${NOT_ACCEPTABLE.code},
                     "code": "UNKNOWN_ORIGIN",
                 }""",
             response.body(), true
