@@ -58,7 +58,7 @@ class AuthResource(
         try {
             return ApplicationName.getForOrigin(URI.create(origin))
         } catch (e: IllegalArgumentException) {
-            throw UnknownOriginException(origin) // TODO add test (both url with \ and without it should work)
+            throw UnknownOriginException(origin)
         }
     }
 }

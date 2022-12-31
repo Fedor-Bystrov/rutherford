@@ -1,14 +1,17 @@
 package app.rutherford.auth.resource
 
 import app.rutherford.FunctionalTest
+import app.rutherford.core.ApplicationName
 import io.javalin.http.HttpStatus.BAD_REQUEST
 import io.javalin.http.HttpStatus.NOT_ACCEPTABLE
 import org.assertj.core.api.Assertions.assertThat
 import org.eclipse.jetty.http.HttpHeader.ORIGIN
 import org.json.JSONObject
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.Arguments.arguments
+import org.junit.jupiter.params.provider.EnumSource
 import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
 import java.util.stream.Stream
@@ -205,5 +208,14 @@ class AuthResourceSignUpTest : FunctionalTest() {
         TODO("impl")
     }
 
-    // TODO add more tests
+    @Test
+    fun `should return error when email is already registered for applicationName `(email: String) {
+        TODO("impl")
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = ApplicationName::class)
+    fun `should create user for each registered applicationName`(applicationName: ApplicationName) {
+        TODO("impl")
+    }
 }
