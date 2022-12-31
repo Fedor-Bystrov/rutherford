@@ -142,7 +142,6 @@ class AuthResourceSignUpTest : FunctionalTest() {
             "test@com@test..com",
             "test@com@test,com",
             "---@---",
-
         ]
     )
     fun `should validate email format`(email: String) {
@@ -211,14 +210,14 @@ class AuthResourceSignUpTest : FunctionalTest() {
         TODO("impl")
     }
 
-    @Test
-    fun `should return error when email is already registered for applicationName `() {
-        TODO("impl")
-    }
-
     @ParameterizedTest
     @EnumSource(value = ApplicationName::class)
     fun `should create user for each registered applicationName`(applicationName: ApplicationName) {
+        TODO("impl")
+    }
+
+    @Test
+    fun `should return error when email is already registered for applicationName `() {
         TODO("impl")
     }
 }
