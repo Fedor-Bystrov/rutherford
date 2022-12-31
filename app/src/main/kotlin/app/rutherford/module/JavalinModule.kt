@@ -91,7 +91,7 @@ class JavalinModule {
             nonCritical(e, c, BAD_REQUEST, MALFORMED_JSON, listOf(e.cause?.message ?: ""))
         }
         exception(ValidationException::class) { e, c ->
-            nonCritical(e, c, BAD_REQUEST, VALIDATION_ERROR, listOf(getMessage(e)))
+            nonCritical(e, c, BAD_REQUEST, VALIDATION_ERROR, e.errors.keys)
         }
         exception(IllegalStateException::class) { e, c ->
             nonCritical(e, c, BAD_REQUEST, VALIDATION_ERROR, listOf(e.message ?: ""))
@@ -156,9 +156,5 @@ class JavalinModule {
                 Thread.currentThread().interrupt()
             }
         }
-    }
-
-    private fun getMessage(e: ValidationException): String {
-        return "Validation error. Invalid parameters: ${e.errors.keys}"
     }
 }
