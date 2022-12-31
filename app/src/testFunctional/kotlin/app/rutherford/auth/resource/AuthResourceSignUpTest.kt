@@ -39,14 +39,7 @@ class AuthResourceSignUpTest : FunctionalTest() {
                     .put("email", "")
                     .put("password1", "")
                     .put("password2", ""),
-                JSONObject()
-                    .put("email", " ")
-                    .put("password1", " ")
-                    .put("password2", " "),
-                JSONObject()
-                    .put("email", "        ")
-                    .put("password1", "         ")
-                    .put("password2", "      "),
+                listOf("MALFORMED_EMAIL", "NULL_OR_BLANK_PARAM: password1", "NULL_OR_BLANK_PARAM: password2")
             )
         )
     }
@@ -71,10 +64,14 @@ class AuthResourceSignUpTest : FunctionalTest() {
         )
     }
 
-    @Test
-    fun `should returned DESERIALIZATION_FAILED when body is empty`() {
+    @ParameterizedTest
+    @MethodSource("emptyOrBlankBodies")
+    fun `should return errors when parameters in request body are empty or blank`(
+        body: JSONObject,
+        errors: Collection<String>
+    ) {
         // when
-        val response = http.post("/api/auth/sign-up", JSONObject())
+        val response = http.post("/api/auth/sign-up", body)
 
         // then
         assertThat(response.statusCode()).isEqualTo(BAD_REQUEST.code)
@@ -83,7 +80,7 @@ class AuthResourceSignUpTest : FunctionalTest() {
                     "httpStatus": ${BAD_REQUEST.code},
                     "code": "VALIDATION_ERROR",
                     "errors": [
-                        "DESERIALIZATION_FAILED"
+                       ${errors.joinToString { "\"$it\"" }}
                     ]
                 }""",
             response.body(), true
