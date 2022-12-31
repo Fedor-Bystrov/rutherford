@@ -13,9 +13,13 @@ object Checks {
     }
 
     fun validateEmailFormat(email: String?): String {
+        check(isValidEmail(email)) { "MALFORMED_EMAIL" }
+        return email!!
+    }
+
+    fun isValidEmail(email: String?): Boolean {
+        if (email.isNullOrBlank()) return false
         val emailValidator = EmailValidator.getInstance()
-        val notBlankEmail = validateNotBlank("email", email)
-        check(emailValidator.isValid(notBlankEmail)) { "MALFORMED_EMAIL" }
-        return notBlankEmail
+        return emailValidator.isValid(email)
     }
 }
