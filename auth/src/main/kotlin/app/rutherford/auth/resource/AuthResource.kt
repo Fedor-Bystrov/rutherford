@@ -30,8 +30,6 @@ class AuthResource(
         }
     }
 
-    // TODO Create E2E tests on /api/auth/sign-up
-
     private fun signUp(ctx: Context) {
         val request = ctx.bodyValidator<SignUpRequest>()
             .check({ isValidEmail(it.email) }, "MALFORMED_EMAIL")
@@ -60,7 +58,7 @@ class AuthResource(
         try {
             return ApplicationName.getForOrigin(URI.create(origin))
         } catch (e: IllegalArgumentException) {
-            throw UnknownOriginException(origin) // TODO add test
+            throw UnknownOriginException(origin) // TODO add test (both url with \ and without it should work)
         }
     }
 }
