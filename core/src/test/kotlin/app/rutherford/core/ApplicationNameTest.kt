@@ -12,8 +12,8 @@ class ApplicationNameTest {
     @ParameterizedTest
     @CsvSource(
         value = [
-            "http://localhost:7070/, TEST1",
-            "http://localhost2:7070/, TEST2"
+            "http://localhost/, TEST1",
+            "http://localhost2/, TEST2"
         ]
     )
     fun `should return correct applicationName by URL`(origin: URI, expected: ApplicationName) {
