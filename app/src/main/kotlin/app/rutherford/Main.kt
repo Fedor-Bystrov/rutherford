@@ -1,6 +1,9 @@
 package app.rutherford
 
 import app.rutherford.module.ApplicationModule
+import app.rutherford.resource.GreeterService
+import io.grpc.ServerBuilder
+import io.grpc.protobuf.services.ProtoReflectionService
 
 // TODO 1. Basic Auth Functionality
 //  - Implement AuthResource it should have following functionalities:
@@ -20,9 +23,24 @@ import app.rutherford.module.ApplicationModule
 //      - user should be able to resend confirmation email
 
 fun main() {
-    val application = ApplicationModule(Overrides())
-    application.start()
-    Runtime
-        .getRuntime()
-        .addShutdownHook(Thread(application::stop))
+//    val application = ApplicationModule(Overrides())
+//    application.start()
+//    Runtime
+//        .getRuntime()
+//        .addShutdownHook(Thread(application::stop))
+
+    val greeterService = GreeterService()
+    val server = ServerBuilder
+        .forPort(8080)
+        .addService(greeterService)
+        .addService(ProtoReflectionService.newInstance()) // TODO enable only on dev
+        .build()
+
+    Runtime.getRuntime().addShutdownHook(Thread {
+        server.shutdown()
+        server.awaitTermination()
+    })
+
+    server.start()
+    server.awaitTermination()
 }
