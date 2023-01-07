@@ -33,8 +33,6 @@ dependencies {
     implementation("io.grpc:grpc-kotlin-stub:1.3.0")
     implementation("com.google.protobuf:protobuf-kotlin:3.21.12")
 
-    // TODO drop kotlin-proto, use java
-
     testImplementation(kotlin("test"))
     testImplementation(project(":core"))
     testImplementation(project(":auth"))
