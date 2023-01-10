@@ -38,3 +38,19 @@ and then:
 
 ## Apache Bench
 `ab -k -c 50 -n 150 "localhost:7070/test/users/argon2"`
+
+# TODOs
+1. Basic Auth Functionality It should have following functionalities:
+   - sign_in (issue access and refresh tokens given correct user details)
+        - Use asymmetric encryption for JWT?
+        - Expose JWT public key list endpoint?
+   - log_out (remove refresh_token i.e. move refresh_token to deleted state)
+   - change_password
+   - anything else (check .net identity as a reference)
+
+2. Add CORS, allow only my apps to access the BE
+
+3. Email confirmation Functionality
+   - sign_up should send an email to confirm the user's email address
+   - sign_in should return error and ask to confirm the email
+       - user should be able to resend confirmation email
