@@ -54,3 +54,5 @@ and then:
    - sign_up should send an email to confirm the user's email address
    - sign_in should return error and ask to confirm the email
        - user should be able to resend confirmation email
+
+4. Migrate to `netty` + `grpc` + `protobuf`? (grpc could generate both resources and clients) - if FE will be mobile apps
