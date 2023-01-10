@@ -1,4 +1,4 @@
-rootProject.name = "Rutherford"
+rootProject.name = "rutherford"
 
 include(
     "schema",

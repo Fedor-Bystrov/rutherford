@@ -41,7 +41,7 @@ import kotlin.reflect.KClass
 const val X_REQUEST_ID = "X-Request-ID";
 
 class JavalinModule {
-    private val logger = LoggerFactory.getLogger("Rutherford")
+    private val logger = LoggerFactory.getLogger("rutherford")
     val javalin: Javalin = Javalin.create { config ->
         config.showJavalinBanner = false
         config.http.asyncTimeout = MINUTES.toMillis(1)
