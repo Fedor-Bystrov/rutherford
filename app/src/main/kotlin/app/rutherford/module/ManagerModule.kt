@@ -24,7 +24,8 @@ class ManagerModule(repositoryModule: RepositoryModule, authUserSecret: Base64) 
             repositoryModule.authUserRepository
         )
         signInManager = SignInManager(
-            repositoryModule.authUserRepository
+            repositoryModule.authUserRepository,
+            userManager,
         )
     }
 }

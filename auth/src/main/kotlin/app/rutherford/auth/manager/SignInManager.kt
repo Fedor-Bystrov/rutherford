@@ -4,7 +4,8 @@ import app.rutherford.auth.repository.AuthUserRepository
 import app.rutherford.core.ApplicationName
 
 class SignInManager(
-    authUserRepository: AuthUserRepository,
+    val authUserRepository: AuthUserRepository,
+    val userManager: UserManager,
 ) {
     fun signIn(
         email: String,
@@ -16,5 +17,14 @@ class SignInManager(
         //  2. validate password, throw NO_USER_WITH_SUCH_COMBINATION if not exist
         //  3. generate refresh token
         //  4. generate access token
+
+        val user = authUserRepository
+            .findBy(email = email, application = appNameFromRequest)
+            ?: throw RuntimeException() // TODO throw proper exception
+
+        val passwordValid = userManager.isPasswordCorrect(user, password)
+        if (!passwordValid) {
+            throw RuntimeException() // TODO throw proper exception
+        }
     }
 }
