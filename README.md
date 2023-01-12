@@ -8,6 +8,14 @@ An application backend for 12in12 project. Provides JWT authorization and authen
 - Run `./gradlew clean jibDockerBuild` to build docker image
 - Run `./gradlew clean jib` to build docker image and push it to GCP registry (TODO)
 
+### Dev `.env` file
+```properties
+DB_URL=jdbc:postgresql://localhost:5432/{db}
+DB_USER={usr}
+DB_PASS={pass}
+PORT=7070
+AUTH_USER_SECRET={user_secret}
+```
 
 ### Run rutherford container locally
 Add `environment` and `ports` to jib cofig
