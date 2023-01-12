@@ -80,4 +80,18 @@ class Argon2PasswordHasherTest {
             assertThat(resultHash).isEqualTo(base64(expectedHash))
         }
     }
+
+    @Test
+    fun `should generate correct hashes given salt`() {
+        // given
+        val salt = base64("NmesIWpwHotJJyt1SMKyROFR0A14ndWfZNGasBIe5aw=")
+        val password = """13123sfvsdfg!(@(000!#@JG\;\;\./,,/.,/';"""
+        val expectedHash = "wPXEmEwPZa97e8JYZncnoaxaTovwX5bYvAkFRz6jobs="
+
+        // when
+        val (resultSalt, resultHash) = passwordHasher.hash(password, salt.decodeBytes())
+
+        assertThat(resultSalt).isEqualTo(salt)
+        assertThat(resultHash).isEqualTo(base64(expectedHash))
+    }
 }
