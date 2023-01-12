@@ -2,7 +2,9 @@ package app.rutherford.auth.resource
 
 import app.rutherford.auth.exception.PasswordPolicyValidationException
 import app.rutherford.auth.exception.UserAlreadyExistException
+import app.rutherford.auth.manager.SignInManager
 import app.rutherford.auth.manager.UserManager
+import app.rutherford.auth.resource.request.SignInRequest
 import app.rutherford.auth.resource.request.SignUpRequest
 import app.rutherford.core.ApplicationName
 import app.rutherford.core.abstract.resource.Resource
@@ -20,12 +22,14 @@ import java.net.URI
 
 class AuthResource(
     private val javalin: Javalin,
-    private val userManager: UserManager
+    private val userManager: UserManager,
+    private val signInManager: SignInManager,
 ) : Resource() {
     override fun bindRoutes() {
         javalin.routes {
             path("/api/auth") {
                 post("/sign-up", this::signUp)
+                post("/sign-in", this::signIn)
             }
         }
     }
@@ -50,6 +54,24 @@ class AuthResource(
             errorResponse(ctx, BAD_REQUEST, e.errorCode())
         } catch (e: PasswordPolicyValidationException) {
             errorResponse(ctx, BAD_REQUEST, e.errorCode(), e.errors)
+        }
+    }
+
+    private fun signIn(ctx: Context) {
+        val request = ctx.bodyValidator<SignInRequest>()
+            .check({ isValidEmail(it.email) }, "MALFORMED_EMAIL")
+            .check({ it.password.isNotBlank() }, "NULL_OR_BLANK_PARAM: password")
+            .get()
+
+        val applicationName = getApplicationName(ctx)
+        try {
+            signInManager.signIn(
+                email = request.email,
+                password = request.password,
+                appNameFromRequest = applicationName
+            )
+        } catch (e: RuntimeException) {
+            // TODO handle exceptions
         }
     }
 

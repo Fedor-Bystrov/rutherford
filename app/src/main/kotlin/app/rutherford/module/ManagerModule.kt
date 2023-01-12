@@ -1,5 +1,6 @@
 package app.rutherford.module
 
+import app.rutherford.auth.manager.SignInManager
 import app.rutherford.auth.manager.UserManager
 import app.rutherford.auth.util.Argon2PasswordHasher
 import app.rutherford.auth.util.PasswordPolicyValidator
@@ -8,6 +9,7 @@ import java.security.SecureRandom
 
 class ManagerModule(repositoryModule: RepositoryModule, authUserSecret: Base64) {
     val userManager: UserManager
+    val signInManager: SignInManager
 
     init {
         val passwordPolicyValidator = PasswordPolicyValidator()
@@ -19,6 +21,9 @@ class ManagerModule(repositoryModule: RepositoryModule, authUserSecret: Base64) 
         userManager = UserManager(
             passwordHasher,
             passwordPolicyValidator,
+            repositoryModule.authUserRepository
+        )
+        signInManager = SignInManager(
             repositoryModule.authUserRepository
         )
     }

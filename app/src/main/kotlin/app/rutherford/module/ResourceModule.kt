@@ -12,7 +12,11 @@ class ResourceModule(
 
     init {
         resources = listOf(
-            AuthResource(javalin, managerModule.userManager)
+            AuthResource(
+                javalin,
+                managerModule.userManager,
+                managerModule.signInManager
+            )
         )
     }
 
