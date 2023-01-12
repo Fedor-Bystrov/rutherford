@@ -63,4 +63,6 @@ and then:
    - sign_in should return error and ask to confirm the email
        - user should be able to resend confirmation email
 
-4. Migrate to `netty` + `grpc` + `protobuf`? (grpc could generate both resources and clients) - if FE will be mobile apps
+4. Secure all routes with basic auth. Each nodejs app will have its own token. 
+Remove AuthResource#getApplicationName figure out application by client secret.
+`rutherford` won't be open to internet, services will have to be in the same network 
