@@ -49,8 +49,7 @@ class UserManager(
             }) { "Error creating AuthUser. Transaction returned empty result" }
     }
 
-    // TODO add tests
-    internal fun isPasswordCorrect(user: AuthUser, password: String): Boolean {
+    fun isPasswordCorrect(user: AuthUser, password: String): Boolean {
         val (_, passwordHash) = passwordHasher.hash(password, user.salt.decodeBytes())
         return user.passwordHash == passwordHash
     }

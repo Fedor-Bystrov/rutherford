@@ -8,8 +8,10 @@ import app.rutherford.core.ApplicationName.TEST1
 import app.rutherford.core.ApplicationName.TEST2
 import app.rutherford.core.ErrorCode.USER_ALREADY_EXIST
 import app.rutherford.core.transaction.transaction
+import app.rutherford.core.types.Base64.Companion.base64
 import app.rutherford.fixtures.anAuthUser
 import org.apache.commons.lang3.RandomStringUtils.randomAlphabetic
+import org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
@@ -138,5 +140,34 @@ class UserManagerCreateTest : FunctionalTest() {
         // and
         assertThat(createdUser.salt).isNotEqualTo(test1User.salt)
         assertThat(createdUser.passwordHash).isNotEqualTo(test1User.passwordHash)
+    }
+
+    @Test
+    fun `should return false when password is incorrect`() {
+        // given
+        val password = randomAlphanumeric(10)
+        val user = anAuthUser().build()
+
+        // when
+        val result = userManager.isPasswordCorrect(user, password)
+
+        // then
+        assertThat(result).isFalse
+    }
+
+    @Test
+    fun `should return true when password is correct`() {
+        // given
+        val password = "lde2539UZu"
+        val user = anAuthUser()
+            .salt(base64("RwliP+Su6QcOThLRUw9UyQ=="))
+            .passwordHash(base64("iCgJ2lVM7zwwHapOz2IeMPn7F7H0t1HZaeIqYMvmFgE="))
+            .build()
+
+        // when
+        val result = userManager.isPasswordCorrect(user, password)
+
+        // then
+        assertThat(result).isTrue
     }
 }
