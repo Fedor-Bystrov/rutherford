@@ -17,9 +17,8 @@ private const val HASH_SIZE_BYTES = 32
 class Argon2PasswordHasher(secretBase64: Base64, private val secureRandom: SecureRandom) {
     private val secret = secretBase64.decodeBytes()
 
-    fun hash(password: String): HashingResult {
-        val salt = nextSalt()
-
+    // TODO add test with provided salt
+    fun hash(password: String, salt: ByteArray = nextSalt()): HashingResult {
         val argonGenerator = Argon2BytesGenerator()
         val argon2Parameters = Argon2Parameters
             // Recommended min by OWASP
@@ -30,7 +29,6 @@ class Argon2PasswordHasher(secretBase64: Base64, private val secureRandom: Secur
             .withSalt(salt)
             .withSecret(secret)
             .build()
-
 
         val hash = ByteArray(HASH_SIZE_BYTES)
         argonGenerator.init(argon2Parameters)
