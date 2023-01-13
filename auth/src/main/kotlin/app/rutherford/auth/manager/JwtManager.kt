@@ -17,6 +17,7 @@ data class AccessToken(val value: String) {
 }
 
 
+// TODO read from configs
 // https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/
 const val testKey = "3146b0f8f5413b2e6bd06b6e67412481dfaafc0915cb0c2be3afbfe438f7f7" +
         "0d9c000989c91dfb73c37a42134e7c79c77c01d3a52315b0da34ed85acd52d6d1f"
@@ -26,6 +27,7 @@ class JwtManager { // TODO add tests
     // TODO put HMAC256 key into pkcs-12 container with password
     // TODO pass key to AccessTokenService in AccessTokenConfig
 
+    // TODO use ECDSA
     private val algorithm = HMAC256(testKey)
 
     fun createToken(authUser: AuthUser): AccessToken {

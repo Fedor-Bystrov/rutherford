@@ -29,7 +29,8 @@ class ApplicationModule(
 
         val secretsConfig = SecretsConfig(
             authUserSecret = base64(Dotenv.get("AUTH_USER_SECRET")),
-            // TODO add to test, add to configs
+            // TODO 1. add to test, add to configs
+            // TODO 2. use ECDSA for jwt
             authUserTokenSecret = base64(Dotenv.get("AUTH_USER_TOKEN_SECRET"))
         )
 
