@@ -2,6 +2,7 @@ package app.rutherford.module
 
 import app.rutherford.Overrides
 import app.rutherford.configuration.DatabaseConfig
+import app.rutherford.configuration.SecretsConfig
 import app.rutherford.core.transaction.TransactionManager
 import app.rutherford.core.types.Base64.Companion.base64
 import app.rutherford.core.util.Dotenv
@@ -26,7 +27,11 @@ class ApplicationModule(
         val password = Dotenv.get("DB_PASS")
         applicationPort = Dotenv.getInt("PORT")
 
-        val authUserSecret = base64(Dotenv.get("AUTH_USER_SECRET"))
+        val secretsConfig = SecretsConfig(
+            authUserSecret = base64(Dotenv.get("AUTH_USER_SECRET")),
+            // TODO add to test, add to configs
+            authUserTokenSecret = base64(Dotenv.get("AUTH_USER_TOKEN_SECRET"))
+        )
 
         databaseConfig = overrides.databaseConfig ?: DatabaseConfig(
             jdbcUrl = url,
@@ -35,7 +40,7 @@ class ApplicationModule(
         )
         database = DatabaseModule(databaseConfig, overrides)
         repository = RepositoryModule(database.dslContext)
-        managerModule = ManagerModule(repository, authUserSecret)
+        managerModule = ManagerModule(repository, secretsConfig)
         transactionManager = TransactionManager.create(database.dslContext)
         javalinModule = JavalinModule()
         resources = ResourceModule(javalinModule.javalin, managerModule)
