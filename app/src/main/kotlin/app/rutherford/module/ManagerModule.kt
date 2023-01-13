@@ -13,11 +13,12 @@ class ManagerModule(repositoryModule: RepositoryModule, secretsConfig: SecretsCo
 
     init {
         val passwordPolicyValidator = PasswordPolicyValidator()
+        val secureRandom = SecureRandom()
 
         userManager = UserManager(
             Argon2PasswordHasher(
                 secretsConfig.authUserSecret,
-                SecureRandom()
+                secureRandom
             ),
             passwordPolicyValidator,
             repositoryModule.authUserRepository
@@ -25,8 +26,9 @@ class ManagerModule(repositoryModule: RepositoryModule, secretsConfig: SecretsCo
         signInManager = SignInManager(
             Argon2PasswordHasher(
                 secretsConfig.authUserTokenSecret,
-                SecureRandom()
+                secureRandom
             ),
+            secureRandom,
             repositoryModule.authUserRepository,
             repositoryModule.authUserTokenRepository,
             userManager,
