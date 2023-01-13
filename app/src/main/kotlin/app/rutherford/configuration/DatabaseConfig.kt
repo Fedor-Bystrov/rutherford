@@ -10,4 +10,8 @@ data class DatabaseConfig(
         require(username.isNotBlank()) { "username is blank " }
         require(password.isNotBlank()) { "password is blank " }
     }
+
+    override fun toString(): String {
+        return "DatabaseConfig(<Masked>)"
+    }
 }
