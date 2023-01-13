@@ -12,19 +12,16 @@ class SignInManager(
         password: String,
         appNameFromRequest: ApplicationName,
     ) {
-        // TODO
-        //  1. get user, throw NO_USER_WITH_SUCH_COMBINATION if not exist
-        //  2. validate password, throw NO_USER_WITH_SUCH_COMBINATION if not exist
-        //  3. generate refresh token
-        //  4. generate access token
-
         val user = authUserRepository
             .findBy(email = email, application = appNameFromRequest)
-            ?: throw RuntimeException() // TODO throw proper exception
+            ?: throw RuntimeException() // TODO throw NO_USER_WITH_SUCH_COMBINATION exception
 
         val passwordValid = userManager.isPasswordCorrect(user, password)
         if (!passwordValid) {
-            throw RuntimeException() // TODO throw proper exception
+            throw RuntimeException() // TODO throw NO_USER_WITH_SUCH_COMBINATION exception
         }
+
+        // TODO generate refresh token, persist it
+        // TODO generate jwt (access) token
     }
 }
