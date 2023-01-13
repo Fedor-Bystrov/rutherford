@@ -17,6 +17,7 @@ class SignInManager(
     private val userRepository: AuthUserRepository,
     private val tokenRepository: AuthUserTokenRepository,
     private val userManager: UserManager,
+    private val jwtManager: JwtManager,
 ) {
     companion object {
         const val TOKEN_SIZE_IN_BYTES: Int = 32
@@ -53,7 +54,8 @@ class SignInManager(
             )
         }
 
-        // TODO generate access token
+        val accessToken = jwtManager.createToken(user) // TODO correct?
+
         // TODO return access token + refresh token (unencrypted)
     }
 

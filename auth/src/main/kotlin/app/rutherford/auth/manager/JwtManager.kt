@@ -22,7 +22,7 @@ const val testKey = "3146b0f8f5413b2e6bd06b6e67412481dfaafc0915cb0c2be3afbfe438f
         "0d9c000989c91dfb73c37a42134e7c79c77c01d3a52315b0da34ed85acd52d6d1f"
 
 
-class AccessTokenService { // TODO add tests
+class JwtManager { // TODO add tests
     // TODO put HMAC256 key into pkcs-12 container with password
     // TODO pass key to AccessTokenService in AccessTokenConfig
 
