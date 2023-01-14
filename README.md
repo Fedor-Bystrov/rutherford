@@ -4,6 +4,17 @@ An application backend for 12in12 project. Provides JWT authorization and authen
 
 ---
 
+# Warning
+Token-based authentication is not suitable for browser-based applications. There is no 
+possible way to store tokens securely in the browser. Even `access_token` + `refresh_token`
+authentication with `refresh_token` rotation and old-token reuse detection is not secure.
+Attacker can monitor `refresh_tokens` and wait until legitimate user become inactive. In that case,
+the attacker will use the latest `refresh_token` and BE will identify him as a legitimate user.
+
+<ins>Cookie-based session authentication with csrf-protection is the most secure approach yet</ins>
+
+---
+
 ### Instructions
 - Run `./gradlew clean jibDockerBuild` to build docker image
 - Run `./gradlew clean jib` to build docker image and push it to GCP registry (TODO)
