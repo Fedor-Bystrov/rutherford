@@ -1,5 +1,6 @@
 package app.rutherford.module
 
+import app.rutherford.auth.manager.JwtManager
 import app.rutherford.auth.manager.SignInManager
 import app.rutherford.auth.manager.UserManager
 import app.rutherford.auth.util.Argon2PasswordHasher
@@ -32,6 +33,7 @@ class ManagerModule(repositoryModule: RepositoryModule, secretsConfig: SecretsCo
             repositoryModule.authUserRepository,
             repositoryModule.authUserTokenRepository,
             userManager,
+            JwtManager()
         )
     }
 }
