@@ -43,8 +43,6 @@ object Dependencies {
     const val postgresql = "org.postgresql:postgresql:${Versions.postgresql}"
     const val hikari = "com.zaxxer:HikariCP:${Versions.hikari}"
     const val jooq = "org.jooq:jooq:${Versions.jooq}"
-    const val jooqCodegen = "org.jooq:jooq-codegen:${Versions.jooq}"
-    const val jooqMeta = "org.jooq:jooq-meta:${Versions.jooq}"
     const val dotenv = "io.github.cdimascio:dotenv-kotlin:${Versions.dotnev}"
     const val javaJwt = "com.auth0:java-jwt:${Versions.javaJwt}"
     const val passay = "org.passay:passay:${Versions.passay}"
