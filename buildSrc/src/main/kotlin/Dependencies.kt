@@ -1,7 +1,7 @@
 object Dependencies {
     object Plugins {
         object Versions {
-            const val kotlin = "1.7.20"
+            const val kotlin = "1.8.20"
             const val testSets = "4.0.0"
             const val jib = "3.3.1"
         }
