@@ -47,9 +47,7 @@ class Base64 private constructor(rawBytes: ByteArray) {
 
         other as Base64
 
-        if (!encodedBytes.contentEquals(other.encodedBytes)) return false
-
-        return true
+        return encodedBytes.contentEquals(other.encodedBytes)
     }
 
     override fun hashCode(): Int {
