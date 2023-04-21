@@ -58,8 +58,7 @@ class TransactionManagerTest : FunctionalTest() {
 
             // and
             val created = authUserRepository.find(this, id = user.id())
-            assertNotNull(created)
-            assertThat(user).isEqualTo(user)
+            assertThat(created).isEqualTo(user)
         }
 
         // and

@@ -100,9 +100,7 @@ class AuthUser private constructor(builder: Builder) : Entity() {
         if (email != other.email) return false
         if (emailConfirmed != other.emailConfirmed) return false
         if (salt != other.salt) return false
-        if (passwordHash != other.passwordHash) return false
-
-        return true
+        return passwordHash == other.passwordHash
     }
 
     override fun hashCode(): Int {
