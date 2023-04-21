@@ -17,7 +17,7 @@ import org.testcontainers.containers.PostgreSQLContainer
 
 abstract class GenerateSchemaTask : DefaultTask() {
     @get:Input
-    abstract val dockerimageName: Property<String>
+    abstract val dockerImageName: Property<String>
 
     @get:Input
     abstract val outputPackage: Property<String>
@@ -27,23 +27,23 @@ abstract class GenerateSchemaTask : DefaultTask() {
 
     @TaskAction
     fun generateSchema() {
-        PostgreSQLContainer(dockerimageName.get()).use {
-            println("Staring ${it.getDockerImageName()} container...")
+        PostgreSQLContainer(dockerImageName.get()).use {
+            println("Staring ${it.dockerImageName} container...")
             it.start()
 
-            val jdbcUrl = it.getJdbcUrl()
-            val username = it.getUsername()
-            val password = it.getPassword()
+            val jdbcUrl = it.jdbcUrl
+            val username = it.username
+            val password = it.password
 
             println("Applying migrations...")
-            val migraitonsLocation = "filesystem:${project.projectDir}/src/main/resources/db/migration"
+            val migrationsLocation = "filesystem:${project.projectDir}/src/main/resources/db/migration"
 
-            println("Migrations path: $migraitonsLocation")
+            println("Migrations path: $migrationsLocation")
             migrate(
                 jdbcUrl = jdbcUrl,
                 username = username,
                 password = password,
-                locations = migraitonsLocation
+                locations = migrationsLocation
             )
 
             println("Generating schema...")

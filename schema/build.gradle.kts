@@ -11,7 +11,7 @@ dependencies {
 }
 
 tasks.register<GenerateSchemaTask>("generateSchema") {
-    dockerimageName.set("postgres:15.1")
+    dockerImageName.set("postgres:15.1")
     outputPackage.set("app.rutherford.schema.generated")
     forcedTypes.set(
         listOf(
