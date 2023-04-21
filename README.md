@@ -4,6 +4,11 @@ An application backend for 12in12 project. Provides JWT authorization and authen
 
 ---
 
+# TODO
+1. Extract Clock.tickMillis(ZoneOffset.UTC).instant() to an object
+2. Use custom clock object with millis precision instead of Instant.now() everywhere
+3. Drop AuthUserToken and everythin related
+
 # Warning
 Token-based authentication is not suitable for browser-based applications. There is no 
 possible way to store tokens securely in the browser. Even `access_token` + `refresh_token`
