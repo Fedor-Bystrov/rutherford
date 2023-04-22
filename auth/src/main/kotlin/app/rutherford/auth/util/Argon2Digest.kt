@@ -17,7 +17,7 @@ private const val HASH_SIZE_BYTES = 32
 class Argon2Digest(secretBase64: Base64, private val secureRandom: SecureRandom) {
     private val secret = secretBase64.decodeBytes()
 
-    fun digest(password: String, salt: ByteArray = nextSalt()): MesageDigest {
+    fun digest(password: String, salt: ByteArray = nextSalt()): MessageDigest {
         val argonGenerator = Argon2BytesGenerator()
         val argon2Parameters = Argon2Parameters
             // Recommended min by OWASP
@@ -33,7 +33,7 @@ class Argon2Digest(secretBase64: Base64, private val secureRandom: SecureRandom)
         argonGenerator.init(argon2Parameters)
         argonGenerator.generateBytes(password.toCharArray(), hash)
 
-        return MesageDigest(
+        return MessageDigest(
             salt = Base64.encode(salt),
             hash = Base64.encode(hash)
         )
@@ -46,6 +46,6 @@ class Argon2Digest(secretBase64: Base64, private val secureRandom: SecureRandom)
     }
 }
 
-data class MesageDigest(val salt: Base64, val hash: Base64) {
+data class MessageDigest(val salt: Base64, val hash: Base64) {
     override fun toString(): String = "HashingResult(<masked_data>)"
 }
