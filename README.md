@@ -29,6 +29,15 @@ AUTH_USER_SECRET={user_secret}
 ```
 
 ### Run rutherford container locally
+Create postgres container
+```
+docker run --name postgres-docker -p 5432:5432 -e POSTGRES_PASSWORD=123 -d postgres
+```
+Create rutherford database
+```sql
+CREATE USER rutherford_app WITH PASSWORD '123';
+CREATE DATABASE rutherford OWNER rutherford_app;
+```
 Add `environment` and `ports` to jib cofig
 ```kotlin
 jib {
@@ -59,21 +68,14 @@ and then:
 `ab -k -c 50 -n 150 "localhost:7070/test/users/argon2"`
 
 # TODOs
-1. Basic Auth Functionality It should have following functionalities:
-   - sign_in (issue access and refresh tokens given correct user details)
-        - Use asymmetric encryption for JWT?
-        - Expose JWT public key list endpoint?
-   - log_out (remove refresh_token i.e. move refresh_token to deleted state)
+1. Basic Auth Functionality It should have the following functionality:
+   - sign_in
+   - log_out
    - change_password
-   - anything else (check .net identity as a reference)
 
 2. Add CORS, allow only my apps to access the BE
 
 3. Email confirmation Functionality
-   - sign_up should send an email to confirm the user's email address
+   - sign_up should send confirmation email to the user
    - sign_in should return error and ask to confirm the email
        - user should be able to resend confirmation email
-
-4. Secure all routes with basic auth. Each nodejs app will have its own token. 
-Remove AuthResource#getApplicationName figure out application by client secret.
-`rutherford` won't be open to internet, services will have to be in the same network 
