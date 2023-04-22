@@ -8,7 +8,7 @@ import app.rutherford.core.abstract.entity.Entity.State.CREATED
 import app.rutherford.core.types.Base64
 import org.apache.commons.lang3.RandomStringUtils.randomAlphabetic
 import org.apache.commons.lang3.RandomUtils.nextBytes
-import java.time.Instant.now
+import app.rutherford.core.util.Clock.now
 import java.util.UUID.randomUUID
 
 fun anAuthUser() = authUser()

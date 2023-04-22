@@ -7,7 +7,7 @@ import app.rutherford.core.types.Base64
 import app.rutherford.core.util.Checks.validateNotBlank
 import app.rutherford.core.util.Checks.validateNotNull
 import java.time.Instant
-import java.time.Instant.now
+import app.rutherford.core.util.Clock.now
 import java.util.UUID
 import java.util.UUID.randomUUID
 

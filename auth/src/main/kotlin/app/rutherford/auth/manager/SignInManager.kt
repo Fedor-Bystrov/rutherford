@@ -7,9 +7,9 @@ import app.rutherford.auth.util.Argon2PasswordHasher
 import app.rutherford.core.ApplicationName
 import app.rutherford.core.transaction.transaction
 import app.rutherford.core.types.Base64
+import app.rutherford.core.util.Clock.now
 import java.security.SecureRandom
 import java.time.Duration
-import java.time.Instant.now
 
 class SignInManager(
     private val hasher: Argon2PasswordHasher,
