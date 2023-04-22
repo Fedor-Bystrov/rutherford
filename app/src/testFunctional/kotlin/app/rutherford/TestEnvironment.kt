@@ -6,7 +6,6 @@ import app.rutherford.module.ApplicationModule
 import app.rutherford.module.ManagerModule
 import app.rutherford.module.RepositoryModule
 import app.rutherford.schema.generated.tables.references.AUTH_USER
-import app.rutherford.schema.generated.tables.references.AUTH_USER_TOKEN
 import org.jooq.conf.Settings
 import org.testcontainers.containers.PostgreSQLContainer
 
@@ -44,7 +43,6 @@ class TestEnvironment : AutoCloseable {
 
     fun reset() {
         transaction {
-            this.configuration.dsl().deleteFrom(AUTH_USER_TOKEN).execute()
             this.configuration.dsl().deleteFrom(AUTH_USER).execute()
         }
     }

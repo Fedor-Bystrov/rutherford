@@ -5,7 +5,6 @@ package app.rutherford.schema.generated.tables.references
 
 
 import app.rutherford.schema.generated.tables.AuthUser
-import app.rutherford.schema.generated.tables.AuthUserToken
 
 
 
@@ -13,8 +12,3 @@ import app.rutherford.schema.generated.tables.AuthUserToken
  * The table <code>public.auth_user</code>.
  */
 val AUTH_USER: AuthUser = AuthUser.AUTH_USER
-
-/**
- * The table <code>public.auth_user_token</code>.
- */
-val AUTH_USER_TOKEN: AuthUserToken = AuthUserToken.AUTH_USER_TOKEN

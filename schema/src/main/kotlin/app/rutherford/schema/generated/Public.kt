@@ -5,7 +5,6 @@ package app.rutherford.schema.generated
 
 
 import app.rutherford.schema.generated.tables.AuthUser
-import app.rutherford.schema.generated.tables.AuthUserToken
 
 import kotlin.collections.List
 
@@ -32,15 +31,9 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
      */
     val AUTH_USER: AuthUser get() = AuthUser.AUTH_USER
 
-    /**
-     * The table <code>public.auth_user_token</code>.
-     */
-    val AUTH_USER_TOKEN: AuthUserToken get() = AuthUserToken.AUTH_USER_TOKEN
-
     override fun getCatalog(): Catalog = DefaultCatalog.DEFAULT_CATALOG
 
     override fun getTables(): List<Table<*>> = listOf(
-        AuthUser.AUTH_USER,
-        AuthUserToken.AUTH_USER_TOKEN
+        AuthUser.AUTH_USER
     )
 }
