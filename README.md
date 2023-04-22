@@ -38,7 +38,7 @@ Create rutherford database
 CREATE USER rutherford_app WITH PASSWORD '123';
 CREATE DATABASE rutherford OWNER rutherford_app;
 ```
-Add `environment` and `ports` to jib cofig
+Add `environment` and `ports` to jib config
 ```kotlin
 jib {
     //...
