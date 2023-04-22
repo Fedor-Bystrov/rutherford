@@ -26,7 +26,6 @@ DB_USER={usr}
 DB_PASS={pass}
 PORT=7070
 AUTH_USER_SECRET={user_secret}
-AUTH_USER_TOKEN_SECRET={user_token_secret}
 ```
 
 ### Run rutherford container locally
@@ -42,7 +41,6 @@ jib {
             "DB_PASS" to "123",
             "PORT" to "7070",
             "AUTH_USER_SECRET" to "nX278YBYkZyLu9CKaqj8xFr8Vq/OILVlbkJ0C+tF08g=",
-            "AUTH_USER_TOKEN_SECRET" to "CwEzOHir5yJEzwEC6H7BkFUqUCjKFcXsdMJf913vdiQ=",
         )
         ports = listOf("7070")
     }
