@@ -13,12 +13,12 @@ import org.mockito.Mockito.withSettings
 import java.io.File
 import java.security.SecureRandom
 
-class Argon2PasswordHasherTest {
+class Argon2DigestTest {
     private val salt = base64("meR2zPnoFtNbk4fXTxN8yw==")
     private val secret = base64("dGhpcyBpcyBzdXBlciBzZWNyZXQga2V5Cg==")
 
     private val secureRandom = mock(SecureRandom::class.java, withSettings().withoutAnnotations())
-    private val passwordHasher = Argon2PasswordHasher(secret, secureRandom)
+    private val argon2 = Argon2Digest(secret, secureRandom)
 
     @BeforeEach
     fun setUp() {
@@ -58,7 +58,7 @@ class Argon2PasswordHasherTest {
     )
     fun `should generate correct hashes`(password: String, expectedHash: String) {
         // when
-        val (resultSalt, resultHash) = passwordHasher.hash(password)
+        val (resultSalt, resultHash) = argon2.hash(password)
 
         // then
         assertThat(resultSalt).isEqualTo(salt)
@@ -73,7 +73,7 @@ class Argon2PasswordHasherTest {
         // when
         passwords.parallelStream().forEach {
             val (password, expectedHash) = it.split('\t')
-            val (resultSalt, resultHash) = passwordHasher.hash(password)
+            val (resultSalt, resultHash) = argon2.hash(password)
 
             // then
             assertThat(resultSalt).isEqualTo(salt)
@@ -89,7 +89,7 @@ class Argon2PasswordHasherTest {
         val expectedHash = "wPXEmEwPZa97e8JYZncnoaxaTovwX5bYvAkFRz6jobs="
 
         // when
-        val (resultSalt, resultHash) = passwordHasher.hash(password, salt.decodeBytes())
+        val (resultSalt, resultHash) = argon2.hash(password, salt.decodeBytes())
 
         assertThat(resultSalt).isEqualTo(salt)
         assertThat(resultHash).isEqualTo(base64(expectedHash))

@@ -3,7 +3,7 @@ package app.rutherford.auth.manager
 import app.rutherford.auth.entity.AuthUserToken.Builder.Companion.authUserToken
 import app.rutherford.auth.repository.AuthUserRepository
 import app.rutherford.auth.repository.AuthUserTokenRepository
-import app.rutherford.auth.util.Argon2PasswordHasher
+import app.rutherford.auth.util.Argon2Digest
 import app.rutherford.core.ApplicationName
 import app.rutherford.core.transaction.transaction
 import app.rutherford.core.types.Base64
@@ -12,7 +12,7 @@ import java.security.SecureRandom
 import java.time.Duration
 
 class SignInManager(
-    private val hasher: Argon2PasswordHasher,
+    private val argon2: Argon2Digest,
     private val secureRandom: SecureRandom,
     private val userRepository: AuthUserRepository,
     private val tokenRepository: AuthUserTokenRepository,
@@ -41,7 +41,7 @@ class SignInManager(
         // TODO is this impl secure? Is it safe to put unencrypted random token into user's cookie?
 
         val token = nextToken().toString()
-        val (salt, tokenHash) = hasher.hash(token)
+        val (salt, tokenHash) = argon2.hash(token)
 
         transaction {
             tokenRepository.insert(

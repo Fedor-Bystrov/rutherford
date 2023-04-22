@@ -4,14 +4,14 @@ import app.rutherford.auth.entity.AuthUser
 import app.rutherford.auth.entity.AuthUser.Builder.Companion.authUser
 import app.rutherford.auth.exception.UserAlreadyExistException
 import app.rutherford.auth.repository.AuthUserRepository
-import app.rutherford.auth.util.Argon2PasswordHasher
+import app.rutherford.auth.util.Argon2Digest
 import app.rutherford.auth.util.PasswordPolicyValidator
 import app.rutherford.core.ApplicationName
 import app.rutherford.core.transaction.transaction
 import app.rutherford.core.util.Checks.validateNotBlank
 
 class UserManager(
-    private val passwordHasher: Argon2PasswordHasher,
+    private val argon2: Argon2Digest,
     private val passwordPolicyValidator: PasswordPolicyValidator,
     private val authUserRepository: AuthUserRepository,
 ) {
@@ -33,7 +33,7 @@ class UserManager(
             .findBy(email = email, application = applicationName)
             ?.let { throw UserAlreadyExistException() }
 
-        val (salt, passwordHash) = passwordHasher.hash(password)
+        val (salt, passwordHash) = argon2.hash(password)
 
         return requireNotNull(
             transaction {
@@ -50,7 +50,7 @@ class UserManager(
     }
 
     fun isPasswordCorrect(user: AuthUser, password: String): Boolean {
-        val (_, passwordHash) = passwordHasher.hash(password, user.salt.decodeBytes())
+        val (_, passwordHash) = argon2.hash(password, user.salt.decodeBytes())
         return user.passwordHash == passwordHash
     }
 }

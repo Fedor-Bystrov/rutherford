@@ -3,7 +3,7 @@ package app.rutherford.module
 import app.rutherford.auth.manager.JwtManager
 import app.rutherford.auth.manager.SignInManager
 import app.rutherford.auth.manager.UserManager
-import app.rutherford.auth.util.Argon2PasswordHasher
+import app.rutherford.auth.util.Argon2Digest
 import app.rutherford.auth.util.PasswordPolicyValidator
 import app.rutherford.configuration.SecretsConfig
 import java.security.SecureRandom
@@ -17,7 +17,7 @@ class ManagerModule(repositoryModule: RepositoryModule, secretsConfig: SecretsCo
         val secureRandom = SecureRandom()
 
         userManager = UserManager(
-            Argon2PasswordHasher(
+            Argon2Digest(
                 secretsConfig.authUserSecret,
                 secureRandom
             ),
@@ -25,7 +25,7 @@ class ManagerModule(repositoryModule: RepositoryModule, secretsConfig: SecretsCo
             repositoryModule.authUserRepository
         )
         signInManager = SignInManager(
-            Argon2PasswordHasher(
+            Argon2Digest(
                 secretsConfig.authUserTokenSecret,
                 secureRandom
             ),

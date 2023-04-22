@@ -14,8 +14,7 @@ private const val ARGON_ITERATIONS = 10
 private const val ARGON_PARALLELISM = 1
 private const val HASH_SIZE_BYTES = 32
 
-// TODO: rename, remove word Password
-class Argon2PasswordHasher(secretBase64: Base64, private val secureRandom: SecureRandom) {
+class Argon2Digest(secretBase64: Base64, private val secureRandom: SecureRandom) {
     private val secret = secretBase64.decodeBytes()
 
     fun hash(password: String, salt: ByteArray = nextSalt()): HashingResult {
