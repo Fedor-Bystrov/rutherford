@@ -41,7 +41,7 @@ class SignInManager(
         // TODO is this impl secure? Is it safe to put unencrypted random token into user's cookie?
 
         val token = nextToken().toString()
-        val (salt, tokenHash) = argon2.hash(token)
+        val (salt, tokenHash) = argon2.digest(token)
 
         transaction {
             tokenRepository.insert(

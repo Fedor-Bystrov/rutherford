@@ -58,7 +58,7 @@ class Argon2DigestTest {
     )
     fun `should generate correct hashes`(password: String, expectedHash: String) {
         // when
-        val (resultSalt, resultHash) = argon2.hash(password)
+        val (resultSalt, resultHash) = argon2.digest(password)
 
         // then
         assertThat(resultSalt).isEqualTo(salt)
@@ -73,7 +73,7 @@ class Argon2DigestTest {
         // when
         passwords.parallelStream().forEach {
             val (password, expectedHash) = it.split('\t')
-            val (resultSalt, resultHash) = argon2.hash(password)
+            val (resultSalt, resultHash) = argon2.digest(password)
 
             // then
             assertThat(resultSalt).isEqualTo(salt)
@@ -89,7 +89,7 @@ class Argon2DigestTest {
         val expectedHash = "wPXEmEwPZa97e8JYZncnoaxaTovwX5bYvAkFRz6jobs="
 
         // when
-        val (resultSalt, resultHash) = argon2.hash(password, salt.decodeBytes())
+        val (resultSalt, resultHash) = argon2.digest(password, salt.decodeBytes())
 
         assertThat(resultSalt).isEqualTo(salt)
         assertThat(resultHash).isEqualTo(base64(expectedHash))

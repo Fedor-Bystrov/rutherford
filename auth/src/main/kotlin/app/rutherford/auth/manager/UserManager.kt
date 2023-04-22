@@ -33,7 +33,7 @@ class UserManager(
             .findBy(email = email, application = applicationName)
             ?.let { throw UserAlreadyExistException() }
 
-        val (salt, passwordHash) = argon2.hash(password)
+        val (salt, passwordHash) = argon2.digest(password)
 
         return requireNotNull(
             transaction {
@@ -50,7 +50,7 @@ class UserManager(
     }
 
     fun isPasswordCorrect(user: AuthUser, password: String): Boolean {
-        val (_, passwordHash) = argon2.hash(password, user.salt.decodeBytes())
+        val (_, passwordHash) = argon2.digest(password, user.salt.decodeBytes())
         return user.passwordHash == passwordHash
     }
 }
