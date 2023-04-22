@@ -1,6 +1,5 @@
 package app.rutherford.module
 
-import app.rutherford.auth.manager.JwtManager
 import app.rutherford.auth.manager.SignInManager
 import app.rutherford.auth.manager.UserManager
 import app.rutherford.auth.util.Argon2Digest
@@ -25,15 +24,8 @@ class ManagerModule(repositoryModule: RepositoryModule, secretsConfig: SecretsCo
             repositoryModule.authUserRepository
         )
         signInManager = SignInManager(
-            Argon2Digest(
-                secretsConfig.authUserTokenSecret,
-                secureRandom
-            ),
-            secureRandom,
             repositoryModule.authUserRepository,
-            repositoryModule.authUserTokenRepository,
             userManager,
-            JwtManager()
         )
     }
 }
