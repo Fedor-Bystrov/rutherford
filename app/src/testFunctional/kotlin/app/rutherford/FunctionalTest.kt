@@ -13,7 +13,6 @@ open class FunctionalTest {
     }
 
     protected val authUserRepository = testEnvironment.repository.authUserRepository
-    protected val authUserTokenRepository = testEnvironment.repository.authUserTokenRepository
 
     protected val userManager = testEnvironment.managerModule.userManager
 
