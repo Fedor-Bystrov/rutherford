@@ -1,6 +1,6 @@
 ## rutherford
 
-An application backend for 12in12 project. Provides JWT authorization and authentication as  well as API for different fronted hypothesis applicaitons. 
+An application backend for 12in12 project. Provides authorization and authentication as  well as API for different fronted hypothesis applicaitons. 
 
 ---
 
