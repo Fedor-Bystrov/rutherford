@@ -1,6 +1,6 @@
 ## rutherford
 
-Provides authorization and authentication as  well as API for different fronted hypothesis applicaitons. 
+Provides authorization and authentication as  well as API for different fronteds. 
 
 ---
 
